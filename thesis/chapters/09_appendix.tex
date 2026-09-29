@@ -12,8 +12,11 @@
 \midrule
 Domain-expert training and evaluation & \path{Notebooks/Domain_Expert_Finetune/domain_expert_evaluation.ipynb} (Colab T4, $\approx$1.5 h); outputs in \path{results/domain_expert/} \\
 Q\&A dataset generation & \path{scripts/build_finetune_dataset.py}; data in \path{data/finetune/train.jsonl} \\
+LLM-judge scores & \path{scripts/judge_domain_expert.py}; output \path{results/domain_expert/judge_scores.json} \\
+Published adapter & \url{https://huggingface.co/Afridi07/hematology-llama-3.1-8b-lora} (uploaded with \path{Notebooks/Domain_Expert_Finetune/publish_adapter_to_hf.ipynb}) \\
 Detector training and test metrics & \path{Notebooks/YOLOv8_detection/YOLOv8_on_TBL_PBC_dataset.ipynb} \\
-Classifier training and test metrics & \path{Notebooks/Efficientnet_classification/Efficientnet_classification.ipynb} \\
+Classifier (v2), test metrics and uncertainty evaluation & \path{Notebooks/Efficientnet_classification/effnet_v2_proper_split.ipynb} (Colab T4, $\approx$1 h); outputs in \path{results/effnet_v2/}; checkpoint \path{models/efficientnet_wbc_v2.pt} \\
+Classifier (v1, original) & \path{Notebooks/Efficientnet_classification/Efficientnet_classification.ipynb} \\
 Case-study run & \path{results/stage1_detection.json}, \path{stage2_classification.json}, \path{stage3_reasoning.json} \\
 Running the full system & \code{python main.py analyze <image>}, or \code{start.ps1} for the web interface \\
 All runtime settings & \code{config.yaml} \\

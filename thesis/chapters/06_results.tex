@@ -47,29 +47,29 @@ Platelet & 34 & 49 & 0.958 & 0.939 & 0.970 & 0.834 \\
 
 \subsection{Stage 2: classification and uncertainty results}
 
-The saved EfficientNet-B0 checkpoint reached a top-1 accuracy of \textbf{99.44\,\%} on the 3{,}419 PBC test images (macro-averaged F1 0.99). Per-class results are in Table~\ref{tab:cls} and the confusion matrix in Figure~\ref{fig:cls}. The only class below 0.99 recall is the immature granulocyte (0.98), whose errors go to neutrophils (0.02) and erythroblasts (0.01). This is morphologically plausible: immature granulocytes are transitional forms between myeloid precursors and mature neutrophils, and the boundary is also difficult for human reviewers. It is exactly the kind of case in which an uncertainty estimate is useful.
+With the corrected protocol (v2), EfficientNet-B0 reached a top-1 accuracy of \textbf{98.60\,\%} on the 3{,}419 held-out test images (98.57\,\% with MC-Dropout averaging), with a macro-averaged F1 of 0.987 (Table~\ref{tab:cls}). The original run (v1), whose checkpoint had been selected on its own test images, reported 99.44\,\%; the difference of 0.84 percentage points is the size of the optimism that the flawed protocol introduced, and 98.60\,\% is the figure this thesis relies on. The best validation accuracy was 87.78\,\% after Phase~1 (frozen backbone, early stop at epoch 31) and 98.60\,\% after Phase~2, so unfreezing the backbone again added more than ten percentage points (Figure~\ref{fig:cls}).
 
-Freezing the backbone limited Phase~1 to a best monitored accuracy of 88.97\,\%; unfreezing it in Phase~2 raised this to 98.65\,\% within eight epochs, showing that adapting the pre-trained features is essential for fine-grained cell morphology. The final evaluation of the saved checkpoint, in a later notebook cell, gave 99.44\,\% on the same images; the difference between the two numbers was not investigated and suggests that the saved checkpoint is not exactly the one monitored in the displayed training log. Together with the caveat in Section~\ref{sec:method} --- the test images were also used for model selection --- this means that 99.44\,\% should be read as an optimistic estimate.
+The lowest recall belongs to the immature granulocyte (0.959), and the lowest precision to the neutrophil (0.968): most of the remaining errors are immature granulocytes classified as neutrophils (Figure~\ref{fig:cls}). This is morphologically plausible --- immature granulocytes are transitional forms on the way to mature neutrophils, and the boundary is also difficult for human reviewers --- and it is exactly the kind of case in which an uncertainty estimate is useful.
 
 \begin{table}[H]
 \centering
-\caption{Per-class results of EfficientNet-B0 on the PBC test split (scikit-learn classification report).}
+\caption{Per-class results of EfficientNet-B0 (v2) on its held-out test set.}
 \label{tab:cls}
 \small
 \begin{tabular}{lcccr}
 \toprule
 \textbf{Class} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Support} \\
 \midrule
-Basophil & 1.00 & 1.00 & 1.00 & 237 \\
-Eosinophil & 1.00 & 1.00 & 1.00 & 620 \\
-Erythroblast & 0.98 & 1.00 & 0.99 & 309 \\
-Immature granulocyte & 1.00 & 0.98 & 0.99 & 598 \\
-Lymphocyte & 0.99 & 1.00 & 0.99 & 256 \\
-Monocyte & 1.00 & 0.99 & 1.00 & 286 \\
-Neutrophil & 0.98 & 1.00 & 0.99 & 649 \\
-Platelet & 1.00 & 1.00 & 1.00 & 464 \\
+Basophil & 0.984 & 0.988 & 0.986 & 244 \\
+Eosinophil & 1.000 & 1.000 & 1.000 & 623 \\
+Erythroblast & 0.997 & 0.990 & 0.994 & 310 \\
+Immature granulocyte & 0.977 & 0.959 & 0.968 & 579 \\
+Lymphocyte & 0.996 & 0.984 & 0.990 & 243 \\
+Monocyte & 0.983 & 0.989 & 0.986 & 284 \\
+Neutrophil & 0.968 & 0.985 & 0.976 & 666 \\
+Platelet & 0.996 & 0.998 & 0.997 & 470 \\
 \midrule
-\textbf{Accuracy} & \multicolumn{3}{c}{\textbf{0.9944}} & 3{,}419 \\
+\textbf{Accuracy} & \multicolumn{3}{c}{\textbf{0.9860}} & 3{,}419 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -77,23 +77,50 @@ Platelet & 1.00 & 1.00 & 1.00 & 464 \\
 \begin{figure}[H]
 \centering
 \begin{subfigure}[t]{0.66\textwidth}\centering
-\includegraphics[width=\textwidth]{figures/stage2_embedded_confusion_matrix_test.png}
-\caption{Normalised confusion matrix of the saved checkpoint.}
+\includegraphics[width=\textwidth]{figures/confusion_matrix_v2.png}
+\caption{Normalised confusion matrix (test set).}
 \end{subfigure}\\[6pt]
 \begin{subfigure}[t]{\textwidth}\centering
-\includegraphics[width=\textwidth]{figures/effnet_training_curves.pdf}
-\caption{Loss and accuracy over both training phases, re-plotted from the notebook's training log. The ``monitored'' curve was computed on the test partition (see the caveat in Section~\ref{sec:method}).}
+\includegraphics[width=\textwidth]{figures/training_curves_v2.png}
+\caption{Training and validation loss and accuracy over Phase 1 and Phase 2 (dotted line).}
 \end{subfigure}
-\caption{Classification results on the PBC test split.}
+\caption{Classification results of the corrected training run (v2).}
 \label{fig:cls}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth,height=7cm,keepaspectratio]{figures/stage2_embedded_mc_dropout_uncertainty_demo.png}
-\caption{MC-Dropout predictions on eight test images. The seven correct predictions receive the uncertainty level LOW; the one error (a monocyte predicted as a lymphocyte with confidence 0.90, red title) receives MEDIUM. MEDIUM is not flagged, so this error would not by itself trigger expert review.}
+\caption{MC-Dropout predictions of the original (v1) model on eight test images. The seven correct predictions receive the uncertainty level LOW; the one error (a monocyte predicted as a lymphocyte with confidence 0.90, red title) receives MEDIUM. MEDIUM is not flagged, so this error would not by itself trigger expert review --- a pattern that the systematic evaluation below confirms.}
 \label{fig:mc}
 \end{figure}
+
+\paragraph{Does the uncertainty estimate work?} Table~\ref{tab:unc} and Figure~\ref{fig:calib} answer the question left open by the design: whether the uncertainty levels actually identify unreliable predictions. On the in-distribution test set the answer is clearly yes.
+
+\begin{table}[H]
+\centering
+\caption{MC-Dropout uncertainty levels on the 3{,}419 test images (v2 model, $T = 20$); 49 cells were misclassified in total. Calibration: ECE 0.0039 (single pass) and 0.0032 (MC-Dropout). Error detection: AUROC 0.971 ($1-\bar{p}_{(1)}$), 0.970 (entropy), 0.968 (variance).}
+\label{tab:unc}
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{Level} & \textbf{Cells} & \textbf{\% of cells} & \textbf{Accuracy} & \textbf{Errors} & \textbf{\% of errors} \\
+\midrule
+LOW & 3{,}255 & 95.2 & 99.72\,\% & 9 & 18 \\
+MEDIUM & 98 & 2.9 & 84.69\,\% & 15 & 31 \\
+HIGH (flagged) & 66 & 1.9 & 62.12\,\% & 25 & 51 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/calibration_v2.png}
+\caption{Left: reliability diagram of the v2 classifier on the test set (accuracy per confidence bin; the diagonal is perfect calibration). The low-confidence bins contain very few cells, which explains their erratic course. Right: distribution of predictive entropy for correct and wrong predictions (normalised histograms).}
+\label{fig:calib}
+\end{figure}
+
+Three observations follow. First, the classifier is \emph{well calibrated} in-domain (ECE below 0.004), and MC-Dropout improves calibration only marginally over a single pass. Second, the uncertainty scores \emph{separate errors from correct predictions very well} (AUROC $\approx 0.97$): 95\,\% of the cells are LOW and 99.7\,\% of those are correct, whereas the 1.9\,\% of cells marked HIGH contain half of all errors. Third, the MEDIUM level is a weak spot of the current review rule: its accuracy is only 84.7\,\%, and its 15 errors reach the expert without a flag. Flagging MEDIUM as well would send 4.8\,\% of the cells for review and catch 82\,\% of the errors (40 of 49) --- a trade-off between workload and safety that should be set together with clinical users. All of these numbers describe images from the same analyser as the training data; under distribution shift both accuracy and calibration are expected to be worse (see the example below).
 
 \paragraph{An example of domain shift.} The PBC images used for training come from a single analyser with standardised staining. Figure~\ref{fig:shift} shows the combined Stage~1 + Stage~2 output on an image from a different source, produced in the Stage-3 notebook. The white cell has a segmented nucleus and granular cytoplasm, the appearance of a mature granulocyte, yet the classifier labelled it \emph{erythroblast} with a probability of 0.90. This single example does not measure the size of the problem, but it illustrates why the benchmark accuracy should not be expected to transfer unchanged to smears from other laboratories.
 
@@ -103,8 +130,6 @@ Platelet & 1.00 & 1.00 & 1.00 & 464 \\
 \caption{Stage 1 + Stage 2 output on an image from outside the training distribution: 13 red cells and one white cell were detected; the white cell, which appears to be a segmented granulocyte, was classified as \emph{erythroblast} (0.90). (This notebook run used a lower detection threshold than the 0.50 of the final system, so some low-confidence red-cell boxes are shown.)}
 \label{fig:shift}
 \end{figure}
-
-No calibration study was performed: the thesis does not report whether cells marked HIGH uncertainty are more often misclassified. MC-Dropout is therefore used as a practical signal that makes difficult cells visible, not as a validated error predictor.
 
 \subsection{Quantitative evaluation of the domain expert}\label{sec:res-de}
 
@@ -133,17 +158,38 @@ Reference answers & -- & -- & 100\,\% & 39.2 & -- \\
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{figures/domain_expert_results.pdf}
-\caption{Comparison of the three systems: (a) semantic similarity and (b) ROUGE-L F1 against the textbook reference answers on 100 held-out questions; (c) accuracy on 100 hematology-related MedMCQA questions, with the 25\,\% chance level.}
+\caption{Comparison of the three systems: (a) semantic similarity and (b) ROUGE-L F1 against the textbook reference answers on 100 held-out questions; (c) mean LLM-judge scores on the same answers; (d) accuracy on 100 hematology-related MedMCQA questions, with the 25\,\% chance level.}
 \label{fig:de}
 \end{figure}
 
 \paragraph{In-domain questions.} Fine-tuning brought the model's answers much closer to the textbook reference answers. ROUGE-L rose from 0.161 to 0.433; the paired bootstrap 95\,\% confidence interval of the improvement is $[0.252,\ 0.293]$, and the fine-tuned model scored higher than the base model on \emph{every one} of the 100 questions. Semantic similarity rose from 0.752 to 0.831. On both measures the fine-tuned 8-billion-parameter model also exceeded GPT-4o (ROUGE-L difference $+0.252$, 95\,\% CI $[0.234,\ 0.273]$). Its answers are about four times shorter than those of the other two systems (39 vs.\ 159 words) and match the length of the reference answers (39 words).
 
-These numbers must be read carefully. The reference answers were written by a GPT model from the textbook passages, in a particular concise style, and the fine-tuned model was trained on 1{,}890 answers in exactly that style. Part of the gain is therefore a gain in \emph{form}: length, wording and structure. ROUGE-L rewards this strongly; semantic similarity, which is less sensitive to wording, shows a smaller but still clear gain. GPT-4o's lower scores do not mean that its answers are less correct --- it writes longer, more general explanations that overlap less with the short reference text.
+These numbers must be read carefully. The reference answers were written by a GPT model from the textbook passages, in a particular concise style, and the fine-tuned model was trained on 1{,}890 answers in exactly that style. Part of the gain is therefore a gain in \emph{form}: length, wording and structure. ROUGE-L rewards this strongly; semantic similarity, which is less sensitive to wording, shows a smaller but still clear gain. GPT-4o's lower scores on these two measures do not mean that its answers are less correct --- it writes longer, more general explanations that overlap less with the short reference text. The LLM-judge ratings below confirm this.
 
 \paragraph{External questions.} On the MedMCQA questions the fine-tuned model answered 57 of 100 correctly and the base model 56. The two models disagreed on 21 questions (base correct only: 10; fine-tuned correct only: 11), and the exact McNemar test gives $p = 1.0$: there is no evidence of a difference. Fine-tuning on 1{,}890 textbook pairs neither improved nor damaged the model's general hematology knowledge. (Both models are well above the 25\,\% chance level; three of the base model's answers could not be parsed as a letter and count as wrong.)
 
-\paragraph{Interpretation.} Together, the two results give a clear picture: \emph{QLoRA fine-tuning taught the model how the domain expert should answer --- concisely, in the textbook's terminology and with a source line --- but it did not teach it new medical knowledge.} This agrees with the literature, which finds that retrieval is more effective than fine-tuning for injecting knowledge \cite{ovadia2024}, and it supports the design choice of building the runtime expert around retrieval and tools.
+\paragraph{LLM-judge ratings.} Table~\ref{tab:judge} shows the 300 ratings. Fine-tuning raised \emph{faithfulness} to the textbook answer by 0.54 points (95\,\% CI $[0.35,\ 0.74]$) but left \emph{clinical correctness} unchanged ($+0.05$, CI $[-0.14,\ 0.24]$). GPT-4o was rated best on both scales, and by a wide margin on correctness (4.62 vs.\ 3.99 for the fine-tuned model, difference $+0.63$, CI $[0.45,\ 0.83]$) --- the opposite of the ROUGE-L ranking. The judge's rationales for the fine-tuned model's lowest-rated answers name the same errors that were found by hand (for example, ``macrocytic red cells'' in pure red cell aplasia).
+
+\begin{table}[H]
+\centering
+\caption{LLM-judge scores (GPT-4o-mini, 1--5, mean over 100 held-out questions; standard deviation in brackets).}
+\label{tab:judge}
+\small
+\begin{tabular}{lcc}
+\toprule
+\textbf{System} & \textbf{Faithfulness} & \textbf{Clinical correctness} \\
+\midrule
+Llama-3.1-8B (base) & 3.03 (0.83) & 3.94 (0.85) \\
+Llama-3.1-8B + QLoRA (ours) & 3.57 (1.04) & 3.99 (0.89) \\
+GPT-4o (reference) & \textbf{3.86} (0.71) & \textbf{4.62} (0.66) \\
+\midrule
+Ours $-$ base (95\,\% CI) & $+0.54$ $[0.35,\ 0.74]$ & $+0.05$ $[-0.14,\ 0.24]$ \\
+GPT-4o $-$ ours (95\,\% CI) & $+0.29$ $[0.10,\ 0.49]$ & $+0.63$ $[0.45,\ 0.83]$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Interpretation.} Together, the three kinds of evidence give a consistent picture: \emph{QLoRA fine-tuning taught the model how the domain expert should answer --- concisely, in the textbook's terminology and with a source line --- but it did not teach it new medical knowledge.} This agrees with the literature, which finds that retrieval is more effective than fine-tuning for injecting knowledge \cite{ovadia2024}, and it supports the design choice of building the runtime expert around retrieval and tools.
 
 \subsection{Qualitative analysis: citations and errors}
 
@@ -190,7 +236,7 @@ Notably, both models --- when asked directly --- recognised that a differential 
 
 \subsection{End-to-end case study: an over-interpreted differential}\label{sec:case}
 
-The saved result files in the repository contain one complete run of the system in its default configuration (GPT-4o agent) on an uploaded $640 \times 480$ smear image. It is analysed here in detail because it shows both the strengths of the design and a failure that the safety logic did not catch.
+The saved result files in the repository contain one complete run of the system in its default configuration (GPT-4o agent) on an uploaded $640 \times 480$ smear image. The run was made with the original (v1) classifier and before the minimum-cell rule existed. It is analysed here in detail because it shows both the strengths of the design and a failure that the safety logic did not catch.
 
 \paragraph{What the system did.} Stage~1 detected 17 red cells and \textbf{2 white cells}. Stage~2 classified one white cell as an immature granulocyte (confidence 0.955, entropy 0.216) and the other as a monocyte (confidence 0.972, entropy 0.146); both received the uncertainty level LOW, so no cell was flagged. The agent then made five tool calls: it looked up the reference ranges of immature granulocytes (0--0.5\,\%) and monocytes (2--8\,\%), read the uncertainty summary, and searched the knowledge base for ``causes of increased immature granulocytes'' and ``causes of monocytosis''. Its final report stated:
 
@@ -209,11 +255,11 @@ The saved result files in the repository contain one complete run of the system 
 
 \subsection{Discussion of the research questions}
 
-\paragraph{RQ1 --- blood image classification.} Standard vision models provide strong evidence on the benchmark data: mAP@0.50 = 0.985 for detection with perfect white-cell recall, and 99.44\,\% (optimistic) classification accuracy, each classified cell carrying an uncertainty level and a Grad-CAM map. How well this transfers to smears from other laboratories was not tested.
+\paragraph{RQ1 --- blood image classification.} Yes, on the benchmark data. Detection reached mAP@0.50 = 0.985 with perfect white-cell recall, and classification 98.60\,\% accuracy under a clean train/validation/test protocol (the earlier 99.44\,\% was 0.84 points too optimistic). Every classified cell carries an uncertainty level and a Grad-CAM map, and the uncertainty is informative: it separates errors from correct predictions with an AUROC of 0.97, and HIGH-uncertainty cells contain half of all errors although they make up only 1.9\,\% of the cells. How well this transfers to smears from other laboratories was not measured; the single out-of-distribution example in Figure~\ref{fig:shift} suggests caution.
 
 \paragraph{RQ2 --- building the domain expert with RAG.} A general LLM was turned into a hematology expert by combining a curated textbook knowledge base, domain tools and a structured output format. The resulting agent produces interpretations with retrievable citations and a complete, auditable tool trace (Figures~\ref{fig:ui-a}--\ref{fig:ui-b}). The case study shows that this makes errors visible but does not prevent them; domain rules such as a minimum cell count must be enforced in code.
 
-\paragraph{RQ3 --- domain fine-tuning.} QLoRA fine-tuning of Llama-3.1-8B for under an hour on a free GPU produced a model whose answers match textbook reference answers much better than those of the base model and even of GPT-4o (ROUGE-L 0.433 vs.\ 0.161 and 0.181), and which no longer invents book references. It did not improve accuracy on external exam questions (57\,\% vs.\ 56\,\%, not significant), and it learned to attach a source line regardless of correctness. Fine-tuning is therefore suitable for adapting the \emph{behaviour} of an open, self-hostable expert, but it must be combined with retrieval to supply knowledge and real provenance.
+\paragraph{RQ3 --- domain fine-tuning.} QLoRA fine-tuning of Llama-3.1-8B for under an hour on a free GPU produced a model whose answers match textbook reference answers much better than those of the base model and even of GPT-4o (ROUGE-L 0.433 vs.\ 0.161 and 0.181), and which no longer invents book references. The LLM judge agreed: faithfulness to the textbook improved (+0.54), clinical correctness did not (+0.05, not significant), and GPT-4o remained clearly the most correct system. Accuracy on external exam questions was also unchanged (57\,\% vs.\ 56\,\%, not significant), and the model learned to attach a source line regardless of correctness. Fine-tuning is therefore suitable for adapting the \emph{behaviour} of an open, self-hostable expert, but it must be combined with retrieval to supply knowledge and real provenance.
 
 \paragraph{RQ4 --- safety and auditability.} The system passes all safety-relevant information forward and forces expert review when any cell is uncertain. The case study showed the limits of the original rule: it reacted to uncertain \emph{cells}, not to an unreliable \emph{differential}. A minimum-cell rule was therefore added. Auditability worked as intended --- the misattributed citation and the faulty reasoning could be traced step by step.
 
@@ -223,11 +269,11 @@ The saved result files in the repository contain one complete run of the system 
   \item \textbf{Synthetic reference answers.} The in-domain test answers were generated by a GPT model from the textbook, not written by hematologists. They may contain errors, and they favour a model trained on the same style. Some questions refer to ``the passage'', an artefact of the generation.
   \item \textbf{Grouping assumption in the split.} The chunk-level split assumes that consecutive records come from the same chunk, as written by the generation script; the records themselves do not store a chunk identifier.
   \item \textbf{Small, noisy external test.} The MedMCQA subset has 100 questions, about a quarter of which are only loosely related to hematology; small differences cannot be detected with this sample size.
-  \item \textbf{No human or LLM-judge ratings.} Correctness was assessed with automatic similarity measures and by hand for a few answers. The planned LLM-as-judge step failed, and no clinician evaluated the answers.
+  \item \textbf{No human ratings.} Correctness was assessed with automatic similarity measures, an LLM judge (GPT-4o-mini) and by hand for a few answers; no clinician evaluated the answers. An LLM judge has its own biases, and one from the same vendor as GPT-4o may favour GPT-4o's style.
   \item \textbf{Training format of the fine-tuned model.} The training examples contain no retrieved passage, so the model was not trained to read and cite evidence. The fine-tuned model was evaluated stand-alone, not inside the agent.
-  \item \textbf{Classifier evaluation.} The EfficientNet test set was also used for checkpoint selection, the split is image-level rather than donor-level, and the saved checkpoint's accuracy (99.44\,\%) differs from the monitored training accuracy (98.65\,\%) without explanation. (A mismatch in the inference code, which re-created the second dropout layer with $p = 0.2$ instead of the $p = 0.3$ used in training, was found during this work and corrected; the case-study run predates the correction.)
+  \item \textbf{Classifier evaluation.} The corrected (v2) split is stratified by class but at image level, not by donor, so cells from the same person can appear in training and test data. The original (v1) evaluation, which selected its checkpoint on the test images, is reported only for comparison. (A mismatch in the inference code, which re-created the second dropout layer with $p = 0.2$ instead of the $p = 0.3$ used in training, was found during this work and corrected; the case-study run predates the correction.)
   \item \textbf{No external validation of the vision stages.} Both vision datasets were recorded under controlled conditions; smears from other microscopes, stains or laboratories may reduce performance substantially.
-  \item \textbf{Uncertainty thresholds and review rule} were set by hand and are not calibrated against error rates.
+  \item \textbf{Uncertainty thresholds and review rule} were set by hand. They were evaluated on in-distribution test data (Table~\ref{tab:unc}), where MEDIUM cells turned out to be noticeably less reliable than LOW cells but are not flagged; their behaviour under distribution shift is unknown.
   \item \textbf{Copyright of the knowledge base.} The textbooks are copyrighted and cannot be redistributed, which limits exact reproduction of the knowledge base by others.
 \end{itemize}
 

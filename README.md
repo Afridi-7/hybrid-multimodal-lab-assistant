@@ -37,11 +37,11 @@ Given a peripheral blood smear photomicrograph, the system answers three questio
 
 | Stage | Question | Technology | Output |
 |-------|----------|------------|--------|
-| **1. Detection** | *Where are the cells?* | YOLOv8s, fine-tuned on BCCD | Bounding boxes for WBC, RBC, Platelet |
-| **2. Classification** | *What WBC subtype is each one, and how confident are we?* | EfficientNet-B0 + Monte Carlo Dropout + Grad-CAM | Per-cell class, entropy, margin, saliency heatmap |
+| **1. Detection** | *Where are the cells?* | YOLOv8s, fine-tuned on TXL-PBC | Bounding boxes for WBC, RBC, Platelet |
+| **2. Classification** | *What WBC subtype is each one, and how confident are we?* | EfficientNet-B0 + Monte Carlo Dropout + Grad-CAM | Per-cell class, confidence, entropy, variance, uncertainty level, saliency heatmap |
 | **3. Reasoning** | *What does this mean clinically, and what should be reviewed?* | RAG over hematology textbooks + GPT-4o agent (LangChain ReAct) | Grounded interpretation, differential diagnosis, safety flags |
 
-The whole chain is **configuration-driven** ([config.yaml](config.yaml)) and **reproducible** (every run emits structured JSON with metadata).
+The whole chain is **configuration-driven** ([config.yaml](config.yaml)); every run emits structured JSON with metadata (timestamp, pipeline version, input modalities, execution time).
 
 ---
 
@@ -89,27 +89,28 @@ The whole chain is **configuration-driven** ([config.yaml](config.yaml)) and **r
 ### Stage 1 - Detection (YOLOv8s)
 
 - **Checkpoint**: [models/yolov8s_blood.pt](models/yolov8s_blood.pt) (~22 MB)
-- **Source**: Ultralytics YOLOv8s, fine-tuned on the BCCD dataset (Blood Cell Count and Detection).
+- **Source**: Ultralytics YOLOv8s, fine-tuned on the TXL-PBC dataset (1,260 images; integrates BCCD, BCDD, PBC and Raabin-WBC). Test split: mAP@0.50 = 0.985, mAP@0.50:0.95 = 0.876.
 - **Classes**: `WBC`, `RBC`, `Platelet`
 - **Default confidence threshold**: `0.50` ([config.yaml](config.yaml) -> `detection.confidence_threshold`)
 - **Hardware**: auto-selects CUDA if available, falls back to CPU.
 
 ### Stage 2 - Classification (EfficientNet-B0)
 
-- **Checkpoint**: [models/efficientnet_wbc_finetuned.pt](models/efficientnet_wbc_finetuned.pt) (~16 MB)
+- **Checkpoint**: [models/efficientnet_wbc_v2.pt](models/efficientnet_wbc_v2.pt) (~24 MB; the original v1 checkpoint `models/efficientnet_wbc_finetuned.pt` is kept for reference)
 - **Architecture**: `timm/efficientnet_b0` with a custom 8-class head, fine-tuned on the **PBC dataset** (Acevedo *et al.*, Mendeley Data - peripheral blood cells).
 - **Classes (8)**: `basophil`, `eosinophil`, `erythroblast`, `ig` (immature granulocyte), `lymphocyte`, `monocyte`, `neutrophil`, `platelet`
 - **Uncertainty quantification**: **Monte Carlo Dropout** with 20 stochastic forward passes per cell. Produces:
-  - `entropy` - predictive uncertainty across passes
-  - `margin` - gap between top-1 and top-2 class probability
-  - `bucket` -> {`low`, `medium`, `high`} per the thresholds in `config.yaml` -> `classification.uncertainty`
-- **Interpretability**: **Grad-CAM** on the last MBConv block - see [src/classification/](src/classification/). Each WBC gets a heatmap overlay so reviewers can verify the model attended to the cell, not artefacts.
+  - `confidence` - mean probability of the predicted class across passes
+  - `entropy` / `variance` - predictive uncertainty across passes
+  - `uncertainty_level` -> `LOW` / `MEDIUM` / `HIGH` per the thresholds in `config.yaml` -> `classification.uncertainty`; `HIGH` cells are `flagged` and force expert review
+- **Accuracy (v2)**: 98.60 % on a held-out test set of 3,419 images (stratified 70/10/20 split, checkpoint chosen on validation; [Notebooks/Efficientnet_classification/effnet_v2_proper_split.ipynb](Notebooks/Efficientnet_classification/effnet_v2_proper_split.ipynb), results in `results/effnet_v2/`). The original run (v1) reported 99.44 %, but selected its checkpoint on the test images. Uncertainty check on the test set: ECE 0.003, AUROC 0.97 for detecting errors; HIGH-uncertainty cells (1.9 %) contain 51 % of all errors.
+- **Interpretability**: **Grad-CAM** on the network's final convolutional layer (`conv_head`) - see [src/classification/](src/classification/). Each WBC gets a heatmap overlay so reviewers can verify the model attended to the cell, not artefacts.
 
 ### Stage 3 - Reasoning (RAG + GPT-4o)
 
-- **Knowledge base**: two open hematology textbooks under [data/pdfs/](data/pdfs/):
-  - `essentials_haematology.pdf` (505 pages -> 996 chunks)
-  - `consie_haematology.pdf` (27 pages -> 53 chunks)
+- **Knowledge base**: two hematology textbooks under [data/pdfs/](data/pdfs/) - *Essentials of Haematology* (Kawthalkar) and a 30-page excerpt of *Concise Guide to Hematology* (Schmaier & Lazarus). Both are **copyrighted**; they are used locally for non-commercial research and are **not** included in the repository.
+  - `essentials_haematology.pdf` (511 PDF pages -> 996 chunks)
+  - `consie_haematology.pdf` (30 PDF pages -> 53 chunks)
   - Total: **1,049 chunks** at 200 words / 40-word overlap.
 - **Embedder**: `sentence-transformers/all-MiniLM-L6-v2` (384-dim, 256-token window).
 - **Vector store**: ChromaDB (cosine distance), persisted to `data/chroma_db/` (~29 MB after first build).
@@ -122,13 +123,16 @@ The whole chain is **configuration-driven** ([config.yaml](config.yaml)) and **r
   4. `get_uncertainty_summary` - surfaces high-uncertainty cells
   5. `get_detection_counts` - exposes Stage 1 totals to the agent
 
-  The agent loops Thought -> Action -> Observation up to `agent.max_iterations: 6` before producing the final JSON. The full trace is returned and rendered in the frontend's *Agent Trace* card.
+  The agent loops Thought -> Action -> Observation (bounded by `agent.max_iterations: 6`) before producing the final JSON. The full trace is returned and rendered in the frontend's *Agent Trace* card.
+
+- **Deterministic safety rules** ([src/utils/safety_rules.py](src/utils/safety_rules.py)), applied after either reasoner: any HIGH-uncertainty cell, or fewer classified WBCs than `llm.safety.min_wbc_for_differential` (default 100), forces `requires_expert_review: true`. These rules can only raise the flag, never lower it.
 
 ### Datasets used during training (notebooks)
 
-- **TBL-PBC** combined dataset for detection ([Notebooks/YOLOv8_detection/](Notebooks/YOLOv8_detection/)).
+- **TXL-PBC** dataset for detection ([Notebooks/YOLOv8_detection/](Notebooks/YOLOv8_detection/)).
 - **PBC** (Acevedo et al.) for classification ([Notebooks/Efficientnet_classification/](Notebooks/Efficientnet_classification/)).
-- **RAG / LLM ablations** ([Notebooks/LLM_RAG_Pipline/](Notebooks/LLM_RAG_Pipline/)).
+- **RAG pipeline prototype** ([Notebooks/LLM_RAG_Pipline/](Notebooks/LLM_RAG_Pipline/)).
+- **Domain-expert fine-tuning and evaluation** of Llama-3.1-8B with QLoRA ([Notebooks/Domain_Expert_Finetune/](Notebooks/Domain_Expert_Finetune/)); results in `results/domain_expert/`.
 
 Inference does **not** require the training datasets - the checkpoints under `models/` are self-contained.
 
@@ -177,8 +181,9 @@ hybrid-multimodal-lab-assistant/
 |   +-- pdfs/               # Stage-3 hematology textbooks
 |   +-- chroma_db/          # Persisted vector store (built on first run)
 +-- examples/               # Scripted demos + sample_images/
-+-- scripts/                # Dev utilities (currently: diag_yolo.py)
-+-- tests/                  # pytest suite (13 tests)
++-- scripts/                # Q&A dataset builder, LLM-judge scoring, diagnostics
++-- tests/                  # pytest suite (34 tests)
++-- thesis/                 # LaTeX source + PDF of the thesis
 +-- Notebooks/              # Training + evaluation notebooks (not used at inference)
 +-- results/                # Per-run JSON artefacts (gitignored)
 +-- logs/                   # Timestamped log files (gitignored)
@@ -238,9 +243,9 @@ Copy-Item .env.example .env
 notepad .env
 #   -> set OPENAI_API_KEY=sk-...
 
-# 6) Verify model checkpoints exist (already in repo for the thesis defence)
+# 6) Verify model checkpoints exist (they are gitignored - copy them in from Drive if missing)
 #    models/yolov8s_blood.pt
-#    models/efficientnet_wbc_finetuned.pt
+#    models/efficientnet_wbc_v2.pt
 
 # 7) Verify Stage-3 PDFs exist
 #    data/pdfs/essentials_haematology.pdf
@@ -265,7 +270,7 @@ After step 8 you should see:
 ? Stage 3 (RAG + Reasoning) ready
 ```
 
-The first Stage 3 invocation builds the ChromaDB index (~60 s on CPU). Subsequent runs reuse the persisted store - typical end-to-end latency on a sample image is **8-12 s**.
+The first Stage 3 invocation builds the ChromaDB index (about a minute on CPU). Subsequent runs reuse the persisted store; end-to-end time is dominated by the GPT-4o calls.
 
 ---
 
@@ -382,7 +387,7 @@ The React frontend renders all three stages plus the agent trace and raw debug p
 | `GET` | `/api/health` | Liveness + pipeline-warmth probe |
 | `GET` | `/api/samples` | List bundled demo images |
 | `GET` | `/api/samples/{name}` | Stream a sample image |
-| `POST` | `/api/analyze` | Multipart upload (`image`), returns full pipeline output + base64 overlay |
+| `POST` | `/api/analyze` | Multipart upload (`image`, optional `cbc` JSON form field), returns full pipeline output + base64 overlay |
 | `GET` | `/docs` | Swagger UI (auto-generated) |
 | `GET` | `/openapi.json` | OpenAPI 3 spec |
 
@@ -416,11 +421,12 @@ Serve `frontend/dist/` from any static host. To skip CORS, host it behind the sa
 | Section | Key | Default | What it controls |
 |---------|-----|---------|------------------|
 | `models` | `yolo_detection` | `models/yolov8s_blood.pt` | Stage-1 weights |
-| `models` | `efficientnet_classification` | `models/efficientnet_wbc_finetuned.pt` | Stage-2 weights |
+| `models` | `efficientnet_classification` | `models/efficientnet_wbc_v2.pt` | Stage-2 weights |
 | `detection` | `confidence_threshold` | `0.50` | Min YOLO confidence |
 | `detection` | `device` | `auto` | `auto`, `cpu`, `cuda`, or device id |
 | `classification` | `mc_dropout_passes` | `20` | MC-Dropout stochastic passes |
-| `classification` | `uncertainty.low.min_confidence` | `0.85` | Threshold for `low` bucket |
+| `classification` | `uncertainty.low` | conf >= 0.85, entropy < 0.3 | `LOW` level |
+| `classification` | `uncertainty.medium` | conf >= 0.65, entropy < 0.6 | `MEDIUM` level (otherwise `HIGH`) |
 | `classification` | `gradcam.enabled` | `true` | Compute Grad-CAM heatmaps |
 | `classification` | `gradcam.alpha` | `0.45` | Heatmap blend strength |
 | `reasoning` | `mode` | `agent` | `linear` (single-shot) or `agent` (ReAct) |
@@ -433,7 +439,8 @@ Serve `frontend/dist/` from any static host. To skip CORS, host it behind the sa
 | `rag` | `internet.enabled` | `false` | Web augmentation (allowlisted) |
 | `llm` | `model_name` | `gpt-4o` | OpenAI model |
 | `llm` | `temperature` | `0.1` | Low for clinical consistency |
-| `llm` | `safety.require_citations` | `true` | Enforce grounded claims |
+| `llm` | `safety.require_citations` | `true` | Flag answers without valid citations (linear mode) |
+| `llm` | `safety.min_wbc_for_differential` | `100` | Fewer classified WBCs -> `INSUFFICIENT_CELL_COUNT` flag + expert review |
 | `pipeline` | `enable_stage1/2/3` | `true` | Toggle entire stages |
 | `pipeline` | `continue_on_error` | `true` | Don't abort on single-stage failure |
 
@@ -457,63 +464,60 @@ reasoning:
 
 ## Output schema
 
-A successful `/api/analyze` (or `python main.py analyze ...`) returns:
+A successful `/api/analyze` (or `python main.py analyze ...`) returns (abridged; field names as produced by the code):
 
 ```jsonc
 {
   "metadata": {
-    "version": "1.0.0",
-    "timestamp": "2026-04-27T23:33:08Z",
-    "duration_seconds": 8.60,
-    "config_hash": "..."
+    "timestamp": "2026-04-28T14:07:21",
+    "pipeline_version": "1.0.0",
+    "modalities": ["image"],               // ["image", "tabular_cbc"] when CBC was supplied
+    "execution_time_seconds": 8.6
   },
   "stage1_detection": {
-    "per_image": [{
-      "image": "upload.jpg",
-      "boxes": [
-        {"class": "WBC", "confidence": 0.93, "xyxy": [120, 88, 240, 210]}
-      ]
-    }],
-    "totals": {"WBC": 2, "RBC": 17, "Platelet": 0}
+    "image_count": 1,
+    "per_image": [{"image_path": "...", "counts": {"WBC": 2, "RBC": 17, "Platelet": 0},
+                   "boxes": [{"class": "WBC", "confidence": 0.93, "xyxy": [120, 88, 240, 210]}]}],
+    "total_counts": {"WBC": 2, "RBC": 17, "Platelet": 0}
   },
   "stage2_classification": {
-    "predictions": [
-      {
-        "class": "neutrophil",
-        "confidence": 0.91,
-        "entropy": 0.18,
-        "margin": 0.62,
-        "uncertainty_bucket": "low",
-        "gradcam_base64": "iVBORw0K..."
-      }
-    ],
-    "distribution": {"neutrophil": 0.5, "monocyte": 0.5}
+    "predictions": [{
+      "predicted_class": "ig", "confidence": 0.955, "entropy": 0.216, "variance": 0.0015,
+      "uncertainty_level": "LOW", "flagged": false,
+      "class_probabilities": {"ig": 0.955, "monocyte": 0.026, "...": 0.0},
+      "gradcam_base64": "data:image/png;base64,..."
+    }],
+    "uncertainty_summary": {"total_samples": 2, "flagged_count": 0, "mean_confidence": 0.96},
+    "total_wbc_crops": 2
   },
   "stage3_reasoning": {
     "reasoning_mode": "agent",
-    "interpretation": "Markdown text...",
-    "differential_diagnosis": ["...", "..."],
-    "safety_flags": ["High uncertainty in AI analysis"],
-    "references": [
-      {"source": "essentials_haematology.pdf", "page": 142, "snippet": "..."}
-    ],
+    "clinical_interpretation": "...",
+    "key_findings": ["..."],
+    "differential_diagnoses": ["Diagnosis [Reference 1] - rationale"],
+    "recommendations": ["..."],
+    "safety_flags": ["INSUFFICIENT_CELL_COUNT: only 2 white cell(s) classified; ..."],
+    "confidence_assessment": "MEDIUM",
     "requires_expert_review": true,
-    "agent_trace": [
-      {"type": "thought",     "content": "I need to check..."},
-      {"type": "tool_call",   "tool": "query_knowledge_base", "input": "..."},
-      {"type": "tool_result", "content": "..."}
-    ]
+    "cell_count_check": {"wbc_classified": 2, "minimum_required": 100, "sufficient": false},
+    "retrieved_references": [{"reference_id": 1, "source": "essentials_haematology.pdf", "chunk_id": 665, "score": 0.68}],
+    "agent_trace": [{"type": "tool_call", "name": "query_knowledge_base", "args": {"query": "..."}},
+                    {"type": "tool_result", "name": "query_knowledge_base", "content": "..."}]
   },
   "annotated_image_base64": "iVBORw0K..."
 }
 ```
+
+### Scoring the domain-expert answers
+
+`python scripts/judge_domain_expert.py` rates the saved answers in `results/domain_expert/evaluation_report.json` with GPT-4o-mini (faithfulness and clinical correctness, 1-5). No GPU needed; costs well under 1 USD.
 
 ---
 
 ## Testing and validation
 
 ```powershell
-# Full pytest suite (13 tests, ~20 s)
+# Full pytest suite (34 tests; 5 of them load the trained models)
 pytest -q
 
 # Specific test file
@@ -535,12 +539,14 @@ The test suite covers:
 - LLM reasoner JSON parsing (with malformed-input regression cases)
 - Retriever hybrid mode (PDF-only / PDF + ChromaDB / fallback)
 - Uncertainty schema correctness
+- CBC analyser
+- Minimum-cell safety rule and the prompts given to both reasoners
 
 ---
 
 ## Switching to the fine-tuned domain-expert model
 
-By default Stage 3 uses **OpenAI GPT-4o** (cloud, paid per token). The repo also ships a **self-hosted domain-expert alternative**: an 8B Llama-3.1-Instruct QLoRA-fine-tuned on 2 098 hematology Q&A pairs derived from the project's own RAG corpus. The trained adapter is published at:
+By default Stage 3 uses **OpenAI GPT-4o** (cloud, paid per token). The repo also ships a **self-hosted domain-expert alternative**: Llama-3.1-8B-Instruct QLoRA-fine-tuned on 1,890 hematology Q&A pairs derived from the project's own RAG corpus (a further 208 pairs are held out for testing). The trained adapter is published at (run [Notebooks/Domain_Expert_Finetune/publish_adapter_to_hf.ipynb](Notebooks/Domain_Expert_Finetune/publish_adapter_to_hf.ipynb) to upload the current version and make it public):
 
 > https://huggingface.co/Afridi07/hematology-llama-3.1-8b-lora
 
@@ -578,7 +584,7 @@ For a 30-minute defence demo on HF Endpoints: **~$0.30 total**. Pause the endpoi
    llm:
      model_name: "Afridi07/hematology-llama-3.1-8b-lora"
    ```
-9. Restart the backend (`uvicorn backend.main:app --port 8767`). Stage 3 now answers via your fine-tune.
+9. Restart the backend (`cd backend; uvicorn main:app --port 8767`). Stage 3 now answers via your fine-tune.
 10. **After the demo:** go back to the HF Endpoints dashboard -> click **Pause**. Billing stops within seconds.
 
 ### Reverting to GPT-4o
@@ -672,7 +678,7 @@ It's a Bayesian approximation that requires **no architectural change** - just k
 A single-shot RAG call answers *what* but rarely *why*, and never asks for clarifying evidence. The ReAct agent decomposes the problem: it can call `lookup_lab_reference_ranges` for a numeric anchor, *then* `query_knowledge_base` for context, *then* `interpret_differential` to sanity-check class proportions. The trace is rendered to the user - **explainability comes for free**.
 
 **4. Why ChromaDB and not FAISS?**
-Persistence and metadata filtering. ChromaDB's on-disk store survives process restarts, supports per-chunk source/page metadata for grounded citations, and offers cosine distance out of the box. FAISS would be faster at >1 M chunks; we have ~1 K.
+Persistence and metadata filtering. ChromaDB's on-disk store survives process restarts, stores per-chunk source and chunk-index metadata for citations, and offers cosine distance out of the box. FAISS would be faster at >1 M chunks; we have ~1 K.
 
 **5. Why a separate `backend/` module instead of mounting FastAPI inside `src/`?**
 Separation of concerns. `src/` contains domain logic and is testable / Jupyter-importable without spinning up a web server. `backend/` is a thin HTTP adapter - schemas, routes, DI. Either layer can be replaced (e.g. swap FastAPI for gRPC) without touching the other.
@@ -692,7 +698,7 @@ Higher quality than open-weight alternatives on clinical reasoning benchmarks at
 - **Imports**: backend uses **flat imports** (`from config import ...`) so `cd backend; uvicorn main:app` works without packaging gymnastics. The repo root is added to `sys.path` by [backend/main.py](backend/main.py) so `from src.pipeline import ...` still resolves.
 - **Logging**: stdlib `logging`, configured by [src/utils/logging_config.py](src/utils/logging_config.py). Logs go to both console and `logs/pipeline_<timestamp>.log`.
 - **Errors**: typed exceptions in `src/`; HTTP errors translated to FastAPI `HTTPException` at the route boundary.
-- **Reproducibility**: `metadata.config_hash` and `metadata.version` are emitted on every run.
+- **Reproducibility**: `metadata.pipeline_version`, `metadata.timestamp` and `metadata.execution_time_seconds` are emitted on every run; all parameters live in `config.yaml`.
 - **Secrets**: `.env` only, never committed. `python-dotenv` loads it from the repo root.
 - **Gitignore**: `models/*.pt`, `data/chroma_db/`, `results/`, `logs/`, `__pycache__/`, `node_modules/`, `frontend/dist/`, `.venv/`.
 
@@ -701,9 +707,9 @@ Higher quality than open-weight alternatives on clinical reasoning benchmarks at
 ## Safety, ethics, and limitations
 
 - **Not a medical device.** No regulatory clearance, not validated for diagnostic use.
-- **Distribution shift.** Stage 1 was trained on BCCD; Stage 2 on PBC. Performance on smears from other staining protocols, microscopes, or magnifications is unverified.
-- **Class imbalance.** The `erythroblast` and `basophil` classes are minority in the training data - predictions on these are correspondingly less reliable, which is reflected in the uncertainty scores.
-- **LLM hallucinations.** Mitigated by RAG grounding, citation enforcement (`llm.safety.require_citations: true`), and the `requires_expert_review` flag, but not eliminated. Always verify against the cited sources.
+- **Distribution shift.** Stage 1 was trained on TXL-PBC; Stage 2 on PBC (a single CellaVision analyser). Performance on smears from other staining protocols, microscopes, or magnifications is unverified.
+- **Class imbalance.** Basophils are the smallest PBC class (about 1,200 images vs. about 3,300 neutrophils).
+- **LLM hallucinations.** Mitigated by RAG grounding, citation checks (linear mode), the tool trace, and the deterministic `requires_expert_review` rules, but not eliminated. Always verify against the cited sources. A citation *written by the model* is not proof; check the retrieved passage in the agent trace.
 - **PHI.** The system does not store uploaded images beyond the temp directory of a single request. Do not upload images containing patient identifiers.
 - **OpenAI data policy.** Image content used in Stage 3 prompts (textual descriptors only - actual pixels never leave the local machine) is subject to OpenAI's API data policy. Disable Stage 3 for sensitive workloads.
 
@@ -711,7 +717,7 @@ Higher quality than open-weight alternatives on clinical reasoning benchmarks at
 
 ## License
 
-MIT. See `LICENSE` if present, otherwise the MIT terms apply by default for thesis-defence purposes.
+Code: MIT (add a `LICENSE` file before publishing). The textbooks and datasets remain under their own licenses and are not redistributed. The fine-tuned adapter is subject to the Llama 3.1 Community License.
 
 ---
 

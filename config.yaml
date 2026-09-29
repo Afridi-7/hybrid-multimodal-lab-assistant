@@ -6,7 +6,9 @@
 # ============================================================================
 models:
   yolo_detection: "models/yolov8s_blood.pt"
-  efficientnet_classification: "models/efficientnet_wbc_finetuned.pt"
+  # v2: retrained with a stratified train/val/test split (see results/effnet_v2/).
+  # The original checkpoint (v1) is models/efficientnet_wbc_finetuned.pt.
+  efficientnet_classification: "models/efficientnet_wbc_v2.pt"
   # Optional override directory via env: THESIS_MODELS_DIR
 
 # ============================================================================

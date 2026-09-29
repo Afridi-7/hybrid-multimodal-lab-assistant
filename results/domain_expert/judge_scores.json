@@ -1,0 +1,1536 @@
+{
+ "judge_model": "gpt-4o-mini",
+ "scores": {
+  "0|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides relevant challenges in diagnosing \u03b1 0 thalassaemia trait but introduces unsupported claims about symptoms and variability that are not mentioned in the gold answer."
+  },
+  "0|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the challenges in diagnosing \u03b1 0 thalassaemia trait but lacks mention of the need for globin chain synthesis studies and genetic analysis for definitive diagnosis."
+  },
+  "0|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the challenges in diagnosing \u03b1 0 thalassaemia trait and provides additional relevant details without introducing unsupported claims."
+  },
+  "1|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes red cell morphology in both conditions but lacks mention of specific features like pencil cells and basophilic stippling in \u03b2 thalassemia, which affects its faithfulness."
+  },
+  "1|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content regarding red cell morphology in both conditions without introducing unsupported claims."
+  },
+  "1|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the red cell morphology in both conditions and includes additional relevant details, but it introduces references that do not contribute to the content."
+  },
+  "2|Llama-3.1-8B (base)": {
+   "faithfulness": 2,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly identifies the main types of acute leukemia but does not directly reference the provided passage, which affects its faithfulness."
+  },
+  "2|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the information from the gold answer without adding unsupported claims."
+  },
+  "2|GPT-4o (reference)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly identifies the main types of acute leukemia but does not directly reference the passage, which affects its faithfulness."
+  },
+  "3|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the significance of Reed-Sternberg cells in Hodgkin's lymphoma but includes unsupported claims about other diagnostic features and references that detract from its faithfulness."
+  },
+  "3|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes Reed-Sternberg cells and their significance in diagnosing Hodgkin's lymphoma, but it includes some additional details that are not present in the gold answer."
+  },
+  "3|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the significance of Reed-Sternberg cells in Hodgkin's lymphoma and provides additional relevant details without contradicting the gold answer."
+  },
+  "4|Llama-3.1-8B (base)": {
+   "faithfulness": 2,
+   "clinical_correctness": 3,
+   "rationale": "The model answer provides some relevant information about blood transfusions in thalassemia but lacks specific details about the hypertransfusion programme and does not fully align with the gold answer."
+  },
+  "4|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 2,
+   "clinical_correctness": 3,
+   "rationale": "The model answer inaccurately states the target hemoglobin level and omits several important aspects of the hypertransfusion programme's purpose."
+  },
+  "4|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the purpose of the hypertransfusion program and its benefits, but it introduces the concept of iron overload and chelation therapy, which, while relevant, is not part of the gold answer's focus."
+  },
+  "5|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information about the D-dimer test but does not fully align with the specificity mentioned in the gold answer regarding its use in diagnosing disseminated intravascular coagulation."
+  },
+  "5|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the D-dimer test and its relevance to DIC, but it does not explicitly mention thrombin and plasmin generation, which is a key aspect of the gold answer."
+  },
+  "5|GPT-4o (reference)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the implications of a positive D-dimer test and its clinical context, but it lacks the specificity regarding thrombin and plasmin generation mentioned in the gold answer."
+  },
+  "6|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the two methods for obtaining fetal DNA and their procedures, but it relies on a source that is not the gold answer, which slightly affects its faithfulness score."
+  },
+  "6|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content and methods for obtaining fetal DNA without introducing any unsupported claims."
+  },
+  "6|GPT-4o (reference)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the two methods for obtaining fetal DNA and provides correct details about the procedures and timing, aligning well with the gold answer."
+  },
+  "7|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the mechanism of the PML/RAR\u03b1 fusion protein but introduces additional details about retinoic acid signaling that are not present in the gold answer."
+  },
+  "7|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the mechanism of the PML/RAR\u03b1 fusion protein and its role in differentiation in APL, though it adds some detail about retinoic acid response elements that is not explicitly mentioned in the gold answer."
+  },
+  "7|GPT-4o (reference)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the mechanism of the PML/RAR\u03b1 fusion protein in APL, aligns with the gold answer, and provides additional correct details without introducing unsupported claims."
+  },
+  "8|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the blood smear findings in PRCA but introduces unsupported claims about red cell morphology variations that are not typically associated with the condition."
+  },
+  "8|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 2,
+   "clinical_correctness": 2,
+   "rationale": "The model answer incorrectly states that macrocytic red cells would be seen, while the gold answer correctly identifies normocytic normochromic anemia."
+  },
+  "8|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the blood smear findings in PRCA and aligns closely with the gold answer, but it includes an unnecessary reference to consulting additional resources, which slightly detracts from its faithfulness."
+  },
+  "9|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately identifies anemia as a potential condition related to the symptoms and provides a correct explanation, but it introduces the possibility of other conditions without directly linking them to the gold answer's focus on chronic blood loss."
+  },
+  "9|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately identifies anaemia as a potential condition related to the symptoms but lacks specific details about possible causes."
+  },
+  "9|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately identifies anemia as a potential cause of the symptoms but introduces additional conditions and emphasizes the need for further evaluation, which slightly diverges from the specificity of the gold answer."
+  },
+  "10|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the laboratory findings associated with tumor lysis syndrome and aligns closely with the gold answer, though it includes additional details that are not explicitly mentioned in the gold answer."
+  },
+  "10|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer is mostly accurate but incorrectly includes hyperkalemia instead of renal insufficiency and acidosis, which are also expected findings in tumor lysis syndrome."
+  },
+  "10|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the laboratory findings associated with tumor lysis syndrome and includes additional relevant details, but it introduces a reference that does not meet the criteria for credit."
+  },
+  "11|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the clinical manifestations of ALL and aligns closely with the gold answer, though it includes additional details that are supported by medical knowledge."
+  },
+  "11|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes some accurate manifestations of ALL but introduces unsupported claims about anemia and congestive heart failure, which are not specifically mentioned in the gold answer."
+  },
+  "11|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the clinical manifestations of ALL and aligns closely with the gold answer, though it includes additional details that are not explicitly mentioned in the gold answer."
+  },
+  "12|Llama-3.1-8B (base)": {
+   "faithfulness": 2,
+   "clinical_correctness": 3,
+   "rationale": "The model answer includes some accurate risks associated with prothrombin complex concentrates but introduces unsupported claims and lacks mention of the risk of DIC, which is a key point in the gold answer."
+  },
+  "12|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly identifies risks associated with prothrombin complex concentrates but introduces unsupported claims about contraindications and does not mention the risk of DIC as highlighted in the gold answer."
+  },
+  "12|GPT-4o (reference)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes accurate risks associated with prothrombin complex concentrates, but it introduces additional risks not mentioned in the gold answer, which affects its faithfulness."
+  },
+  "13|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes accurate growth factors but adds unnecessary details and references that do not align with the gold answer."
+  },
+  "13|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly identifies GM-CSF, G-CSF, and M-CSF as growth factors but omits IL-3 and erythropoietin, which are also necessary for myeloid progenitor proliferation and differentiation."
+  },
+  "13|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately lists the required growth factors and their roles, but it includes IL-6, which is not mentioned in the gold answer, slightly affecting its faithfulness."
+  },
+  "14|Llama-3.1-8B (base)": {
+   "faithfulness": 2,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information about advancements in transfusion medicine but does not directly address the specific advancement mentioned in the gold answer."
+  },
+  "14|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 2,
+   "clinical_correctness": 3,
+   "rationale": "The model answer introduces a different advancement that is not mentioned in the gold answer, but the medical content regarding recombinant human erythropoietin is accurate."
+  },
+  "14|GPT-4o (reference)": {
+   "faithfulness": 1,
+   "clinical_correctness": 1,
+   "rationale": "The model answer does not address the question and lacks any relevant medical content."
+  },
+  "15|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes accurate findings related to \u03b10 thalassaemia trait but introduces unsupported claims about target cells and dacrocytes, which are not typically emphasized in this condition."
+  },
+  "15|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the expected findings in \u03b10 thalassaemia trait but lacks mention of mild anaemia."
+  },
+  "15|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the expected findings in \u03b10 thalassaemia trait but introduces the idea of variability and the need for genetic testing, which, while relevant, slightly detracts from the directness of the response."
+  },
+  "16|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information about eosinophils but includes some extraneous details and a reference that detracts from its faithfulness to the gold answer."
+  },
+  "16|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the characteristic features of eosinophils but adds unsupported details about the granule arrangement and chromatin masses."
+  },
+  "16|GPT-4o (reference)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the characteristic features of eosinophils as stated in the gold answer, without introducing unsupported claims."
+  },
+  "17|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the mechanism of aspirin's effect on platelet function but introduces unsupported claims about dose-dependency and clinical recommendations that are not present in the gold answer."
+  },
+  "17|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the mechanism of action of aspirin on platelet function but omits details about the duration of the effect and the specific waves of aggregation."
+  },
+  "17|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the mechanism of action of aspirin on platelet function and its duration of effect, but it introduces unsupported claims about individual patient factors that are not present in the gold answer."
+  },
+  "18|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides some accurate clinical presentations but includes unsupported claims and references that detract from its faithfulness to the gold answer."
+  },
+  "18|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the clinical presentations and laboratory findings for both conditions, but it lacks some detail present in the gold answer."
+  },
+  "18|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the clinical presentations and laboratory findings for both hemophilia A and von Willebrand disease, with minor unsupported claims regarding inheritance patterns."
+  },
+  "19|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes accurate information about pharmacologic and nonpharmacologic management but diverges from the gold answer by emphasizing additional treatments not mentioned in the gold answer."
+  },
+  "19|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately reflects some management strategies for sickle cell anemia but lacks mention of infection prevention measures and vaccinations, which are critical components of the gold answer."
+  },
+  "19|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's recommendations while adding additional relevant details without contradicting the original content."
+  },
+  "20|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes rouleaux formation and its appearance on a smear, but it introduces additional context about conditions associated with rouleaux that is not present in the gold answer."
+  },
+  "20|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes rouleaux formation but slightly misrepresents the arrangement as a 'rosette pattern' instead of emphasizing the 'stack of coins' appearance."
+  },
+  "20|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes rouleaux formation and its causes, but it introduces a reference that does not provide additional context or support."
+  },
+  "21|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately identifies vitamin B12 as the extrinsic factor and provides additional context about its discovery and role in pernicious anemia, though it includes some extraneous details."
+  },
+  "21|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer and provides correct medical information without any unsupported claims."
+  },
+  "21|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately identifies vitamin B12 as the extrinsic factor and provides additional context about its significance, but it includes a reference that does not meet the criteria for credit."
+  },
+  "22|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes accurate complications of HSCT but introduces additional complications not mentioned in the gold answer, affecting its faithfulness."
+  },
+  "22|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes relevant complications but lacks specific mention of cytomegalovirus pneumonia and late infections, which are critical points from the gold answer."
+  },
+  "22|GPT-4o (reference)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information about complications following HSCT but introduces additional complications not mentioned in the gold answer, which affects its faithfulness."
+  },
+  "23|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes additional prognostic indicators not mentioned in the gold answer, which may be accurate but diverges from the specific indicators listed in the gold answer."
+  },
+  "23|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes some accurate prognostic indicators but also introduces unsupported claims about cell cycle phases that are not mentioned in the gold answer."
+  },
+  "23|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately lists several bad prognostic indicators in ALL, aligning well with the gold answer, but it includes additional factors that are also clinically relevant."
+  },
+  "24|Llama-3.1-8B (base)": {
+   "faithfulness": 2,
+   "clinical_correctness": 2,
+   "rationale": "The model answer contradicts the gold answer by stating that ABO incompatibility can increase the risk of sensitization to RhD antigen, which is inaccurate."
+  },
+  "24|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 1,
+   "clinical_correctness": 1,
+   "rationale": "The model answer contradicts the gold answer by stating that ABO incompatibility increases the risk of sensitization to RhD antigen, which is incorrect."
+  },
+  "24|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's main point about ABO incompatibility reducing the risk of RhD sensitization, but it introduces a caveat about the variability of protection that is not present in the gold answer."
+  },
+  "25|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes spherocytes and includes additional relevant findings, but the unsupported claims about anisocytosis and poikilocytosis may not be universally applicable."
+  },
+  "25|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the presence of spherocytes and their characteristics, but the term 'increased rigidity' could be misleading as it may imply a different mechanism than the reduced deformability mentioned in the gold answer."
+  },
+  "25|GPT-4o (reference)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the presence of spherocytes and their characteristics, aligning well with the gold answer while providing additional relevant clinical information."
+  },
+  "26|Llama-3.1-8B (base)": {
+   "faithfulness": 2,
+   "clinical_correctness": 3,
+   "rationale": "The model answer incorrectly focuses on the appearance of Rh D positive red cells on a smear rather than addressing the expected immune response of developing anti-D antibodies after exposure."
+  },
+  "26|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content regarding the development of anti-D antibodies following exposure to Rh D positive red cells."
+  },
+  "26|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the immune response to Rh D positive red cells and the potential for hemolytic changes, but it introduces some ambiguity regarding the specificity of the changes observed on a smear."
+  },
+  "27|Llama-3.1-8B (base)": {
+   "faithfulness": 2,
+   "clinical_correctness": 3,
+   "rationale": "The model answer provides some accurate information about HLA Class I antigens but fails to directly address the expected observation on a lymphocyte smear as outlined in the gold answer."
+  },
+  "27|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly states that HLA Class I antigens are expressed on lymphocytes, but it does not address the expected outcome of a lymphocytotoxicity test as described in the gold answer."
+  },
+  "27|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the presence of HLA Class I antigens and their detection methods, but it does not directly address the lymphocytotoxicity test mentioned in the gold answer."
+  },
+  "28|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the effects of IgM autoantibodies reactive at room temperature but introduces additional details and conditions that are not mentioned in the gold answer."
+  },
+  "28|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content regarding the observation of agglutination due to IgM autoantibodies and does not introduce any unsupported claims."
+  },
+  "28|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the expected observation of agglutination due to IgM autoantibodies but introduces additional details about hemolysis that are not explicitly mentioned in the gold answer."
+  },
+  "29|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the prolonged closure time in the PFA-100 test for von Willebrand disease and provides additional context, but it includes some extraneous details that are not directly asked for."
+  },
+  "29|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the information in the gold answer and provides additional context about the role of von Willebrand factor."
+  },
+  "29|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the prolonged PFA-100 test result in von Willebrand disease and provides additional context about the test's limitations, though it introduces a minor unsupported claim about the test being suggestive rather than diagnostic."
+  },
+  "30|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information about methaemoglobinemia and its effects on red blood cells, but it adds unsupported details about smear findings that are not explicitly mentioned in the gold answer."
+  },
+  "30|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the presence of methaemoglobin in the blood smear and correctly relates it to clinical symptoms, but it slightly overstates the certainty of the smear findings without acknowledging the need for further examination."
+  },
+  "30|GPT-4o (reference)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes methemoglobinemia and its diagnosis but introduces unsupported claims about Heinz bodies that are not universally applicable to all cases of methemoglobinemia."
+  },
+  "31|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes somatic hypermutation and its role in B cell maturation, but it includes additional details that, while correct, are not present in the gold answer."
+  },
+  "31|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes somatic hypermutation and its effects on B cell maturation, but it introduces the potential for self-reactive antibodies and stop codons, which are not emphasized in the gold answer."
+  },
+  "31|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes somatic hypermutation and its role in B cell maturation, but it introduces the concept of autoimmunity without sufficient context or support from the gold answer."
+  },
+  "32|Llama-3.1-8B (base)": {
+   "faithfulness": 1,
+   "clinical_correctness": 1,
+   "rationale": "The model answer does not provide any information about the NAP score or its grading, failing to address the question."
+  },
+  "32|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 2,
+   "clinical_correctness": 2,
+   "rationale": "The model answer provides an incorrect normal range for the NAP score and misrepresents the grading system."
+  },
+  "32|GPT-4o (reference)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides a slightly incorrect normal range for the NAP score and includes additional information that, while relevant, is not directly requested in the question."
+  },
+  "33|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the findings on a smear in von Willebrand disease but introduces additional details about laboratory tests that are not directly related to the smear findings."
+  },
+  "33|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the expected findings in von Willebrand disease but focuses more on the reduction of vWF multimers rather than directly addressing the platelet aggregation aspect mentioned in the gold answer."
+  },
+  "33|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes von Willebrand disease and its effects on blood smears, aligning well with the gold answer while providing additional context about diagnosis and the nature of the disorder."
+  },
+  "34|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate indications for platelet transfusions and fresh frozen plasma but includes some unsupported claims and references that detract from its faithfulness to the gold answer."
+  },
+  "34|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately reflects the indications for platelet transfusions and fresh frozen plasma, though it introduces the term 'disseminated intravascular coagulation' without explicitly linking it to the indications listed in the gold answer."
+  },
+  "34|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes indications for platelet transfusions and fresh frozen plasma, aligning closely with the gold answer while providing additional relevant details."
+  },
+  "35|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the risk of FVIII inhibitors in patients with severe hemophilia A and aligns with the gold answer, though it includes additional details not present in the gold answer."
+  },
+  "35|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately reflects the increased likelihood of F VIII inhibitors in patients with severe hemophilia A who have had multiple transfusions, but it does not specify the percentage range mentioned in the gold answer."
+  },
+  "35|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the risk of F VIII inhibitors in severe hemophilia A patients and provides additional relevant information, though it slightly expands beyond the specific statistics given in the gold answer."
+  },
+  "36|Llama-3.1-8B (base)": {
+   "faithfulness": 1,
+   "clinical_correctness": 1,
+   "rationale": "The model answer does not address the question and fails to provide any relevant information about the primary focus of the textbooks."
+  },
+  "36|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately identifies the primary focus on hematology and blood disorders, but it lacks the specificity regarding pathology, genetics, and disorders of hemostasis mentioned in the gold answer."
+  },
+  "36|GPT-4o (reference)": {
+   "faithfulness": 2,
+   "clinical_correctness": 2,
+   "rationale": "The model answer fails to acknowledge the specific focus on hematology and related topics as stated in the gold answer."
+  },
+  "37|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate details about the expected findings on a smear for sideroblastic anemia, but it includes unsupported claims about the presence of anisocytosis and poikilocytosis without clear context from the gold answer."
+  },
+  "37|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 2,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly identifies ringed sideroblasts as a finding in sideroblastic anaemia, but it does not align with the gold answer's indication that specific findings were not mentioned."
+  },
+  "37|GPT-4o (reference)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate clinical details about the expected findings in sideroblastic anemia but includes some unsupported claims regarding the presence of ringed sideroblasts on a peripheral smear."
+  },
+  "38|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the role of protein C and its activation process, but it includes references that do not directly support the claims made."
+  },
+  "38|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the role of protein C and its activation process, but it slightly misrepresents the activation site as 'activated platelets' instead of thrombin in the presence of thrombomodulin."
+  },
+  "38|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the role of protein C in coagulation and its interaction with protein S, but it introduces some unsupported claims about clinical implications and research needs."
+  },
+  "39|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes rouleaux formation and mentions multiple myeloma, but it includes unsupported claims about hyperalbuminemia and liver disease that are not directly linked to rouleaux formation."
+  },
+  "39|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes rouleaux formation and includes additional conditions where it can be observed, but it does not mention multiple myeloma or dextran, which are key examples from the gold answer."
+  },
+  "39|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes rouleaux formation and correctly identifies multiple conditions associated with it, though it adds some details not present in the gold answer."
+  },
+  "40|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes pseudothrombocytopenia and its identification methods, but it introduces some unsupported claims about platelet aggregation and flow cytometry without directly referencing the specific mechanisms mentioned in the gold answer."
+  },
+  "40|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 3,
+   "rationale": "The model answer contains some accurate information about pseudothrombocytopenia but introduces unsupported claims about reversing clumping with anticoagulants and misrepresents the mechanism of clumping."
+  },
+  "40|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes pseudothrombocytopenia and its identification methods, closely aligning with the gold answer while adding some additional valid details."
+  },
+  "41|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes additional indications for parenteral iron therapy that are not mentioned in the gold answer, which affects its faithfulness, but the medical content is largely accurate."
+  },
+  "41|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes some correct indications for parenteral iron therapy but does not fully align with the gold answer and introduces additional conditions without explicit support."
+  },
+  "41|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the indications for parenteral iron therapy and expands on them with additional relevant clinical scenarios, maintaining overall consistency with the gold answer."
+  },
+  "42|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information about RT-PCR's sensitivity and advantages over conventional techniques, but it includes unsupported claims about non-invasiveness and requires references that are not provided."
+  },
+  "42|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's claims about the sensitivity of RT-PCR compared to conventional techniques without introducing unsupported information."
+  },
+  "42|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the advantages of RT-PCR over conventional techniques in detecting genetic abnormalities in AML and does not introduce unsupported claims, though it could be slightly more concise."
+  },
+  "43|Llama-3.1-8B (base)": {
+   "faithfulness": 2,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly identifies the WHO classification system and provides accurate details about acute leukemias, but it contradicts the gold answer by not mentioning the FAB classification, which is a key aspect of the question."
+  },
+  "43|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the FAB classification and its key features, but it introduces the WHO classification without sufficient context."
+  },
+  "43|GPT-4o (reference)": {
+   "faithfulness": 2,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly describes the WHO classification system but contradicts the gold answer by stating that the WHO system is the commonly used classification for acute leukemias, while the gold answer specifies the FAB classification."
+  },
+  "44|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately lists several disorders included in plasma cell dyscrasias and provides correct clinical descriptions, but it introduces 'Smoldering Multiple Myeloma' and 'Plasma Cell Leukemia' which are not explicitly mentioned in the gold answer."
+  },
+  "44|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately lists several disorders included in plasma cell dyscrasias but incorrectly refers to 'solitary myeloma' instead of 'solitary plasmacytoma' and omits primary amyloidosis and MGUS."
+  },
+  "44|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately lists several disorders included in plasma cell dyscrasias and provides correct clinical descriptions, but it omits solitary plasmacytoma and heavy chain disease."
+  },
+  "45|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes monoclonal IgM cold agglutinins and their effects on red blood cells, but it introduces unsupported claims about their association with CLL and the complement system without sufficient context."
+  },
+  "45|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes monoclonal IgM cold agglutinins and their effect on red blood cells, but it lacks detail about the specific antigens and the relationship between titer, thermal amplitude, and hemolysis."
+  },
+  "45|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes monoclonal IgM cold agglutinins and their effects on red blood cells, aligning closely with the gold answer, but it introduces some additional context about CAD and complement activation that is not explicitly mentioned in the gold answer."
+  },
+  "46|Llama-3.1-8B (base)": {
+   "faithfulness": 2,
+   "clinical_correctness": 3,
+   "rationale": "The model answer includes some correct findings like spherocytes but also introduces unsupported claims such as anisocytosis and poikilocytosis, which are not specifically characteristic of ABO hemolytic disease of the newborn."
+  },
+  "46|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly identifies signs of hemolysis but does not specifically mention microspherocytes, which are characteristic of ABO hemolytic disease."
+  },
+  "46|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the presence of spherocytes and other relevant findings in ABO hemolytic disease of the newborn, while also providing additional context that does not contradict the gold answer."
+  },
+  "47|Llama-3.1-8B (base)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes hematopoiesis, aligns with the gold answer, and provides additional relevant details without introducing unsupported claims."
+  },
+  "47|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes hematopoiesis and aligns with the gold answer without introducing unsupported claims."
+  },
+  "47|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes hematopoiesis and its processes, adding detail about stem cells and pathways without contradicting the gold answer."
+  },
+  "48|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes some accurate conditions associated with AML but introduces unsupported claims about CLL and genetic syndromes without clear context or citation."
+  },
+  "48|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately lists some underlying conditions associated with AML but omits other relevant conditions and potential causes mentioned in the gold answer."
+  },
+  "48|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately lists several underlying conditions and risk factors for AML, aligning well with the gold answer, but it introduces additional details that are not mentioned in the gold answer."
+  },
+  "49|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes Heinz bodies and their association with hemolytic anemias, but it introduces unsupported claims about detection methods that are not mentioned in the gold answer."
+  },
+  "49|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly describes Heinz bodies as purple-staining inclusions and mentions hemolysis, but it inaccurately states the staining method as Romanowsky instead of methyl violet."
+  },
+  "49|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes Heinz bodies and their formation, identifies appropriate staining techniques, and provides relevant clinical context, though it introduces additional details not present in the gold answer."
+  },
+  "50|Llama-3.1-8B (base)": {
+   "faithfulness": 2,
+   "clinical_correctness": 3,
+   "rationale": "The model answer provides some accurate information about the Clauss method but fails to directly address the specific relationship between thrombin concentration and clotting time as stated in the gold answer."
+  },
+  "50|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 1,
+   "clinical_correctness": 1,
+   "rationale": "The model answer contradicts the gold answer by incorrectly stating the relationship between thrombin concentration and clotting time."
+  },
+  "50|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the relationship between thrombin concentration and clotting time in the context of fibrinogen estimation, aligning well with the gold answer while providing additional relevant details."
+  },
+  "51|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the clinical findings associated with hemarthroses and aligns closely with the gold answer, though it introduces additional details about potential causes without contradicting the main points."
+  },
+  "51|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the clinical signs of hemarthroses but lacks the detail about the preceding sensations mentioned in the gold answer."
+  },
+  "51|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the clinical signs of hemarthroses and aligns closely with the gold answer, though it introduces additional details that are not explicitly mentioned in the gold answer."
+  },
+  "52|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes relevant complications but introduces unsupported claims about blood pressure changes and TRALI without sufficient context or alignment with the gold answer."
+  },
+  "52|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately lists some immediate complications but omits allergic reactions and bacterial contamination, which are also important to monitor."
+  },
+  "52|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content regarding immediate complications of blood transfusions, while also including additional relevant details without introducing unsupported claims."
+  },
+  "53|Llama-3.1-8B (base)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the mechanism of heparin's anticoagulant effect and aligns with the gold answer without introducing unsupported claims."
+  },
+  "53|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the mechanism of heparin's action as described in the gold answer without introducing any unsupported claims."
+  },
+  "53|GPT-4o (reference)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the mechanism of heparin's action and aligns with the gold answer without introducing unsupported claims."
+  },
+  "54|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes accurate findings related to HbH disease but introduces unsupported claims about sickle-shaped red cells and basophilic stippling, which are not typically associated with HbH."
+  },
+  "54|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly identifies microcytes but lacks specific mention of anisopoikilocytosis, hypochromia, and target cells, which are key findings in HbH."
+  },
+  "54|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the expected laboratory findings in HbH disease, but it includes Heinz bodies, which are not typically emphasized in the context of HbH."
+  },
+  "55|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes several neurological manifestations of vitamin B12 deficiency, but it introduces some unsupported claims and lacks specific details found in the gold answer."
+  },
+  "55|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the neurological manifestations of vitamin B12 deficiency and provides correct medical content, but it introduces the mechanism of action without sufficient support from the gold answer."
+  },
+  "55|GPT-4o (reference)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the neurological manifestations of vitamin B12 deficiency as described in the gold answer, providing additional detail without introducing unsupported claims."
+  },
+  "56|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information about features suggesting neoplasia but includes unsupported claims and references that detract from its faithfulness to the gold answer."
+  },
+  "56|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information about cytological atypia and paraprotein presence, but it does not mention the significance of large clusters or sheets of plasma cells, which is a key indicator of neoplasia."
+  },
+  "56|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes features suggesting a neoplastic process and aligns well with the gold answer, though it includes additional details that are not explicitly mentioned in the gold answer."
+  },
+  "57|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides a generally favorable prognosis but underestimates the 5-year survival rate and introduces additional factors that, while relevant, are not directly stated in the gold answer."
+  },
+  "57|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides a generally positive prognosis but inaccurately states the 5-year disease-free survival rate as 85% instead of approximately 95%."
+  },
+  "57|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the prognosis for early-stage Hodgkin Lymphoma and provides additional relevant information without contradicting the gold answer."
+  },
+  "58|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes accurate clinical features of \u03b2 thalassaemia major but introduces unsupported claims about delayed puberty and increased risk of infections without sufficient context."
+  },
+  "58|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes severe anemia and its presentation but lacks specific details about hypochromia, microcytosis, and other clinical features mentioned in the gold answer."
+  },
+  "58|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the clinical features of \u03b2 thalassaemia major and adds relevant details without contradicting the gold answer."
+  },
+  "59|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately reflects the risks associated with paid blood donors but introduces unsupported claims about screening and testing protocols."
+  },
+  "59|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the risks associated with paid blood donors and aligns closely with the gold answer, though it introduces the concept of drug abuse without explicit support from the gold answer."
+  },
+  "59|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the risks associated with paid versus voluntary blood donors and aligns with the gold answer, though it introduces some additional context and references that are not present in the gold answer."
+  },
+  "60|Llama-3.1-8B (base)": {
+   "faithfulness": 2,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information on recent developments in acute leukemia but does not directly address the specific content of the passage mentioned in the gold answer."
+  },
+  "60|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes accurate details about diagnostic and treatment advancements but adds unsupported specifics that are not mentioned in the gold answer."
+  },
+  "60|GPT-4o (reference)": {
+   "faithfulness": 2,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information about recent developments in acute leukemia but does not directly address the specific content of the passage mentioned in the question."
+  },
+  "61|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes HGFs and their roles, but it includes IL-3 and SCF, which are not mentioned in the gold answer, slightly affecting its faithfulness."
+  },
+  "61|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the role of HGFs but incorrectly classifies them as glycoproteins instead of polypeptides and lacks specific examples of HGFs."
+  },
+  "61|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes HGFs and their roles, but it introduces additional details about TPO and clinical applications that are not present in the gold answer."
+  },
+  "62|Llama-3.1-8B (base)": {
+   "faithfulness": 1,
+   "clinical_correctness": 1,
+   "rationale": "The model answer does not provide any information about the characteristics of erythroblasts in HEMPAS and fails to address the question."
+  },
+  "62|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes some accurate characteristics of erythroblasts in HEMPAS but introduces unsupported claims about size and peripheral blood presence."
+  },
+  "62|GPT-4o (reference)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes accurate details about binuclear and multinuclear erythroblasts but introduces unsupported claims about membrane abnormalities and apoptosis that are not mentioned in the gold answer."
+  },
+  "63|Llama-3.1-8B (base)": {
+   "faithfulness": 2,
+   "clinical_correctness": 3,
+   "rationale": "The model answer incorrectly identifies PAS as the primary stain for myeloid precursors and includes unsupported claims about other stains, while it does mention myeloperoxidase correctly."
+  },
+  "63|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer without adding unsupported claims."
+  },
+  "63|GPT-4o (reference)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content regarding the myeloperoxidase stain and its role in diagnosing AML."
+  },
+  "64|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the relationship between thrombocytopenia and thrombopoietin production, aligning well with the gold answer while providing additional context."
+  },
+  "64|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's information about increased thrombopoietin production in thrombocytopenia and correctly explains its role in stimulating platelet formation."
+  },
+  "64|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the expected increase in thrombopoietin production in response to thrombocytopenia and provides additional relevant details, though it introduces some complexity that may not be necessary for a straightforward answer."
+  },
+  "65|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes PCR and sequencing as methods for detecting the \u03b2 S gene but introduces additional methods and references that are not present in the gold answer."
+  },
+  "65|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content and correctly describes the method for detecting the \u03b2 S gene."
+  },
+  "65|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the use of PCR and RFLP for detecting the \u03b2 S gene and adds valid alternative methods, maintaining overall alignment with the gold answer."
+  },
+  "66|Llama-3.1-8B (base)": {
+   "faithfulness": 2,
+   "clinical_correctness": 2,
+   "rationale": "The model answer contains several inaccuracies regarding laboratory features of iron deficiency anemia, such as the incorrect statement about TIBC and transferrin saturation."
+  },
+  "66|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes laboratory features of iron deficiency anemia and aligns closely with the gold answer, though it does not mention transferrin saturation or bone marrow examination."
+  },
+  "66|GPT-4o (reference)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the laboratory features of iron deficiency anemia as described in the gold answer, without introducing unsupported claims."
+  },
+  "67|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information about blood smear findings in sickle cell disease but includes unsupported claims about target cells and dacrocytes without clear context from the gold answer."
+  },
+  "67|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the expected findings on a blood smear for sickle cell disease and provides correct information about the mechanism behind the sickling of red blood cells."
+  },
+  "67|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the expected findings on a blood smear for sickle cell disease, including sickle-shaped red blood cells and additional relevant abnormalities, while not contradicting the gold answer."
+  },
+  "68|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the most severe form of sickle cell disease and its genetic basis, but it includes a reference that does not directly support the claims made."
+  },
+  "68|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes sickle cell anemia as the most severe form of sickle cell disease and correctly identifies its genetic basis."
+  },
+  "68|GPT-4o (reference)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the most severe form of sickle cell disease and its genetic basis, aligning with the gold answer while providing additional correct details about the mutation."
+  },
+  "69|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the presence of fetal hemoglobin in newborns and its transition to adult hemoglobin, but it introduces unsupported claims about the appearance of red blood cells and includes a reference that does not meet the criteria for credit."
+  },
+  "69|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly identifies HbF as predominant in newborns but inaccurately suggests that HbA is present in significant amounts immediately after birth."
+  },
+  "69|GPT-4o (reference)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the presence of fetal hemoglobin (HbF) in a newborn's blood smear and provides correct details about its composition and the transition to adult hemoglobin."
+  },
+  "70|Llama-3.1-8B (base)": {
+   "faithfulness": 2,
+   "clinical_correctness": 3,
+   "rationale": "The model answer introduces unsupported claims about scuba divers and astronauts, diverging from the gold answer's focus on coughing and elderly populations."
+  },
+  "70|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 1,
+   "clinical_correctness": 2,
+   "rationale": "The model answer contradicts the gold answer regarding the cause of Mechanical Purpura and inaccurately describes the population most affected."
+  },
+  "70|GPT-4o (reference)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides a broader explanation of mechanical purpura and includes additional populations at risk, but it does not specifically mention the role of coughing or local intravascular pressure as highlighted in the gold answer."
+  },
+  "71|Llama-3.1-8B (base)": {
+   "faithfulness": 1,
+   "clinical_correctness": 2,
+   "rationale": "The model answer incorrectly identifies ABO incompatibility as the most common cause of hemolytic transfusion reactions, contradicting the gold answer which states that clerical error is the most common cause."
+  },
+  "71|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 2,
+   "clinical_correctness": 3,
+   "rationale": "The model answer identifies ABO incompatibility as a cause of hemolytic transfusion reactions, but it does not acknowledge that clerical errors are the most common cause, leading to a lack of full agreement with the gold answer."
+  },
+  "71|GPT-4o (reference)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly identifies ABO incompatibility as a cause but does not emphasize clerical errors as the most common cause, which is a key point in the gold answer."
+  },
+  "72|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the coagulation profile in ITP, but introduces some unsupported claims about potential mild abnormalities in PT or aPTT that are not universally accepted."
+  },
+  "72|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 2,
+   "clinical_correctness": 3,
+   "rationale": "The model answer contains some inaccuracies regarding the coagulation profile in ITP, specifically the mention of prolonged prothrombin time and activated partial thromboplastin time, which are typically normal."
+  },
+  "72|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the coagulation profile in ITP and aligns closely with the gold answer, though it adds some additional context about clinical variability."
+  },
+  "73|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information about the association of anti-D antibodies with HDFN and describes relevant blood smear findings, but it introduces unsupported claims about anisocytosis and poikilocytosis without clear context."
+  },
+  "73|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 2,
+   "clinical_correctness": 3,
+   "rationale": "The model answer discusses agglutination due to anti-D antibodies, which is relevant but does not directly address the expected findings on a blood smear related to hemolytic disease of the newborn."
+  },
+  "73|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes potential blood smear findings associated with hemolysis due to anti-D antibodies, while also noting that these findings depend on the presence of active hemolysis, aligning well with the gold answer."
+  },
+  "74|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the role of tetrahydrofolate in one-carbon unit transfer and its involvement in nucleic acid and amino acid synthesis, but it includes some additional details that are not explicitly mentioned in the gold answer."
+  },
+  "74|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the function of tetrahydrofolate but lacks specificity regarding its role in thymidylate synthesis."
+  },
+  "74|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the primary function of tetrahydrofolate and its role in metabolic reactions, but it includes a reference that does not contribute to the answer's validity."
+  },
+  "75|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly identifies the hemangioblast as a precursor but does not align with the gold answer's term 'hematoblast' and introduces additional unsupported claims about ongoing research."
+  },
+  "75|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 2,
+   "clinical_correctness": 2,
+   "rationale": "The model answer incorrectly identifies the precursor cell as hemangioblast instead of hematoblast, which affects both faithfulness and clinical correctness."
+  },
+  "75|GPT-4o (reference)": {
+   "faithfulness": 2,
+   "clinical_correctness": 3,
+   "rationale": "The model answer incorrectly identifies the precursor as hemangioblast instead of hematoblast, but it accurately describes the relationship between the precursor and the two cell types."
+  },
+  "76|Llama-3.1-8B (base)": {
+   "faithfulness": 2,
+   "clinical_correctness": 3,
+   "rationale": "The model answer provides some accurate information about hemoglobin variants but includes unsupported claims and does not accurately reflect the proportions of hemoglobin types in adults and newborns as stated in the gold answer."
+  },
+  "76|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 3,
+   "rationale": "The model answer provides some accurate information but misrepresents the percentages of hemoglobin variants in both adults and newborns, leading to a lack of full alignment with the gold answer."
+  },
+  "76|GPT-4o (reference)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information about hemoglobin variants but deviates slightly in the percentages and includes unsupported claims about the transition of hemoglobin types in infants."
+  },
+  "77|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes lymphocytosis and atypical lymphocytes but introduces unsupported terms like 'covarytiform lymphocytes' and 'rouge cells' that are not standard in hematology."
+  },
+  "77|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 3,
+   "rationale": "The model answer correctly identifies atypical lymphocytes but inaccurately describes their characteristics and does not mention their activation status."
+  },
+  "77|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the findings expected in infectious mononucleosis caused by EBV and adds relevant details, but it includes a caution about the non-exclusivity of these findings, which slightly detracts from its faithfulness to the gold answer."
+  },
+  "78|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes polycythaemia vera and its characteristics, aligning closely with the gold answer while adding additional relevant details."
+  },
+  "78|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes polycythaemia vera but includes additional details about granulocytosis and thrombocytosis that are not central to the characterization of PV as per the gold answer."
+  },
+  "78|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes polycythaemia vera and its characteristics, but it includes additional details about the JAK2 mutation and management that are not present in the gold answer."
+  },
+  "79|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the role of intrinsic factor in vitamin B12 absorption and includes relevant details, but it references unspecified sources which slightly detracts from its faithfulness."
+  },
+  "79|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the role of intrinsic factor in vitamin B12 absorption without adding unsupported claims."
+  },
+  "79|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the role of intrinsic factor in vitamin B12 absorption and provides additional correct details about the process and implications of its deficiency."
+  },
+  "80|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the consequences of multiple myeloma on immunoglobulin production and aligns closely with the gold answer, though it includes additional details that are clinically relevant."
+  },
+  "80|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the information in the gold answer without adding unsupported claims."
+  },
+  "80|GPT-4o (reference)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the consequences of multiple myeloma on normal immunoglobulin production and aligns with the gold answer without introducing unsupported claims."
+  },
+  "81|Llama-3.1-8B (base)": {
+   "faithfulness": 2,
+   "clinical_correctness": 3,
+   "rationale": "The model answer includes some correct markers but also introduces inaccuracies and unsupported claims, such as the expression of CD22 and FMC7, which contradict the gold answer."
+  },
+  "81|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes some correct markers but inaccurately lists CD22 and does not mention the absence of FMC7 and CD2, which are important for a complete understanding of CLL cell markers."
+  },
+  "81|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the immunophenotypic markers of CLL cells but includes some unsupported claims about CD20 levels and lacks mention of FMC7 and CD2."
+  },
+  "82|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the use of Factor VIII concentrate for hemophilia A but includes additional indications that are not supported by the gold answer."
+  },
+  "82|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer is mostly accurate but includes 'other bleeding disorders' which is not specified in the gold answer."
+  },
+  "82|GPT-4o (reference)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information about the indications for F VIII concentrate but includes additional details and mentions acquired hemophilia, which is not part of the gold answer."
+  },
+  "83|Llama-3.1-8B (base)": {
+   "faithfulness": 2,
+   "clinical_correctness": 3,
+   "rationale": "The model answer includes some accurate clinical manifestations of monocytic leukaemia but diverges from the gold answer by adding unsupported claims and lacks specific details about skin infiltration and gum hypertrophy."
+  },
+  "83|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes some accurate clinical manifestations of monocytic leukaemia but lacks specific details and percentages mentioned in the gold answer."
+  },
+  "83|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes several clinical manifestations of monocytic leukaemia, including gum hypertrophy and skin involvement, but it lacks specific prevalence statistics mentioned in the gold answer."
+  },
+  "84|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides relevant strategies to minimize blood transfusions but does not fully align with the gold answer's emphasis on surgical techniques and alternatives to transfusion."
+  },
+  "84|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer addresses important clinical considerations but lacks specific strategies to minimize transfusions as outlined in the gold answer."
+  },
+  "84|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately addresses strategies to minimize blood transfusions in chronic anemia, aligning with the gold answer's emphasis on underlying causes and treatment, though it lacks some specific measures mentioned in the gold answer."
+  },
+  "85|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes some accurate information about stromal cells and their role in hematopoiesis but lacks specific mention of multipotent mesenchymal stromal cells and does not fully align with the gold answer's details."
+  },
+  "85|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the role of stromal cells in hematopoiesis but omits the mention of multipotent mesenchymal stromal cells and T cells, which are also important."
+  },
+  "85|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes various cell types involved in hematopoiesis and their roles, but it omits the specific mention of T cells and does not fully align with the gold answer."
+  },
+  "86|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides a general overview of Southern blot analysis and its applications but lacks specific details about its use in \u03b1 and \u03b2 thalassaemias as mentioned in the gold answer."
+  },
+  "86|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer describes the process of Southern blot analysis accurately but lacks specific details about its application to genetic defects, particularly in thalassaemias."
+  },
+  "86|GPT-4o (reference)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides a general overview of Southern blot analysis and its applications but lacks specific details about its use in \u03b1 and \u03b2 thalassaemias as mentioned in the gold answer."
+  },
+  "87|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the functions of RBCs, WBCs, and platelets, aligning closely with the gold answer, but it includes additional details that are not present in the gold answer."
+  },
+  "87|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the functions of RBCs and WBCs, but it slightly misrepresents the role of platelets by not mentioning their involvement in hemostasis and the inflammatory response."
+  },
+  "87|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the functions of RBCs, WBCs, and platelets, aligning closely with the gold answer while providing additional detail without contradicting it."
+  },
+  "88|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate dietary sources of folate but includes additional sources not mentioned in the gold answer and lacks the note about folate destruction during cooking."
+  },
+  "88|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly identifies some dietary sources of folate but omits liver and does not mention the loss of folate due to cooking methods."
+  },
+  "88|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately lists major dietary sources of folate and correctly notes the impact of cooking on folate content, but it includes a reference that does not add value."
+  },
+  "89|Llama-3.1-8B (base)": {
+   "faithfulness": 2,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides general information about acute leukemias but does not fully align with the specific characteristics outlined in the gold answer, and it introduces unsupported claims about classifications and symptoms."
+  },
+  "89|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the proliferation of immature cells and the classification of acute leukaemias, but it lacks details about the malignant nature and the rapid progression of the disease."
+  },
+  "89|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the characteristics of acute leukemias and their clinical implications, but it introduces classification details that are not present in the gold answer."
+  },
+  "90|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate clinical features of thalassemia but does not fully align with the specific diagnostic features outlined in the gold answer, and it references a different source."
+  },
+  "90|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides some accurate diagnostic features of thalassaemia but includes unsupported claims about specific inclusions and does not fully align with the gold answer's focus on distinguishing between \u03b1 and \u03b2 thalassaemia traits."
+  },
+  "90|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the diagnostic features of alpha and beta thalassemia, aligning well with the gold answer's focus on distinguishing between the two types based on laboratory findings."
+  },
+  "91|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information about sideroblastic anemia but includes some unsupported claims and does not fully align with the gold answer's description of the typical blood smear findings."
+  },
+  "91|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the peripheral blood smear findings but incorrectly mentions macrocytic red cells instead of normocytic."
+  },
+  "91|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the peripheral blood smear findings in sideroblastic anemia but introduces additional details that, while relevant, are not specifically mentioned in the gold answer."
+  },
+  "92|Llama-3.1-8B (base)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the role of vitamin K in coagulation and includes relevant details about the activation of clotting factors, but it introduces additional information about clinical implications that are not present in the gold answer."
+  },
+  "92|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the role of vitamin K in coagulation and includes additional correct information about protein C and S, which are also vitamin K-dependent."
+  },
+  "92|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the role of vitamin K in coagulation and includes additional relevant information without contradicting the gold answer."
+  },
+  "93|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly identifies deletions of \u03b1-globin genes as a cause of \u03b1+ thalassaemia but introduces unsupported claims about inheritance patterns and treatment that are not mentioned in the gold answer."
+  },
+  "93|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 3,
+   "rationale": "The model answer mentions specific deletions but lacks the broader context of other mutations and their mechanisms described in the gold answer."
+  },
+  "93|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the mutations leading to \u03b1+ thalassaemia and aligns well with the gold answer, though it introduces some unsupported claims about prevalence and research needs."
+  },
+  "94|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information about ABO HDN but includes additional details and potential complications that are not mentioned in the gold answer."
+  },
+  "94|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 2,
+   "clinical_correctness": 2,
+   "rationale": "The model answer includes unsupported claims about severe anemia and additional symptoms that are not typical for ABO HDN, contradicting the gold answer."
+  },
+  "94|GPT-4o (reference)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate clinical manifestations of ABO hemolytic disease of the newborn but includes some details that are not typical or are less common, such as hydrops fetalis and kernicterus, which may detract from its faithfulness to the gold answer."
+  },
+  "95|Llama-3.1-8B (base)": {
+   "faithfulness": 2,
+   "clinical_correctness": 3,
+   "rationale": "The model answer includes some accurate medications associated with hemolytic anemia but diverges from the specific drugs listed in the gold answer and introduces unsupported claims about G6PD deficiency."
+  },
+  "95|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 2,
+   "clinical_correctness": 2,
+   "rationale": "The model answer includes some drugs that are known to cause hemolytic anemia, but it does not align with the specific drugs mentioned in the gold answer."
+  },
+  "95|GPT-4o (reference)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information about drugs that can cause hemolytic anemia, but it diverges from the specific examples given in the gold answer and introduces additional drugs not mentioned."
+  },
+  "96|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes relevant laboratory findings associated with ALL but does not mention lymphadenopathy or myeloperoxidase cytochemistry, which are key aspects of the gold answer."
+  },
+  "96|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 2,
+   "clinical_correctness": 3,
+   "rationale": "The model answer includes some accurate laboratory findings related to ALL but lacks specific details about the expected blast morphology and myeloperoxidase results mentioned in the gold answer."
+  },
+  "96|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes laboratory findings associated with ALL and aligns well with the gold answer, though it includes additional details not mentioned in the gold answer."
+  },
+  "97|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly identifies the expected yellow color of plasma in jaundice but introduces unnecessary complexity and references that detract from its faithfulness to the gold answer."
+  },
+  "97|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer without adding unsupported claims."
+  },
+  "97|GPT-4o (reference)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the expected appearance of plasma in jaundice and provides a correct explanation for the yellow color."
+  },
+  "98|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides relevant laboratory parameters for differentiating macrocytic anemias but lacks specific details about reticulocyte count and peripheral blood smear findings mentioned in the gold answer."
+  },
+  "98|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information about differentiating macrocytic anaemias but lacks mention of reticulocyte count and bone marrow examination, which are also important for a complete understanding."
+  },
+  "98|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the differentiation of macrocytic anemias and includes relevant laboratory tests, aligning well with the gold answer."
+  },
+  "99|Llama-3.1-8B (base)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes accurate findings associated with sickle cell disease but introduces unsupported claims about target cells and does not fully align with the gold answer's focus on sickle-shaped cells."
+  },
+  "99|Llama-3.1-8B + QLoRA (ours)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the expected findings on a blood smear for sickle cell disease without introducing unsupported claims."
+  },
+  "99|GPT-4o (reference)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the expected findings on a blood smear for sickle cell disease and includes additional relevant details without contradicting the gold answer."
+  }
+ },
+ "summary": {
+  "Llama-3.1-8B (base)": {
+   "n": 100,
+   "faithfulness": 3.03,
+   "clinical_correctness": 3.94
+  },
+  "Llama-3.1-8B + QLoRA (ours)": {
+   "n": 100,
+   "faithfulness": 3.57,
+   "clinical_correctness": 3.99
+  },
+  "GPT-4o (reference)": {
+   "n": 100,
+   "faithfulness": 3.86,
+   "clinical_correctness": 4.62
+  },
+  "Llama-3.1-8B + QLoRA (ours) minus Llama-3.1-8B (base): faithfulness": {
+   "mean_difference": 0.54,
+   "bootstrap_95ci": [
+    0.35,
+    0.74
+   ]
+  },
+  "Llama-3.1-8B + QLoRA (ours) minus Llama-3.1-8B (base): clinical_correctness": {
+   "mean_difference": 0.05,
+   "bootstrap_95ci": [
+    -0.14,
+    0.24
+   ]
+  }
+ }
+}

@@ -26,16 +26,18 @@ Flip (horizontal/vertical) & 0.5 / 0.5 & Seed & 0 (deterministic) \\
 \end{tabular}
 \end{table}
 
-\paragraph{EfficientNet-B0.} The classifier was trained in two phases. In Phase~1 the backbone was frozen and only the new head was trained (40 epochs at most, batch size 32, Adam with learning rate $10^{-3}$, learning rate halved when accuracy stopped improving for three epochs, early stopping with patience five). In Phase~2 all layers were unfrozen and trained for 10 epochs with a ten times smaller learning rate ($10^{-4}$). The augmentations were random horizontal (p = 0.5) and vertical (p = 0.3) flips, random affine transforms ($\pm 25^\circ$, scale 0.8--1.2) and colour jitter.
+\paragraph{EfficientNet-B0.} The classifier was trained in two phases (the same recipe was used in both training runs described below). In Phase~1 the backbone was frozen and only the new head was trained (40 epochs at most, batch size 32, Adam with learning rate $10^{-3}$, learning rate halved when accuracy stopped improving for three epochs, early stopping with patience five). In Phase~2 all layers were unfrozen and trained for 10 epochs with a ten times smaller learning rate ($10^{-4}$). The augmentations were random horizontal (p = 0.5) and vertical (p = 0.3) flips, random affine transforms ($\pm 25^\circ$, scale 0.8--1.2) and colour jitter.
 
 \noindent\fbox{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule}{\small
-\textbf{Methodological caveat.} The classifier's training notebook has no separate validation split. The accuracy monitored after every epoch, the learning-rate scheduler and the choice of the saved checkpoint were all based on the \emph{test} images. The reported test accuracy is therefore optimistic, because the model was selected on the data it is scored on. At the accuracy level reached the bias is probably small, but it cannot be excluded. The correct protocol --- a stratified train/validation/test split with the checkpoint chosen on validation only --- is listed as future work.}}
+\textbf{Two training runs.} The \emph{original run (v1)} used an 80/20 train/test split and had no separate validation set: the accuracy monitored after every epoch, the learning-rate scheduler and the choice of the saved checkpoint were all based on the \emph{test} images, so its test accuracy is optimistic. This flaw was found during the preparation of the thesis, and the classifier was therefore retrained in a \emph{corrected run (v2)} with the same architecture and recipe but a proper protocol: a class-stratified 70/10/20 split into 11{,}963 training, 1{,}710 validation and 3{,}419 test images (sorted file lists, seed 42), the learning-rate schedule, early stopping and checkpoint choice based on the validation set only, and a single evaluation on the test set. One non-image file (a macOS \code{.DS\_} metadata file with a \code{.jpg} extension) was skipped. All classification results reported in Chapter~\ref{sec:results} are from v2 unless stated otherwise; the v2 checkpoint is also the one configured in the system.}}
 
 \subsection{Evaluation of the image-analysis stages}
 
 \paragraph{Detection.} The YOLOv8s model was evaluated once on the 126-image TXL-PBC test split with the standard object-detection metrics: precision, recall, mean average precision at an intersection-over-union threshold of 0.50 (mAP@0.50), and mAP averaged over thresholds 0.50--0.95. The checkpoint was selected on the validation split.
 
-\paragraph{Classification.} The EfficientNet-B0 model was evaluated on the 3{,}419 PBC test images with top-1 accuracy, per-class precision and recall and a normalised confusion matrix.
+\paragraph{Classification.} The EfficientNet-B0 model (v2) was evaluated once on its 3{,}419 test images with top-1 accuracy, per-class precision, recall and F1, and a normalised confusion matrix.
+
+\paragraph{Uncertainty.} The test images were also passed through the classifier with MC-Dropout ($T = 20$, exactly as in the running system) to measure three things: (i) \emph{calibration}, as the expected calibration error (ECE, 15 equal-width confidence bins) and a reliability diagram, for both the MC-Dropout mean and a single deterministic pass; (ii) how well the uncertainty scores \emph{detect errors}, as the area under the ROC curve (AUROC) of $1-\bar{p}_{(1)}$, entropy and variance for separating misclassified from correctly classified cells; and (iii) the accuracy of the cells in each uncertainty level (LOW, MEDIUM, HIGH) with the thresholds of the configuration file.
 
 \subsection{Training the domain-expert model}\label{sec:ft-train}
 
@@ -88,14 +90,16 @@ Training time & 49.8 min on one T4 \\
 \node[ev, below=1.1cm of sp] (a) {A: 100 held-out\\Q\&A (208 total)};
 \node[ev, right=of a] (b) {B: 100 MedMCQA\\questions};
 \node[ev, right=of b] (c) {C: 5 clinical\\scenarios};
+\node[ev, below=0.45cm of a] (d) {D: LLM judge\\(300 ratings)};
 \node[st, left=of a] (sys) {Base vs.\ fine-tuned\\(adapter off/on)\\+ GPT-4o};
 \draw[arr] (ch) -- (gen); \draw[arr] (gen) -- (sp); \draw[arr] (sp) -- node[above,font=\tiny]{train} (tr);
 \draw[arr] (sp) -- node[right,font=\tiny]{test} (a);
 \draw[arr] (tr.south) |- ($(b.north)+(0,0.35)$) -- (b.north);
 \draw[arr] ($(b.north)+(0,0.35)$) -| (c.north);
 \draw[arr] (sys) -- (a);
+\draw[arr] (a) -- (d);
 \end{tikzpicture}
-\caption{Workflow of the domain-expert experiment: data generation, chunk-level split, QLoRA training and the three evaluations.}
+\caption{Workflow of the domain-expert experiment: data generation, chunk-level split, QLoRA training and the four evaluations.}
 \label{fig:ftflow}
 \end{figure}
 
@@ -117,6 +121,6 @@ The evaluation compares three systems: the original \textbf{Llama-3.1-8B-Instruc
 
 \paragraph{Statistics.} Because all systems answer the same questions, differences were tested in a paired way: a 95\,\% bootstrap confidence interval (5{,}000 resamples of the 100 questions) for the difference in mean ROUGE-L, and an exact McNemar test for the difference in multiple-choice accuracy. These statistics were computed after the Colab run from the saved answers (\code{results/domain\_expert/evaluation\_report.json}).
 
-\paragraph{Planned but not completed.} The notebook also contained an LLM-as-judge step \cite{zheng2023judge}, in which GPT-4o-mini would rate each answer's faithfulness and clinical correctness from 1 to 5. This step did not run because of a string-formatting error in the evaluation code, so no judge scores are reported. A corrected stand-alone script that scores the saved answers without a GPU (\code{scripts/judge\_domain\_expert.py}) is included for future use.
+\paragraph{D. LLM-as-judge.} Following \cite{zheng2023judge}, GPT-4o-mini (temperature 0) rated every in-domain answer of all three systems --- 300 ratings --- on two 1--5 scales: \emph{faithfulness} (agreement with the textbook reference answer, no unsupported or contradicting claims) and \emph{clinical correctness} (medical accuracy). The judge saw the question, the reference answer and one model answer at a time, never the name of the system, and was told that a source line earns no credit and that length does not matter. The judging step of the Colab notebook failed because of a string-formatting error, so the ratings were produced afterwards from the saved answers with a corrected stand-alone script (\code{scripts/judge\_domain\_expert.py}). Differences between systems are reported with paired bootstrap confidence intervals. An LLM judge is not a substitute for clinicians, and GPT-4o-mini may be biased towards the style of its larger sibling GPT-4o.
 
 \clearpage

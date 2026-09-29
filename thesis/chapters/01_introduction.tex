@@ -60,7 +60,7 @@ The thesis addresses four gaps.
 The contribution of the thesis is a documented, reproducible hybrid system and an evaluation of its domain-expert component, not a new neural-network architecture. Concretely:
 
 \begin{enumerate}
-  \item A \textbf{blood image classification pipeline}: a YOLOv8s cell detector (mAP@0.50 = 0.985 on TXL-PBC) and an EfficientNet-B0 white-cell classifier (99.44\,\% on the PBC hold-out, an optimistic figure; Section~\ref{sec:method}) whose predictions carry Monte Carlo Dropout uncertainty and Grad-CAM saliency (Sections~\ref{sec:stage1}, \ref{sec:stage2}).
+  \item A \textbf{blood image classification pipeline}: a YOLOv8s cell detector (mAP@0.50 = 0.985 on TXL-PBC) and an EfficientNet-B0 white-cell classifier (98.60\,\% on a held-out PBC test set after a corrected training protocol) whose predictions carry Monte Carlo Dropout uncertainty and Grad-CAM saliency; the uncertainty scores detect misclassified cells with an AUROC of 0.97 (Sections~\ref{sec:stage1}, \ref{sec:stage2}).
   \item A \textbf{retrieval-grounded knowledge base} of 1{,}049 passages from two hematology textbooks, embedded into a vector store so that statements can be cited to a source (Section~\ref{sec:kb}).
   \item A \textbf{tool-using domain-expert agent} built on GPT-4o with five hematology tools, which returns a structured interpretation together with a complete tool trace (Section~\ref{sec:agent}).
   \item A \textbf{fine-tuned open-weight domain expert}: Llama-3.1-8B-Instruct adapted with QLoRA on 1{,}890 textbook-grounded question--answer pairs and evaluated on 208 held-out pairs and on 100 external MedMCQA questions (Sections~\ref{sec:ft}, \ref{sec:res-de}).

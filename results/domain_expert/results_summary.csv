@@ -1,0 +1,4 @@
+,ROUGE-L,Semantic sim.,Cites source (%),Avg. words,MedMCQA hematology acc. (%)
+Llama-3.1-8B (base),0.161,0.752,7.0,158.49,56.0
+Llama-3.1-8B + QLoRA (ours),0.433,0.831,100.0,39.36,57.0
+GPT-4o (reference),0.181,0.774,88.0,159.94,

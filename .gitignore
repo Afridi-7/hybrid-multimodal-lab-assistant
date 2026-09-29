@@ -72,7 +72,12 @@ data/
 datasets/
 
 # Results and outputs (top-level run artefacts only — keep notebook result figures)
-/results/
+/results/*
+# Keep the small thesis-evidence files under version control
+!/results/domain_expert/
+!/results/domain_expert/*.csv
+!/results/effnet_v2/
+!/results/effnet_v2/*.csv
 !Notebooks/**/results/
 !Notebooks/**/results/**
 # Ignore everything under figures/ except the curated webapp screenshots that
@@ -162,3 +167,6 @@ runs/
 # Per-upload pipeline scratch space
 /tmp/
 *.pid
+
+# Temporary files
+.claude_tmp/

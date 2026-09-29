@@ -62,7 +62,7 @@ b = \begin{cases}
 \text{HIGH} & \text{otherwise.}
 \end{cases}
 \end{equation}
-A HIGH cell is marked as \emph{flagged}. The thresholds are set in the configuration file; they were chosen by hand and have not been calibrated against error rates.
+A HIGH cell is marked as \emph{flagged}. The thresholds are set in the configuration file; they were chosen by hand, and their behaviour on held-out data is evaluated in Section~\ref{sec:results} (Table~\ref{tab:unc}).
 
 \paragraph{Grad-CAM.} For each crop, the predicted class score is back-propagated to the network's final convolutional layer (\code{conv\_head}), the Grad-CAM map (Equation~2) is up-sampled to $224 \times 224$ and blended over the crop with an opacity of 0.45. The resulting image is returned with the prediction and shown in the user interface.
 
@@ -129,7 +129,7 @@ The language-model client talks to any OpenAI-compatible endpoint. Replacing GPT
 
 \subsection{Stage 3, backend B: a fine-tuned open-weight model}\label{sec:ft}
 
-The second form of the expert is an open-weight model adapted to the domain, which can run on local hardware. The base model is \textbf{Llama-3.1-8B-Instruct} \cite{grattafiori2024llama3}, loaded in 4-bit precision, and it is adapted with \textbf{QLoRA} \cite{dettmers2023qlora}: LoRA adapters of rank $r=16$ ($\alpha = 32$, no dropout) are attached to all attention and feed-forward projections (\code{q, k, v, o, gate, up, down}), which adds 41.9 million trainable parameters --- 0.52\,\% of the model's 8.07 billion. The adapter is trained on the 1{,}890 training pairs (Section~\ref{sec:qa-data}), so the model learns to answer hematology questions in the form of the textbook-grounded answers. The resulting adapter (about 42 million parameters, roughly 84\,MB in 16-bit precision) can be served, for example with vLLM, behind an OpenAI-compatible endpoint and selected in the configuration without changing any other part of the system. Training details are given in Section~\ref{sec:ft-train}.
+The second form of the expert is an open-weight model adapted to the domain, which can run on local hardware. The base model is \textbf{Llama-3.1-8B-Instruct} \cite{grattafiori2024llama3}, loaded in 4-bit precision, and it is adapted with \textbf{QLoRA} \cite{dettmers2023qlora}: LoRA adapters of rank $r=16$ ($\alpha = 32$, no dropout) are attached to all attention and feed-forward projections (\code{q, k, v, o, gate, up, down}), which adds 41.9 million trainable parameters --- 0.52\,\% of the model's 8.07 billion. The adapter is trained on the 1{,}890 training pairs (Section~\ref{sec:qa-data}), so the model learns to answer hematology questions in the form of the textbook-grounded answers. The resulting adapter (about 42 million parameters, roughly 84\,MB in 16-bit precision) is published at \url{https://huggingface.co/Afridi07/hematology-llama-3.1-8b-lora} and can be served, for example with vLLM, behind an OpenAI-compatible endpoint and selected in the configuration without changing any other part of the system. Training details are given in Section~\ref{sec:ft-train}.
 
 It is important to note what the training examples contain: a system prompt, a question and an answer --- but \emph{not} the textbook passage. The fine-tuned model therefore learns to answer from its weights, not to read and cite a retrieved passage. This design choice turns out to matter for how its citations should be interpreted (Section~\ref{sec:res-de}).
 
