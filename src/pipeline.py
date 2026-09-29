@@ -19,6 +19,7 @@ from src.rag.llm_reasoner import ClinicalReasoner
 from src.multimodal.cbc_analyzer import CBCInput, CBCReport, analyze_cbc
 from src.utils.logging_config import setup_logging
 from src.utils.pipeline_helpers import collect_wbc_crops
+from src.utils.safety_rules import DEFAULT_MIN_WBC_FOR_DIFFERENTIAL, apply_minimum_cell_rule
 from src.utils.reproducibility import set_global_seeds
 
 logger = logging.getLogger(__name__)
@@ -64,6 +65,8 @@ class BloodSmearPipeline:
         self.save_intermediate = config.get('pipeline.save_intermediate_results', True)
         self.enable_gradcam = config.get('classification.gradcam.enabled', False)
         self.reasoning_mode = config.get('reasoning.mode', 'linear')  # 'linear' or 'agent'
+        self.min_wbc_for_differential = int(config.get(
+            'llm.safety.min_wbc_for_differential', DEFAULT_MIN_WBC_FOR_DIFFERENTIAL))
         
         # Initialize detectors
         self.detector = CellDetector(config) if self.enable_stage1 else None
@@ -243,6 +246,11 @@ class BloodSmearPipeline:
                 vision_summary = self._build_vision_summary(results)
                 if cbc_report is not None:
                     vision_summary['cbc_report'] = cbc_report.to_dict()
+                # Number of WBCs behind the differential, so the reasoner can
+                # judge whether percentages are meaningful.
+                n_wbc = int(results.get('stage2_classification', {}).get('total_wbc_crops', 0) or 0)
+                vision_summary['wbc_classified'] = n_wbc
+                vision_summary['min_wbc_for_differential'] = self.min_wbc_for_differential
                 
                 # Build query from vision results
                 query = self._build_rag_query(vision_summary)
@@ -285,6 +293,9 @@ class BloodSmearPipeline:
                         }
                         for idx, chunk in enumerate(retrieved_chunks, 1)
                     ]
+                # Deterministic safety rule: too few cells -> expert review.
+                reasoning_results = apply_minimum_cell_rule(
+                    reasoning_results, n_wbc, self.min_wbc_for_differential)
                 results['stage3_reasoning'] = reasoning_results
                 
                 logger.info(f"âœ“ Generated clinical reasoning")

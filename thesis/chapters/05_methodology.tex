@@ -1,0 +1,122 @@
+\section{Research Methodology}\label{sec:method}
+
+This chapter describes how the three models were trained and how the image-analysis stages and the domain expert were evaluated. All training was done on Google Colab with a single NVIDIA T4 GPU (16\,GB).
+
+\subsection{Training the image-analysis models}
+
+\paragraph{YOLOv8s.} The detector was fine-tuned from the COCO-pre-trained \code{yolov8s.pt} checkpoint for 50 epochs (0.30 hours on the T4) with the settings in Table~\ref{tab:yolo}. All flips and rotations are physically plausible for a smear, which has no preferred orientation.
+
+\begin{table}[H]
+\centering
+\caption{YOLOv8s training settings (from the Ultralytics training log).}
+\label{tab:yolo}
+\small
+\begin{tabular}{ll@{\hspace{1.5cm}}ll}
+\toprule
+\textbf{Setting} & \textbf{Value} & \textbf{Setting} & \textbf{Value} \\
+\midrule
+Epochs & 50 & Image size & $640 \times 640$ \\
+Batch size & 8 & Optimiser & AdamW \\
+Initial LR & 0.001 & Final LR factor & 0.01 (linear) \\
+Momentum & 0.937 & Weight decay & $5 \times 10^{-4}$ \\
+Warm-up epochs & 3 & Mosaic & 1.0 (off in last 10 epochs) \\
+HSV jitter (h/s/v) & 0.015 / 0.7 / 0.4 & Rotation & $\pm 10^\circ$ \\
+Flip (horizontal/vertical) & 0.5 / 0.5 & Seed & 0 (deterministic) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{EfficientNet-B0.} The classifier was trained in two phases. In Phase~1 the backbone was frozen and only the new head was trained (40 epochs at most, batch size 32, Adam with learning rate $10^{-3}$, learning rate halved when accuracy stopped improving for three epochs, early stopping with patience five). In Phase~2 all layers were unfrozen and trained for 10 epochs with a ten times smaller learning rate ($10^{-4}$). The augmentations were random horizontal (p = 0.5) and vertical (p = 0.3) flips, random affine transforms ($\pm 25^\circ$, scale 0.8--1.2) and colour jitter.
+
+\noindent\fbox{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule}{\small
+\textbf{Methodological caveat.} The classifier's training notebook has no separate validation split. The accuracy monitored after every epoch, the learning-rate scheduler and the choice of the saved checkpoint were all based on the \emph{test} images. The reported test accuracy is therefore optimistic, because the model was selected on the data it is scored on. At the accuracy level reached the bias is probably small, but it cannot be excluded. The correct protocol --- a stratified train/validation/test split with the checkpoint chosen on validation only --- is listed as future work.}}
+
+\subsection{Evaluation of the image-analysis stages}
+
+\paragraph{Detection.} The YOLOv8s model was evaluated once on the 126-image TXL-PBC test split with the standard object-detection metrics: precision, recall, mean average precision at an intersection-over-union threshold of 0.50 (mAP@0.50), and mAP averaged over thresholds 0.50--0.95. The checkpoint was selected on the validation split.
+
+\paragraph{Classification.} The EfficientNet-B0 model was evaluated on the 3{,}419 PBC test images with top-1 accuracy, per-class precision and recall and a normalised confusion matrix.
+
+\subsection{Training the domain-expert model}\label{sec:ft-train}
+
+The Llama model was fine-tuned with the Unsloth library \cite{unsloth} (version 2026.9.12, with Transformers 5.5.0 and PyTorch 2.11) and the supervised fine-tuning trainer of the TRL library, using the settings in Table~\ref{tab:qlora}. Each training example was rendered with the Llama-3.1 chat template and the loss was computed on the full sequence. Training took 474 optimisation steps and 49.8 minutes. The loss fell from 2.67 at the first logged step to about 0.57 at the end of the first epoch and 0.42 at the end of the second (Figure~\ref{fig:loss}); the drop at the start of the second epoch is the typical sign that the model has begun to memorise the training answers, which is why training was limited to two epochs.
+
+\begin{table}[H]
+\centering
+\caption{QLoRA fine-tuning settings.}
+\label{tab:qlora}
+\small
+\begin{tabular}{ll}
+\toprule
+\textbf{Setting} & \textbf{Value} \\
+\midrule
+Base model & \code{unsloth/Meta-Llama-3.1-8B-Instruct-bnb-4bit} (4-bit) \\
+LoRA rank / alpha / dropout & 16 / 32 / 0.0 \\
+Target modules & \code{q, k, v, o, gate, up, down} projections \\
+Trainable parameters & 41{,}943{,}040 (0.52\,\% of 8.07\,B) \\
+Training examples & 1{,}890 \\
+Epochs / steps & 2 / 474 \\
+Batch size & 2 per device $\times$ 4 gradient accumulation = 8 \\
+Learning rate & $2 \times 10^{-4}$, linear decay, 10 warm-up steps \\
+Optimiser / weight decay & AdamW (8-bit) / 0.01 \\
+Maximum sequence length & 2{,}048 tokens \\
+Precision & FP16 (the T4 does not support BF16) \\
+Seed & 42 \\
+Training time & 49.8 min on one T4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\textwidth]{figures/qlora_training_loss.pdf}
+\caption{Training loss of the QLoRA fine-tuning, logged every 10 steps.}
+\label{fig:loss}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  node distance=0.45cm and 0.45cm,
+  st/.style={draw=black!55, rounded corners=3pt, align=center, font=\scriptsize, minimum height=1.05cm, text width=2.15cm, fill=white},
+  ev/.style={st, fill=orange!8, draw=orange!60!black},
+  arr/.style={-{Stealth[length=2mm]}, thick, draw=black!60}]
+\node[st] (ch) {1{,}049 textbook\\chunks};
+\node[st, right=of ch] (gen) {GPT model writes\\2 Q\&A per chunk\\(2{,}098 pairs)};
+\node[st, right=of gen] (sp) {Split by chunk\\90\,\% / 10\,\%\\seed 42};
+\node[st, right=of sp, fill=blue!6, draw=blue!55!black] (tr) {QLoRA training\\1{,}890 pairs\\2 epochs, 50 min};
+\node[ev, below=1.1cm of sp] (a) {A: 100 held-out\\Q\&A (208 total)};
+\node[ev, right=of a] (b) {B: 100 MedMCQA\\questions};
+\node[ev, right=of b] (c) {C: 5 clinical\\scenarios};
+\node[st, left=of a] (sys) {Base vs.\ fine-tuned\\(adapter off/on)\\+ GPT-4o};
+\draw[arr] (ch) -- (gen); \draw[arr] (gen) -- (sp); \draw[arr] (sp) -- node[above,font=\tiny]{train} (tr);
+\draw[arr] (sp) -- node[right,font=\tiny]{test} (a);
+\draw[arr] (tr.south) |- ($(b.north)+(0,0.35)$) -- (b.north);
+\draw[arr] ($(b.north)+(0,0.35)$) -| (c.north);
+\draw[arr] (sys) -- (a);
+\end{tikzpicture}
+\caption{Workflow of the domain-expert experiment: data generation, chunk-level split, QLoRA training and the three evaluations.}
+\label{fig:ftflow}
+\end{figure}
+
+\subsection{Evaluation protocol for the domain expert}\label{sec:eval}
+
+The evaluation compares three systems: the original \textbf{Llama-3.1-8B-Instruct (base)}, the same model with the \textbf{QLoRA adapter (ours)}, and \textbf{GPT-4o} as a reference for a strong hosted model. The base and fine-tuned answers come from the \emph{same} loaded model with the adapter switched off and on, so any difference is caused by the adapter alone. All three systems received the same system prompt as used in training, the questions were asked \emph{without} retrieved passages (the test measures the model, not the retrieval), and decoding was deterministic (greedy decoding for Llama; temperature 0 for GPT-4o). Answers were limited to 256 new tokens for Llama and 300 for GPT-4o.
+
+\paragraph{A. In-domain held-out questions.} The first 100 of the 208 held-out questions were answered by all three systems and compared with the reference answers using:
+\begin{itemize}
+  \item \textbf{ROUGE-L F1} \cite{lin2004rouge}: word-level overlap based on the longest common subsequence (with stemming);
+  \item \textbf{semantic similarity}: the cosine similarity between the \code{all-MiniLM-L6-v2} embeddings of the answer and of the reference answer;
+  \item \textbf{source marker rate}: the share of answers that contain a source marker (``Source:'', ``[Reference'', or a textbook file name). This measures the citation \emph{format}, not whether the citation is correct;
+  \item \textbf{answer length} in words.
+\end{itemize}
+
+\paragraph{B. External multiple-choice questions.} The 100 MedMCQA questions were given to the base and fine-tuned models with the four options and the instruction to answer with a single letter; the first letter A--D in the answer was taken as the choice. Random guessing gives 25\,\%. GPT-4o was not evaluated on this set.
+
+\paragraph{C. Qualitative comparison.} Five clinical questions written for this thesis --- including one that describes the two-cell differential of the case study --- were answered by the base and the fine-tuned model and inspected by hand. In addition, all in-domain answers were checked automatically for invented bibliographic references (a named book title, author or edition), since no source was ever given to the models.
+
+\paragraph{Statistics.} Because all systems answer the same questions, differences were tested in a paired way: a 95\,\% bootstrap confidence interval (5{,}000 resamples of the 100 questions) for the difference in mean ROUGE-L, and an exact McNemar test for the difference in multiple-choice accuracy. These statistics were computed after the Colab run from the saved answers (\code{results/domain\_expert/evaluation\_report.json}).
+
+\paragraph{Planned but not completed.} The notebook also contained an LLM-as-judge step \cite{zheng2023judge}, in which GPT-4o-mini would rate each answer's faithfulness and clinical correctness from 1 to 5. This step did not run because of a string-formatting error in the evaluation code, so no judge scores are reported. A corrected stand-alone script that scores the saved answers without a GPU (\code{scripts/judge\_domain\_expert.py}) is included for future use.
+
+\clearpage

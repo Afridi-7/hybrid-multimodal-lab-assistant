@@ -89,6 +89,12 @@ CRITICAL SAFETY RULES:
   3. Cite tool evidence explicitly using "[Reference N]" where N is the
      reference id returned by `query_knowledge_base`.
   4. Provide DIFFERENTIAL diagnoses with rationale, never definitive ones.
+  5. A differential is only meaningful when enough white cells were
+     classified. If the number of classified WBCs is below the stated
+     minimum, do NOT interpret the percentages as abnormal; say that the
+     differential is not reliable and set `requires_expert_review: true`.
+  6. If CBC laboratory findings are provided, reconcile or contrast them
+     with the image-derived findings and note any discordance.
 
 Once you have gathered enough evidence, produce your FINAL message as a
 JSON object (no markdown, no preface) with EXACTLY these keys:
@@ -309,14 +315,42 @@ class ClinicalReasoningAgent:
         total = (uncertainty_summary or {}).get("total_samples") \
             or (uncertainty_summary or {}).get("sample_count", 0)
 
-        return (
-            "A peripheral blood smear was analysed with the three-stage AI pipeline.\n\n"
-            f"Stage-1 detection counts (per microscope field): {json.dumps(counts)}\n"
-            f"Stage-2 WBC differential: {json.dumps(diff)}\n"
-            f"Stage-2 MC-Dropout uncertainty: {flagged}/{total} crops flagged.\n\n"
+        n_wbc = vision_summary.get("wbc_classified", total)
+        min_wbc = vision_summary.get("min_wbc_for_differential")
+
+        lines = [
+            "A peripheral blood smear was analysed with the three-stage AI pipeline.\n",
+            f"Stage-1 detection counts (per microscope field): {json.dumps(counts)}",
+            f"Stage-2 WBC differential: {json.dumps(diff)}",
+            f"Stage-2 MC-Dropout uncertainty: {flagged}/{total} crops flagged.",
+        ]
+        if min_wbc:
+            enough = "sufficient" if n_wbc >= min_wbc else "NOT sufficient"
+            lines.append(
+                f"Number of white cells classified: {n_wbc} (minimum for a reliable "
+                f"differential: {min_wbc}; this is {enough})."
+            )
+
+        cbc = vision_summary.get("cbc_report") or {}
+        findings = cbc.get("findings") or []
+        if findings:
+            lines.append("")
+            lines.append("CBC laboratory findings (second input modality):")
+            if cbc.get("sex"):
+                lines.append(f"  - Sex: {cbc['sex']}")
+            for f in findings:
+                ref = f.get("reference_range") or [None, None]
+                lines.append(
+                    f"  - {f.get('analyte')} = {f.get('value')} {f.get('unit', '')} "
+                    f"(ref {ref[0]}-{ref[1]}): {f.get('label')} ({f.get('severity')})"
+                )
+
+        lines.append("")
+        lines.append(
             "Use your tools to gather evidence, then return the structured JSON "
             "report described in the system instructions."
         )
+        return "\n".join(lines)
 
     def _postprocess(self, final_state: Dict[str, Any]) -> Dict[str, Any]:
         messages = final_state.get("messages", [])

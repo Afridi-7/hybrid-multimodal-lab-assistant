@@ -140,6 +140,7 @@ CRITICAL SAFETY REQUIREMENTS:
 5. Highlight any uncertainty flags from the vision analysis
 6. Be conservative and prioritize patient safety
 7. CROSS-MODAL REASONING: when CBC laboratory findings are provided alongside the image-derived WBC differential, explicitly reconcile or contrast the two modalities (e.g. "image shows neutrophil predominance AND CBC reports leukocytosis → consistent with absolute neutrophilia"). Note any discordance.
+8. CELL COUNT: if fewer white cells were classified than the stated minimum, do NOT interpret the differential percentages as abnormal; state that the differential is not reliable and set requires_expert_review to true.
 
 OUTPUT FORMAT:
 Provide your response as a JSON object with these fields:
@@ -189,6 +190,14 @@ Please provide your clinical interpretation following the safety requirements an
             lines.append("**WBC Differential:**")
             for subtype, percentage in diff.items():
                 lines.append(f"  - {subtype}: {percentage}%")
+            min_wbc = vision_summary.get('min_wbc_for_differential')
+            if min_wbc:
+                n_wbc = vision_summary.get('wbc_classified', 0)
+                enough = "sufficient" if n_wbc >= min_wbc else "NOT sufficient"
+                lines.append(
+                    f"  - White cells classified: {n_wbc} (minimum for a reliable "
+                    f"differential: {min_wbc}; {enough})"
+                )
             lines.append("")
         
         # Batch statistics (if available)

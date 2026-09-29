@@ -121,7 +121,7 @@ class WBCClassifier:
                 nn.Dropout(p=0.3),
                 nn.Linear(1024, 512),
                 nn.ReLU(inplace=True),
-                nn.Dropout(p=0.2),
+                nn.Dropout(p=0.3),  # must match the training notebook (0.3)
                 nn.Linear(512, self.num_classes),
             )
 

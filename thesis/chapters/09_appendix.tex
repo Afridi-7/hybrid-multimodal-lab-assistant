@@ -1,0 +1,92 @@
+\section{Appendix}
+
+\subsection*{A.\quad Reproducing the results}
+\addcontentsline{toc}{subsection}{A.\quad Reproducing the results}
+
+\begin{table}[H]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{3.6cm} >{\raggedright\arraybackslash}X}
+\toprule
+\textbf{Result} & \textbf{Where to find or re-run it} \\
+\midrule
+Domain-expert training and evaluation & \path{Notebooks/Domain_Expert_Finetune/domain_expert_evaluation.ipynb} (Colab T4, $\approx$1.5 h); outputs in \path{results/domain_expert/} \\
+Q\&A dataset generation & \path{scripts/build_finetune_dataset.py}; data in \path{data/finetune/train.jsonl} \\
+Detector training and test metrics & \path{Notebooks/YOLOv8_detection/YOLOv8_on_TBL_PBC_dataset.ipynb} \\
+Classifier training and test metrics & \path{Notebooks/Efficientnet_classification/Efficientnet_classification.ipynb} \\
+Case-study run & \path{results/stage1_detection.json}, \path{stage2_classification.json}, \path{stage3_reasoning.json} \\
+Running the full system & \code{python main.py analyze <image>}, or \code{start.ps1} for the web interface \\
+All runtime settings & \code{config.yaml} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection*{B.\quad Main configuration values}
+\addcontentsline{toc}{subsection}{B.\quad Main configuration values}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lll}
+\toprule
+\textbf{Key} & \textbf{Value} & \textbf{Meaning} \\
+\midrule
+\code{detection.confidence\_threshold} & 0.50 & minimum box confidence \\
+\code{classification.mc\_dropout\_passes} & 20 & $T$ in MC-Dropout \\
+\code{classification.uncertainty.low} & conf.\ $\ge$ 0.85, entropy $<$ 0.3 & LOW level \\
+\code{classification.uncertainty.medium} & conf.\ $\ge$ 0.65, entropy $<$ 0.6 & MEDIUM level \\
+\code{rag.chunking.chunk\_size / overlap} & 200 / 40 words & text chunking \\
+\code{rag.embedding.model\_name} & \code{all-MiniLM-L6-v2} & embedding model \\
+\code{rag.retrieval.top\_k} & 5 & chunks per query \\
+\code{rag.internet.enabled} & false & web augmentation \\
+\code{reasoning.mode} & agent & \code{agent} or \code{linear} \\
+\code{reasoning.agent.max\_iterations} & 6 & agent step budget \\
+\code{llm.model\_name / temperature} & gpt-4o / 0.1 & language model \\
+\code{llm.safety.min\_wbc\_for\_differential} & 100 & minimum-cell rule \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\clearpage
+\subsection*{C.\quad Output of the domain-expert agent (abridged)}
+\addcontentsline{toc}{subsection}{C.\quad Output of the domain-expert agent (abridged)}
+
+The complete output of the case-study run (Section~\ref{sec:case}), shortened:
+
+\begin{lstlisting}
+{
+ "clinical_interpretation": "The peripheral blood smear shows a significant
+    increase in immature granulocytes (50%) and monocytes (50%), which is
+    highly abnormal. ...",
+ "key_findings": [
+    "Immature granulocytes (IG) at 50%, significantly above the normal
+     range of 0-0.5% [Reference 6].", "..."],
+ "differential_diagnoses": [
+    "Infection or bone marrow stress [Reference 6] - ...", "..."],
+ "recommendations": [
+    "...", "Consider bone marrow biopsy if clinically indicated."],
+ "safety_flags": [
+    "High levels of immature granulocytes and monocytes warrant further
+     investigation ..."],
+ "confidence_assessment": "HIGH",
+ "requires_expert_review": false,
+ "reasoning_mode": "agent",
+ "agent_trace": [
+  {"type": "tool_call", "name": "lookup_lab_reference_ranges",
+   "args": {"parameter": "ig"}},
+  {"type": "tool_call", "name": "lookup_lab_reference_ranges",
+   "args": {"parameter": "monocyte"}},
+  {"type": "tool_call", "name": "get_uncertainty_summary", "args": {}},
+  {"type": "tool_call", "name": "query_knowledge_base",
+   "args": {"query": "causes of increased immature granulocytes"}},
+  {"type": "tool_call", "name": "query_knowledge_base",
+   "args": {"query": "causes of monocytosis"}},
+  ... five tool results and the final message ...
+ ]
+}
+\end{lstlisting}
+
+\subsection*{D.\quad Declaration on the use of generative AI}
+\addcontentsline{toc}{subsection}{D.\quad Declaration on the use of generative AI}
+
+Generative AI tools were used in this work in three ways: (1) GPT-4o and a Llama-3.1 model are components of the system and are described as such; (2) an OpenAI GPT model generated the synthetic question--answer pairs used for fine-tuning and testing (Section~\ref{sec:qa-data}); and (3) AI assistants were used to help draft and refactor code and text. All design decisions, experiments, reported results and final wording are the author's responsibility, and all numbers in this thesis were taken from the saved outputs of the experiments.

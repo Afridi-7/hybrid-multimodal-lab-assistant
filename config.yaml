@@ -169,6 +169,10 @@ llm:
     enable_abstention: true  # Allow model to abstain when uncertain
     propagate_vision_uncertainty: true  # Include vision uncertainty in prompts
     require_citations: true  # Enforce citation-attached claims
+    # Deterministic rule: if fewer WBCs than this were classified, the
+    # differential is flagged as unreliable and expert review is forced.
+    # Routine manual differentials count >= 100 cells. 0 disables the rule.
+    min_wbc_for_differential: 100
   
   # Output format
   output:

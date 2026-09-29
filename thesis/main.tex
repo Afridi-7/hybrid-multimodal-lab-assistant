@@ -1,0 +1,108 @@
+\documentclass[12pt,a4paper]{article}
+
+% ---------------------------------------------------------------- packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathptmx}                 % Times, as in the Faculty's sample papers
+\usepackage[a4paper,left=3cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{setspace}\setstretch{1.3}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs,tabularx,multirow,array}
+\usepackage{float}
+\usepackage[labelfont=bf,font=small]{caption}
+\usepackage{subcaption}
+\usepackage{enumitem}\setlist{itemsep=2pt,topsep=4pt}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1em}{}
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{2pt}
+
+\definecolor{codebg}{HTML}{F5F5F2}
+\lstset{basicstyle=\ttfamily\footnotesize,backgroundcolor=\color{codebg},frame=single,rulecolor=\color{gray!40},
+  breaklines=true,columns=fullflexible,keepspaces=true,showstringspaces=false,xleftmargin=4pt,xrightmargin=4pt}
+
+\newcommand{\code}[1]{\texttt{\small #1}}
+\renewcommand{\bibname}{Bibliography}
+
+\begin{document}
+
+% ---------------------------------------------------------------- cover
+\begin{titlepage}
+\centering
+\vspace*{5cm}
+{\LARGE\bfseries BSc THESIS\par}
+\vspace{6cm}
+\hfill{\large Qudrat Ullah}\par
+\vfill
+{\large Debrecen\\2026\par}
+\end{titlepage}
+
+% ---------------------------------------------------------------- title page
+\begin{titlepage}
+\centering
+{\large\bfseries University of Debrecen\\Faculty of Informatics\\Department of Data Science and Visualization\par}
+\vspace{3.2cm}
+{\LARGE\bfseries A Hybrid Multimodal Lab Assistant: Blood Image Classification Combined with Domain-Expert LLM Reasoning and RAG\par}
+\vfill
+\begin{minipage}[t]{0.48\textwidth}
+\raggedright
+\textbf{Supervisor:}\\
+Dr.\ András Hajdu\\
+Professor
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\textwidth}
+\raggedleft
+\textbf{Candidate:}\\
+Qudrat Ullah\\
+Computer Science BSc
+\end{minipage}
+\vspace{2cm}
+
+{\itshape ``I consent to the submission of this work for review.''\par}
+\vspace{2cm}
+{\large Debrecen\\2026\par}
+\end{titlepage}
+
+% ---------------------------------------------------------------- contents
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\tableofcontents
+\clearpage
+
+\input{chapters/01_introduction}
+\input{chapters/02_background}
+\input{chapters/03_data}
+\input{chapters/04_architecture}
+\input{chapters/05_methodology}
+\input{chapters/06_results}
+\input{chapters/07_conclusion}
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{\numberline{8}Bibliography}
+\renewcommand{\refname}{8\hspace{1em}Bibliography}
+\bibliographystyle{unsrtnat}
+{\small
+\bibliography{references}}
+
+\clearpage
+\setcounter{section}{8}
+\input{chapters/09_appendix}
+
+\clearpage
+\section*{Acknowledgment}
+\addcontentsline{toc}{section}{Acknowledgment}
+I would like to thank my supervisor, Dr.\ András Hajdu, for his guidance and patience throughout this project. I am grateful to the authors of the TXL-PBC, PBC and MedMCQA datasets for making their data openly available, and to the maintainers of Ultralytics, PyTorch, \code{timm}, Unsloth, Hugging Face Transformers, ChromaDB, LangChain/LangGraph, FastAPI and Vite, whose open-source work made this single-author project possible.
+
+\end{document}
