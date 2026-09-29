@@ -1,77 +1,30 @@
 \section{Introduction}
 
-This thesis was written on the topic \emph{Development of a domain expert using a large language model like ChatGPT}. It addresses the topic by building and evaluating a concrete system, a \emph{hybrid multimodal lab assistant} for the analysis of peripheral blood smears, in which deep-learning models classify the blood cells in a microscope image and a large language model, grounded in hematology textbooks through retrieval-augmented generation (RAG), acts as the domain expert that interprets the findings.
+This thesis was written on the topic \emph{Development of a domain expert using a large language model like ChatGPT}. Large language models (LLMs) of the GPT-4 class answer many medical questions at the level of a well-read student \cite{singhal2023}, so it is tempting to use such a model directly as an ``expert''. In a clinical field, however, a general-purpose model has three weaknesses: it can produce fluent but unsupported claims (hallucination \cite{ji2023}); it offers no provenance, and may even invent references that do not exist \cite{walters2023}; and it has no access to the case --- here, the cells on a blood-smear image --- so its answers are generic. In this thesis, a \emph{domain expert} is therefore an LLM-based system that answers within one field, grounds its statements in curated domain literature and cites it, inspects case-specific evidence through tools, and signals when a human expert must take over.
 
-Large language models (LLMs) such as ChatGPT have changed how people look for information. Models of the GPT-4 class answer many medical questions at the level of a well-read student and reach high scores on medical licensing-style benchmarks \cite{singhal2023}. It is therefore tempting to use such a model directly as an ``expert'' in a specialised field. In a clinical field, however, a general-purpose model has three weaknesses that make it unsuitable as an expert on its own. First, it can produce \emph{unsupported claims}: fluent statements that are wrong or cannot be verified, a behaviour usually called hallucination \cite{ji2023}. Second, it offers \emph{no provenance}: a user cannot see where an answer came from, and when asked for sources a general model may even invent references that do not exist \cite{walters2023}. Third, it has \emph{no access to the case}: a chat model does not see the patient's data --- here, the cells on a smear image --- so its answer is generic rather than case-specific.
+\paragraph{Choice of application.} The topic is addressed through a concrete system: a \emph{hybrid multimodal lab assistant} for peripheral blood smears. The blood smear is one of the most informative tests in hematology: a stained drop of blood is examined under the microscope, and the proportions of the white-cell types (the \emph{differential}) can reveal infection, leukaemia or bone-marrow disease. Manual review is slow and observer-dependent, which has motivated much work on automated cell classification \cite{acevedo2019,habibzadeh2018}; but such systems stop at a label per cell. Turning the labels into a clinical interpretation requires domain knowledge. Hematology is therefore a natural test bed for an LLM domain expert, because it combines visual, case-specific evidence, which image models can extract, with textbook knowledge, which the expert must supply.
 
-In the sense used in this thesis, a \emph{domain expert} is an LLM-based system that (i) answers within one field, (ii) grounds its statements in a curated body of domain literature and cites it, (iii) can inspect case-specific evidence through tools, and (iv) signals when a human expert must take over. The lab assistant supplies the case-specific evidence by analysing the image; the domain expert supplies the knowledge needed to interpret it.
+\paragraph{Theoretical and practical importance.} Theoretically, the thesis compares the main ways of turning a general LLM into a domain expert --- retrieval-augmented generation (RAG), tool use and parameter-efficient fine-tuning --- on the same domain, and asks what each of them actually contributes. Practically, it shows how such an expert can be connected to image analysis in a way that is inspectable and safe: every automated finding carries an uncertainty estimate, every claim can be traced to a retrieved source, and the decision to involve a human is taken by explicit rules rather than by the model. It also examines whether an open model that can run on local hardware can replace a commercial API, which matters wherever patient data may not leave the institution.
 
-The components of the thesis title correspond to the parts of the system as follows (Table~\ref{tab:title}).
+\subsection{Aims and research questions}
 
-\begin{table}[H]
-\centering
-\caption{How the parts of the title map onto the system.}
-\label{tab:title}
-\small
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{4.4cm} X >{\raggedright\arraybackslash}p{2.4cm}}
-\toprule
-\textbf{Title component} & \textbf{Realisation in this thesis} & \textbf{Where} \\
-\midrule
-Hybrid & Combines learned models (CNNs, LLMs) with deterministic rules and tools; runs with a hosted model (GPT-4o) or a self-hostable fine-tuned open model (Llama-3.1-8B) & Ch.~\ref{sec:arch} \\
-Multimodal & Fuses image evidence (the smear) with textual knowledge (textbooks) and, optionally, tabular laboratory values (CBC) & Sec.~\ref{sec:arch}, \ref{sec:kb} \\
-Lab assistant & End-to-end pipeline with a REST backend and web interface that analyses an uploaded smear & Sec.~\ref{sec:software} \\
-Blood image classification & YOLOv8s cell detection and EfficientNet-B0 white-cell classification with uncertainty and saliency & Sec.~\ref{sec:stage1}, \ref{sec:stage2} \\
-Domain-expert LLM reasoning & GPT-4o ReAct agent with hematology tools; QLoRA-fine-tuned Llama-3.1-8B & Sec.~\ref{sec:agent}, \ref{sec:ft} \\
-RAG & Vector store of 1{,}049 textbook passages, retrieved and cited at answer time & Sec.~\ref{sec:kb} \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-The word \emph{multimodal} is used here at the level of the system: the image and the text are processed by different specialised models and fused in the reasoning stage, rather than by a single vision-language model.
-
-\subsection{Application domain: the peripheral blood smear}
-
-The peripheral blood smear is one of the oldest and still one of the most informative laboratory tests in hematology. A drop of blood is spread on a glass slide, stained with a Romanowsky-type stain and examined under a microscope. From a single smear a trained reviewer estimates red-cell morphology and platelet numbers and counts the proportions of the five main types of white blood cells (WBC): neutrophils, lymphocytes, monocytes, eosinophils and basophils. The reviewer may also find immature granulocytes, blasts or atypical lymphocytes, which can be the first sign of infection, leukaemia or bone-marrow disease.
-
-Manual smear review is slow, depends on the experience of the observer and is not equally available everywhere. This has motivated a large body of work on automated cell detection and classification with deep learning \cite{acevedo2019,habibzadeh2018}. Most such systems, however, stop at a label for each cell. Turning a set of labels into a \emph{clinical interpretation} --- what the differential means, what could explain it, and whether it is reliable enough to act on --- requires domain knowledge. Hematology is therefore a natural field for a hybrid assistant: it combines visual, case-specific evidence, which image models can extract, with textbook knowledge, which a domain-expert LLM can supply.
-
-\subsection{Problem statement}
-
-The thesis addresses four gaps.
-
-\begin{enumerate}
-  \item \textbf{Cell classifiers stop at labels.} Automated smear analysis produces a label per cell, but not an interpretation of the differential as a whole.
-  \item \textbf{A general LLM is not a domain expert.} Prompting a model such as GPT-4o gives fluent answers, but without grounding, citations or access to case data.
-  \item \textbf{Dependence on a commercial API.} A domain expert that only works through a paid, hosted model cannot be used where data must stay on site. An open, self-hostable alternative is needed, and it has to be evaluated rather than assumed to work.
-  \item \textbf{Automated image findings are silent about their reliability.} If the expert reasons over cell labels without knowing how certain they are, it can confidently interpret classification errors. Uncertainty must be measured and passed on.
-\end{enumerate}
-
-\subsection{Research questions}
+The aim is to build and evaluate the lab assistant and, through it, to answer four research questions:
 
 \begin{description}[leftmargin=1.2cm,style=nextline]
-  \item[RQ1] Can standard deep-learning models (YOLOv8, EfficientNet-B0) detect and classify blood cells in a smear image accurately, and attach an uncertainty estimate and a saliency map to every classified white cell?
-  \item[RQ2] How can a general-purpose LLM be turned into a hematology domain expert using retrieval-augmented generation and domain-specific tools, and what does the resulting assistant produce on real smear images?
-  \item[RQ3] Does QLoRA fine-tuning of an open-weight model (Llama-3.1-8B-Instruct) on textbook-grounded question--answer pairs measurably improve its hematology answers compared with the same model without fine-tuning, on held-out and on external questions?
-  \item[RQ4] Can the combined system make its reasoning inspectable (citations, tool traces) and hand difficult cases to a human through a deterministic review rule --- and where does this fail?
+  \item[RQ1] Can standard deep-learning models (YOLOv8, EfficientNet-B0) detect and classify blood cells accurately and attach a useful uncertainty estimate and a saliency map to every classified white cell?
+  \item[RQ2] How can a general-purpose LLM be turned into a hematology domain expert with retrieval-augmented generation and domain-specific tools, and what does the resulting assistant produce on real smear images?
+  \item[RQ3] Does QLoRA fine-tuning of an open-weight model (Llama-3.1-8B-Instruct) on textbook-grounded question--answer pairs improve its hematology answers compared with the same model without fine-tuning?
+  \item[RQ4] Can the combined system make its reasoning inspectable and hand difficult cases to a human through deterministic rules --- and where does this fail?
 \end{description}
 
-\subsection{Contributions and main findings}
+\subsection{Research methods}
 
-The contribution of the thesis is a documented, reproducible hybrid system and an evaluation of its domain-expert component, not a new neural-network architecture. Concretely:
+The work combines system development with quantitative evaluation. The image-analysis stages were trained on public benchmark datasets (TXL-PBC for detection, PBC for classification) and evaluated on held-out test sets with standard metrics, complemented by a calibration and error-detection analysis of the uncertainty estimate. The domain expert was built from a knowledge base of 1{,}049 textbook passages, a GPT-4o agent with five hematology tools, and a Llama-3.1-8B model fine-tuned with QLoRA on synthetic question--answer pairs generated from the same textbooks. The fine-tuned model was compared with its base version and with GPT-4o on held-out questions (similarity to reference answers and ratings by an LLM judge) and on external exam questions, using paired statistical tests. Finally, a complete run of the assistant was analysed as a case study. All code, notebooks, configuration and results are part of the submitted software artefact.
 
-\begin{enumerate}
-  \item A \textbf{blood image classification pipeline}: a YOLOv8s cell detector (mAP@0.50 = 0.985 on TXL-PBC) and an EfficientNet-B0 white-cell classifier (98.60\,\% on a held-out PBC test set after a corrected training protocol) whose predictions carry Monte Carlo Dropout uncertainty and Grad-CAM saliency; the uncertainty scores detect misclassified cells with an AUROC of 0.97 (Sections~\ref{sec:stage1}, \ref{sec:stage2}).
-  \item A \textbf{retrieval-grounded knowledge base} of 1{,}049 passages from two hematology textbooks, embedded into a vector store so that statements can be cited to a source (Section~\ref{sec:kb}).
-  \item A \textbf{tool-using domain-expert agent} built on GPT-4o with five hematology tools, which returns a structured interpretation together with a complete tool trace (Section~\ref{sec:agent}).
-  \item A \textbf{fine-tuned open-weight domain expert}: Llama-3.1-8B-Instruct adapted with QLoRA on 1{,}890 textbook-grounded question--answer pairs and evaluated on 208 held-out pairs and on 100 external MedMCQA questions (Sections~\ref{sec:ft}, \ref{sec:res-de}).
-  \item A \textbf{deterministic expert-review rule} and an \textbf{honest failure analysis} of a real case in which the assistant over-interpreted a two-cell differential, which led to an additional minimum-cell rule (Sections~\ref{sec:safety}, \ref{sec:case}).
-  \item A \textbf{reproducible software artefact}: a configuration-driven Python library, a REST backend, a web interface, Colab notebooks and 34 automated tests.
-\end{enumerate}
-
-The main empirical findings about the domain expert are the following. Fine-tuning made the open model's answers much closer to the textbook reference answers (semantic similarity 0.752 $\rightarrow$ 0.831, ROUGE-L 0.161 $\rightarrow$ 0.433 on 100 held-out questions, with a higher ROUGE-L on every one of them), and on this measure it also exceeded GPT-4o (0.774 and 0.181). It did not, however, improve accuracy on external multiple-choice questions (56\,\% vs.\ 57\,\%, a non-significant difference), so fine-tuning taught the textbook's answering style rather than new medical knowledge. Without fine-tuning, the open model named a specific textbook, author or edition in 52 of 100 answers although no source had been provided --- invented citations. The fine-tuned model stopped doing this, but it attached a source line to every answer, including incorrect ones. Citations produced by a model are therefore not evidence by themselves, which is why the assistant's runtime reasoning is built around retrieval of real passages (RAG) and a tool trace rather than around fine-tuning alone.
+The main findings, detailed in Chapter~\ref{sec:results}, are that the image models perform strongly on the benchmark data (98.60\,\% classification accuracy, with uncertainty scores that detect errors with an AUROC of 0.97), and that fine-tuning changed \emph{how} the open model answers --- closer to the textbook, without invented citations --- but not \emph{what} it knows: its clinical correctness did not improve, and GPT-4o remained the most correct system. Knowledge and provenance therefore have to come from retrieval, and safety from explicit rules.
 
 \subsection{Structure of the thesis}
 
-Chapter~\ref{sec:background} reviews how domain-expert LLMs are built, retrieval-augmented generation, and the related work on blood-smear analysis, uncertainty and interpretability. Chapter~\ref{sec:data} describes the data and knowledge sources. Chapter~\ref{sec:arch} presents the architecture of the lab assistant: the two image-analysis stages and the domain-expert LLM with RAG. Chapter~\ref{sec:method} gives the training procedures and the evaluation protocol. Chapter~\ref{sec:results} presents and discusses the results, including a case study and the limitations. Chapter~\ref{sec:conclusion} concludes and outlines future work.
+Chapter~\ref{sec:background} reviews how domain-expert LLMs are built and the related work on blood-smear analysis, uncertainty and interpretability. Chapter~\ref{sec:data} describes the data and knowledge sources, and Chapter~\ref{sec:arch} the architecture of the lab assistant. Chapter~\ref{sec:method} gives the training procedures and the evaluation protocol, and Chapter~\ref{sec:results} presents and discusses the results, including the case study and the limitations. Chapter~\ref{sec:conclusion} concludes and outlines future work.
 
 \clearpage

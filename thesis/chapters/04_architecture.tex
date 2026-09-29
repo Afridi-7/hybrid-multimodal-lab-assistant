@@ -36,6 +36,27 @@ The pipeline is strictly feed-forward: every stage has a typed input and output,
 \label{fig:arch}
 \end{figure}
 
+The components of the thesis title correspond to the parts of the system as shown in Table~\ref{tab:title}. The word \emph{multimodal} is used at the level of the system: the image and the text are processed by different specialised models and fused in the reasoning stage, rather than by a single vision-language model.
+
+\begin{table}[H]
+\centering
+\caption{How the parts of the thesis title map onto the system.}
+\label{tab:title}
+\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{4.2cm} X >{\raggedright\arraybackslash}p{2.2cm}}
+\toprule
+\textbf{Title component} & \textbf{Realisation in this thesis} & \textbf{Where} \\
+\midrule
+Hybrid & Combines learned models (CNNs, LLMs) with deterministic rules and tools; runs with a hosted model (GPT-4o) or a self-hostable fine-tuned open model (Llama-3.1-8B) & Ch.~\ref{sec:arch} \\
+Multimodal & Fuses image evidence (the smear) with textual knowledge (textbooks) and, optionally, tabular laboratory values (CBC) & Sec.~\ref{sec:kb}, \ref{sec:software} \\
+Lab assistant & End-to-end pipeline with a REST backend and web interface that analyses an uploaded smear & Sec.~\ref{sec:software} \\
+Blood image classification & YOLOv8s cell detection and EfficientNet-B0 white-cell classification with uncertainty and saliency & Sec.~\ref{sec:stage1}, \ref{sec:stage2} \\
+Domain-expert LLM reasoning & GPT-4o ReAct agent with hematology tools; QLoRA-fine-tuned Llama-3.1-8B & Sec.~\ref{sec:agent}, \ref{sec:ft} \\
+RAG & Vector store of 1{,}049 textbook passages, retrieved and cited at answer time & Sec.~\ref{sec:kb} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
 All runtime parameters --- model paths, thresholds, the number of MC-Dropout passes, chunk size, embedding model, number of retrieved chunks, language model, temperature and agent budget --- are set in a single \code{config.yaml} file. All inference goes through one orchestrator class, \code{BloodSmearPipeline}; the command-line interface and the web backend are thin wrappers around it.
 
 \subsection{Stage 1: cell detection with YOLOv8}\label{sec:stage1}
@@ -139,7 +160,7 @@ Two design principles guide the safety behaviour. First, safety-relevant informa
 
 \subsection{Software implementation and user interface}\label{sec:software}
 
-The system is implemented as a Python library (\code{src/}) with a FastAPI backend (\code{backend/}) and a React + TypeScript web interface (\code{frontend/}). The backend exposes \code{GET /api/health}, \code{GET /api/samples} and \code{POST /api/analyze}; the latter accepts an image (and optionally a JSON object with CBC laboratory values) and returns the full JSON result. The pipeline is loaded lazily on the first request. The interface shows five panels: the detection overlay with cell counts, the WBC differential with per-cell uncertainty, the Grad-CAM heatmaps, the expert's interpretation with citations and safety flags, and the agent trace (Figures~\ref{fig:ui-a} and~\ref{fig:ui-b}). Thirty-four automated \code{pytest} tests cover configuration loading, batch logic, parsing of model output, retrieval fall-backs, the uncertainty schema, the CBC analyser, the minimum-cell rule and the prompts given to the reasoners. The 29 tests that do not require PyTorch and the trained model files were run for this thesis and all passed; the remaining five load the models and must be run in the project's full environment. The training notebooks for all three models are included and can be run on Google Colab.
+The system is implemented as a Python library (\code{src/}) with a FastAPI backend (\code{backend/}) and a React + TypeScript web interface (\code{frontend/}). The backend exposes \code{GET /api/health}, \code{GET /api/samples} and \code{POST /api/analyze}; the latter accepts an image (and optionally a JSON object with CBC laboratory values) and returns the full JSON result. The pipeline is loaded lazily on the first request. The interface shows five panels: the detection overlay with cell counts, the WBC differential with per-cell uncertainty, the Grad-CAM heatmaps, the expert's interpretation with citations and safety flags, and the agent trace (Figures~\ref{fig:ui-a} and~\ref{fig:ui-b}). Thirty-four automated \code{pytest} tests cover configuration loading, batch logic, parsing of model output, retrieval fall-backs, the uncertainty schema, the CBC analyser, the minimum-cell rule and the prompts given to the reasoners. All 34 tests pass in the project's environment, including the five that load the trained models (with the v2 classifier configured). The training notebooks for all three models are included and can be run on Google Colab.
 
 The optional CBC input deserves a remark. A small module converts laboratory values (WBC, hemoglobin, MCV, platelets, etc.) into findings such as \emph{leukocytosis} or \emph{microcytosis} with a mild/moderate/severe grade. The findings are added to the prompt of both reasoners (in the agent's input message, and in linear mode also to the retrieval query), together with an instruction to reconcile them with the image findings. The web interface does not yet have a CBC input field, so CBC values can currently only be supplied through the API. Because no experiment in this thesis uses CBC values, this feature is presented as an implemented extension, not as an evaluated result.
 

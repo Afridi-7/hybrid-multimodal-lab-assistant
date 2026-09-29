@@ -4,8 +4,8 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{mathptmx}                 % Times, as in the Faculty's sample papers
-\usepackage[a4paper,left=3cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
-\usepackage{setspace}\setstretch{1.3}
+\usepackage[a4paper,left=3cm,right=2cm,top=3cm,bottom=3cm]{geometry}  % faculty rules
+\usepackage{setspace}\onehalfspacing  % 1.5 line spacing (faculty rules)
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{booktabs,tabularx,multirow,array}
@@ -22,8 +22,9 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{microtype}
 \usepackage{titlesec}
-\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
-\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+% Headings 16 pt / 14 pt / 12 pt (faculty rules: 12 pt text, 14-16 pt headings)
+\titleformat{\section}{\fontsize{16}{19}\selectfont\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\fontsize{14}{17}\selectfont\bfseries}{\thesubsection}{1em}{}
 \titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1em}{}
 \setlength{\parindent}{1.5em}
 \setlength{\parskip}{2pt}
@@ -37,29 +38,31 @@
 
 \begin{document}
 
-% ---------------------------------------------------------------- cover
+% ---------------------------------------------------------------- external title page (cover)
 \begin{titlepage}
 \centering
 \vspace*{5cm}
-{\LARGE\bfseries BSc THESIS\par}
-\vspace{6cm}
-\hfill{\large Qudrat Ullah}\par
+{\fontsize{16}{19}\selectfont\bfseries THESIS\par}
+\vspace{7cm}
+\hfill{\fontsize{14}{17}\selectfont Qudrat Ullah}\par
 \vfill
-{\large Debrecen\\2026\par}
+{\fontsize{14}{17}\selectfont Debrecen\\[2pt]2026\par}
 \end{titlepage}
 
-% ---------------------------------------------------------------- title page
+% ---------------------------------------------------------------- internal title page
 \begin{titlepage}
 \centering
-{\large\bfseries University of Debrecen\\Faculty of Informatics\\Department of Data Science and Visualization\par}
-\vspace{3.2cm}
-{\LARGE\bfseries A Hybrid Multimodal Lab Assistant: Blood Image Classification Combined with Domain-Expert LLM Reasoning and RAG\par}
+{\fontsize{14}{17}\selectfont\bfseries UNIVERSITY OF DEBRECEN\\[2pt]FACULTY OF INFORMATICS\\[2pt]DEPARTMENT OF DATA SCIENCE AND VISUALIZATION\par}
+\vspace{3cm}
+{\fontsize{16}{19}\selectfont\bfseries THESIS\par}
+\vspace{1cm}
+{\fontsize{16}{20}\selectfont\bfseries A Hybrid Multimodal Lab Assistant: Blood Image Classification Combined with Domain-Expert LLM Reasoning and RAG\par}
 \vfill
 \begin{minipage}[t]{0.48\textwidth}
 \raggedright
 \textbf{Supervisor:}\\
-Dr.\ András Hajdu\\
-Professor
+Prof.\ Dr.\ András Hajdu\\
+University Professor, Dean
 \end{minipage}\hfill
 \begin{minipage}[t]{0.48\textwidth}
 \raggedleft
@@ -67,18 +70,26 @@ Professor
 Qudrat Ullah\\
 Computer Science BSc
 \end{minipage}
-\vspace{2cm}
+\vspace{3cm}
 
-{\itshape ``I consent to the submission of this work for review.''\par}
-\vspace{2cm}
-{\large Debrecen\\2026\par}
+{\fontsize{14}{17}\selectfont DEBRECEN\\[2pt]2026\par}
 \end{titlepage}
 
-% ---------------------------------------------------------------- contents
+% ---------------------------------------------------------------- contents (directly after the title page)
 \pagenumbering{arabic}
 \setcounter{page}{1}
 \tableofcontents
 \clearpage
+
+% ---------------------------------------------------------------- abstract
+\section*{Abstract}
+\addcontentsline{toc}{section}{Abstract}
+General-purpose large language models such as ChatGPT answer medical questions fluently, but in a specialised field they can state unsupported facts, cannot show where an answer comes from, and know nothing about the case at hand. This thesis addresses the topic of developing a domain expert with such a model by building a hybrid multimodal lab assistant for peripheral blood smears. Two image-analysis stages supply case evidence: a YOLOv8s detector locates white cells, red cells and platelets (mAP@0.50 = 0.985 on TXL-PBC), and an EfficientNet-B0 classifier assigns eight white-cell types (98.60\,\% accuracy on a held-out PBC test set). Every classified cell carries a Monte Carlo Dropout uncertainty estimate, which identifies misclassified cells with an AUROC of 0.97, and a Grad-CAM saliency map. The domain expert interprets these findings in two forms: a GPT-4o agent that retrieves passages from 1{,}049 hematology textbook chunks (retrieval-augmented generation) and uses tools for reference ranges, cell counts and uncertainty; and an open-weight Llama-3.1-8B model fine-tuned with QLoRA on 1{,}890 textbook-grounded question--answer pairs. Fine-tuning made the open model's answers much closer to textbook reference answers (ROUGE-L 0.161 $\rightarrow$ 0.433) and stopped it from inventing book citations, but did not improve its clinical correctness or its accuracy on external exam questions; GPT-4o remained the most correct. Deterministic rules, not the language model, decide when a human expert must review a case; a real failure, in which the assistant over-interpreted a two-cell differential, led to an additional minimum-cell rule. The results suggest a layered design for LLM domain experts: fine-tuning for behaviour, retrieval for knowledge, tools for case data, and explicit rules for safety.
+
+\medskip
+\noindent\textbf{Keywords:} large language models, domain expert, retrieval-augmented generation, QLoRA, blood smear, YOLOv8, EfficientNet, uncertainty estimation, clinical decision support
+\clearpage
+
 
 \input{chapters/01_introduction}
 \input{chapters/02_background}
@@ -88,13 +99,8 @@ Computer Science BSc
 \input{chapters/06_results}
 \input{chapters/07_conclusion}
 
-\clearpage
-\phantomsection
-\addcontentsline{toc}{section}{\numberline{8}Bibliography}
-\renewcommand{\refname}{8\hspace{1em}Bibliography}
-\bibliographystyle{unsrtnat}
-{\small
-\bibliography{references}}
+\input{chapters/08_bibliography}
+% (references.bib is the source; run BibTeX on it to regenerate chapters/08_bibliography.tex)
 
 \clearpage
 \setcounter{section}{8}
@@ -103,6 +109,6 @@ Computer Science BSc
 \clearpage
 \section*{Acknowledgment}
 \addcontentsline{toc}{section}{Acknowledgment}
-I would like to thank my supervisor, Dr.\ András Hajdu, for his guidance and patience throughout this project. I am grateful to the authors of the TXL-PBC, PBC and MedMCQA datasets for making their data openly available, and to the maintainers of Ultralytics, PyTorch, \code{timm}, Unsloth, Hugging Face Transformers, ChromaDB, LangChain/LangGraph, FastAPI and Vite, whose open-source work made this single-author project possible.
+I would like to thank my supervisor, Prof.\ Dr.\ András Hajdu, for his guidance and patience throughout this project. I am grateful to the authors of the TXL-PBC, PBC and MedMCQA datasets for making their data openly available, and to the maintainers of Ultralytics, PyTorch, \code{timm}, Unsloth, Hugging Face Transformers, ChromaDB, LangChain/LangGraph, FastAPI and Vite, whose open-source work made this single-author project possible.
 
 \end{document}

@@ -6,6 +6,21 @@ The central finding concerns what each technique contributes to a domain expert.
 
 The practical answer to the thesis topic is thus a layered design: \emph{fine-tuning for behaviour, retrieval for knowledge, tools for case data, and deterministic rules for safety}. The system is a research prototype. It has not been validated clinically, its vision models have not been tested on data from other laboratories, and its expert answers were evaluated with automatic measures rather than by hematologists.
 
+\subsection{What was not achieved}
+
+Several aims were met only partly, and they are stated here explicitly.
+
+\begin{itemize}
+  \item \textbf{The fine-tuned open model did not become a better expert in substance.} The hope that QLoRA fine-tuning would make Llama-3.1-8B more knowledgeable was not confirmed: clinical correctness (LLM judge) and exam accuracy were unchanged, and the model remained clearly less correct than GPT-4o. It is therefore not yet a replacement for the hosted model, only a self-hostable starting point.
+  \item \textbf{The fine-tuned model was not evaluated inside the full assistant.} It was tested stand-alone, without retrieved passages; the combination of the open model with RAG and tools --- the configuration that the results suggest --- was not run end-to-end.
+  \item \textbf{The end-to-end evaluation is a single case.} Only one complete run of the assistant was analysed in depth. It exposed a real failure (the two-cell differential), which led to a new safety rule, but a systematic evaluation over many smears, ideally rated by hematologists, is still missing.
+  \item \textbf{The first classifier evaluation was flawed.} The original training run selected its checkpoint on the test images. This was detected during the work and corrected by retraining; the corrected accuracy (98.60\,\%) is 0.84 points lower than the originally reported figure.
+  \item \textbf{Generalisation was not measured.} All image results come from curated benchmark data. A single example from another source was misclassified, which suggests that performance on smears from other laboratories may be lower.
+  \item \textbf{The optional CBC input was implemented but not evaluated.}
+\end{itemize}
+
+None of these points invalidates the main conclusion; rather, they define the limits within which it holds.
+
 \subsection{Future work}
 
 \begin{enumerate}
