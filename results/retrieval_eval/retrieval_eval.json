@@ -1,0 +1,99 @@
+{
+ "data": "data\\finetune\\train_v2.jsonl",
+ "chunks": 1049,
+ "questions": 2098,
+ "late_questions": 380,
+ "late_rule": "answer overlaps more with words after the first 150",
+ "systems": {
+  "minilm_l6_v2 (256 tok, current)": {
+   "model": "sentence-transformers/all-MiniLM-L6-v2",
+   "query_prefix": "",
+   "max_seq_length": 256,
+   "all": {
+    "n": 2098,
+    "hit@1": 0.3627,
+    "hit@5": 0.6692,
+    "hit@5_or_neighbour": 0.7774,
+    "mrr@10": 0.4953
+   },
+   "late": {
+    "n": 380,
+    "hit@1": 0.2053,
+    "hit@5": 0.4921,
+    "hit@5_or_neighbour": 0.7158,
+    "mrr@10": 0.3303
+   },
+   "early": {
+    "n": 1718,
+    "hit@1": 0.3976,
+    "hit@5": 0.7084,
+    "hit@5_or_neighbour": 0.791,
+    "mrr@10": 0.5318
+   }
+  },
+  "bge_small_v1.5 (512 tok)": {
+   "model": "BAAI/bge-small-en-v1.5",
+   "query_prefix": "",
+   "max_seq_length": 512,
+   "all": {
+    "n": 2098,
+    "hit@1": 0.4619,
+    "hit@5": 0.7588,
+    "hit@5_or_neighbour": 0.8398,
+    "mrr@10": 0.5886
+   },
+   "late": {
+    "n": 380,
+    "hit@1": 0.2579,
+    "hit@5": 0.5684,
+    "hit@5_or_neighbour": 0.7763,
+    "mrr@10": 0.3924
+   },
+   "early": {
+    "n": 1718,
+    "hit@1": 0.507,
+    "hit@5": 0.8009,
+    "hit@5_or_neighbour": 0.8539,
+    "mrr@10": 0.632
+   }
+  },
+  "bge_small_v1.5 (512 tok) + query instruction": {
+   "model": "BAAI/bge-small-en-v1.5",
+   "query_prefix": "Represent this sentence for searching relevant passages: ",
+   "max_seq_length": 512,
+   "all": {
+    "n": 2098,
+    "hit@1": 0.469,
+    "hit@5": 0.7698,
+    "hit@5_or_neighbour": 0.8489,
+    "mrr@10": 0.5974
+   },
+   "late": {
+    "n": 380,
+    "hit@1": 0.2553,
+    "hit@5": 0.5868,
+    "hit@5_or_neighbour": 0.7816,
+    "mrr@10": 0.3953
+   },
+   "early": {
+    "n": 1718,
+    "hit@1": 0.5163,
+    "hit@5": 0.8102,
+    "hit@5_or_neighbour": 0.8638,
+    "mrr@10": 0.6421
+   }
+  }
+ },
+ "mcnemar_hit@5_vs_current": {
+  "bge_small_v1.5 (512 tok)": {
+   "only_first": 118,
+   "only_second": 306,
+   "p_exact": 0.0
+  },
+  "bge_small_v1.5 (512 tok) + query instruction": {
+   "only_first": 108,
+   "only_second": 319,
+   "p_exact": 0.0
+  }
+ }
+}

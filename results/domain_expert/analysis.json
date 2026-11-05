@@ -1,0 +1,79 @@
+{
+ "report": "results\\domain_expert\\evaluation_report.json",
+ "config": {
+  "train_new": true,
+  "epochs": 2,
+  "base_model": "unsloth/Meta-Llama-3.1-8B-Instruct-bnb-4bit",
+  "seed": 42,
+  "n_train": 1890,
+  "n_test_total": 208,
+  "n_indomain_scored": 100,
+  "n_mcq": 100
+ },
+ "systems": {
+  "Llama-3.1-8B (base)": {
+   "n": 100,
+   "rouge_l": 0.161,
+   "semantic_sim": 0.752,
+   "source_marker_pct": 7.0,
+   "avg_words": 158.5,
+   "bare_reference_marker": 7,
+   "invented_reference_flagged": 74
+  },
+  "Llama-3.1-8B + QLoRA (ours)": {
+   "n": 100,
+   "rouge_l": 0.433,
+   "semantic_sim": 0.831,
+   "source_marker_pct": 100.0,
+   "avg_words": 39.4,
+   "bare_reference_marker": 0,
+   "invented_reference_flagged": 0
+  },
+  "GPT-4o (reference)": {
+   "n": 100,
+   "rouge_l": 0.181,
+   "semantic_sim": 0.774,
+   "source_marker_pct": 88.0,
+   "avg_words": 159.9,
+   "bare_reference_marker": 32,
+   "invented_reference_flagged": 0
+  }
+ },
+ "paired_rouge": {
+  "rouge_l ours - Llama-3.1-8B (base)": {
+   "mean_diff": 0.272,
+   "bootstrap_95ci": [
+    0.252,
+    0.293
+   ],
+   "ours_higher_on": 100,
+   "of": 100
+  },
+  "rouge_l ours - GPT-4o (reference)": {
+   "mean_diff": 0.253,
+   "bootstrap_95ci": [
+    0.234,
+    0.273
+   ],
+   "ours_higher_on": 100,
+   "of": 100
+  }
+ },
+ "source_line_books": {
+  "ours_names_book1": 92,
+  "ours_names_book2": 8,
+  "reference_answers_from_book2": 7,
+  "book2_questions_labelled_book2_by_ours": 5
+ },
+ "medmcqa": {
+  "n": 100,
+  "acc_base_pct": 56.0,
+  "acc_ft_pct": 57.0,
+  "unparsable_base": 3,
+  "unparsable_ft": 0,
+  "base_only_correct": 10,
+  "ft_only_correct": 11,
+  "mcnemar_exact_p": 1.0
+ },
+ "invented_reference_rule": "quoted title after textbook/book, or reference-list entry (Surname, X. / et al.); flagged answers listed in flagged_citations.csv and must be checked by hand"
+}

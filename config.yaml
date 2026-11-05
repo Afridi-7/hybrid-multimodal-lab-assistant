@@ -105,17 +105,23 @@ rag:
   pdf_download_timeout_seconds: 30
   
   # Text chunking
-  # Note: 'sentence-transformers/all-MiniLM-L6-v2' has a 256-token context.
-  # Keeping chunks <= 200 words avoids silent truncation during embedding.
+  # Note: 200-word chunks average ~343 word-piece tokens (scripts/check_chunk_tokens.py,
+  # results/kb_chunk_token_stats.json). The former embedder all-MiniLM-L6-v2 reads only 256,
+  # so 98.7 % of chunks were truncated. BGE-small reads 512 (4 of 1,049 chunks still longer).
   chunking:
     chunk_size: 200  # Words per chunk
     overlap: 40  # Word overlap between chunks
   
   # Embedding model
   embedding:
-    model_name: "sentence-transformers/all-MiniLM-L6-v2"
+    # Nov 2026: switched from sentence-transformers/all-MiniLM-L6-v2 after
+    # scripts/eval_retrieval.py (results/retrieval_eval/retrieval_eval.json).
+    model_name: "BAAI/bge-small-en-v1.5"
     embedding_dim: 384
     batch_size: 64  # For batch encoding
+    # Text put in front of each query only (BGE models are trained with one). Empty = none.
+    # Chosen with scripts/eval_retrieval.py; see results/retrieval_eval/.
+    query_instruction: "Represent this sentence for searching relevant passages: "
   
   # Vector store
   vector_store:

@@ -1,0 +1,11 @@
+{
+ "records": 2098,
+ "chunks": 1049,
+ "pairs_2i_2i1_same_chunk_pct": 0.1,
+ "random_pairing_baseline_pct": 0.1,
+ "reconstructed_split_matches_saved_test_split": true,
+ "test_records": 208,
+ "test_records_with_source_chunk_in_training": 184,
+ "first100_test_records_with_source_chunk_in_training": 90,
+ "note": "Chunk matching by TF-IDF is approximate; counts are estimates. Computed 2026-11-05 with scripts/check_split_leakage.py."
+}

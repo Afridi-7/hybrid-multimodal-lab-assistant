@@ -5,15 +5,25 @@ Pipeline:
   2. For each chunk, ask GPT-4o to generate two grounded (question, answer) pairs.
   3. Optionally append MedQA-USMLE hematology items.
   4. Optionally append a hand-curated gold file (data/finetune/gold.jsonl).
-  5. Write a single ``train.jsonl`` in OpenAI/HF chat format:
+  5. Write a single JSONL file in OpenAI/HF chat format. Every record also stores the
+     chunk it was generated from, so the train/test split can be made by chunk:
         {"messages": [{"role": "system", ...},
                       {"role": "user", ...},
-                      {"role": "assistant", ...}]}
+                      {"role": "assistant", ...}],
+         "chunk_key": "essentials_haematology.pdf#123", "source": "...",
+         "chunk_id": 123, "pair_index": 0}
+
+  Note (Nov 2026): the first dataset (data/finetune/train.jsonl) did not store the
+  chunk, and records were collected in completion order and shuffled, so records
+  2i and 2i+1 were NOT from the same chunk. See scripts/check_split_leakage.py.
+  Since then the default output is data/finetune/train_v2.jsonl, records carry
+  chunk_key, and MedQA augmentation is off by default (it was not used before
+  either: the first file contained only the 2 x 1,049 chunk pairs).
 
 Run:
   python scripts/build_finetune_dataset.py \
       --chroma-dir data/chroma_db \
-      --out data/finetune/train.jsonl \
+      --out data/finetune/train_v2.jsonl \
       --pairs-per-chunk 2 \
       --max-chunks 0          # 0 = no cap, otherwise sample N chunks for cheap dry runs
 
@@ -91,7 +101,12 @@ def load_chunks_from_chroma(chroma_dir: Path, collection: str) -> List[Dict[str,
             break
         for cid, doc, meta in zip(ids, batch["documents"], batch["metadatas"] or []):
             if doc and len(doc.strip()) >= 80:  # skip near-empty chunks
-                all_chunks.append({"id": cid, "text": doc, "metadata": meta or {}})
+                meta = meta or {}
+                src = meta.get("source") or meta.get("file") or "textbook"
+                # Stable identity of a chunk: source file + per-file chunk index.
+                # (Chroma's own ids depend on build order; this does not.)
+                key = f"{src}#{meta.get('chunk_id', cid)}"
+                all_chunks.append({"id": cid, "key": key, "text": doc, "metadata": meta})
         if len(ids) < page:
             break
         offset += page
@@ -223,13 +238,14 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--chroma-dir", default="data/chroma_db", type=Path)
     parser.add_argument("--collection", default="hematology_knowledge")
-    parser.add_argument("--out", default="data/finetune/train.jsonl", type=Path)
+    parser.add_argument("--out", default="data/finetune/train_v2.jsonl", type=Path)
     parser.add_argument("--model", default="gpt-4o-mini",
                         help="OpenAI model (gpt-4o-mini ≈ $2 / gpt-4o ≈ $10 for full corpus).")
     parser.add_argument("--pairs-per-chunk", type=int, default=2)
     parser.add_argument("--max-chunks", type=int, default=0,
                         help="Cap number of chunks (0 = use all). Useful for dry runs.")
-    parser.add_argument("--medqa-limit", type=int, default=400)
+    parser.add_argument("--medqa-limit", type=int, default=0,
+                        help="Append N MedQA items (default 0 = off; they carry no chunk).")
     parser.add_argument("--gold", default="data/finetune/gold.jsonl", type=Path)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--workers", type=int, default=20,
@@ -240,6 +256,13 @@ def main() -> None:
 
     random.seed(args.seed)
     args.out.parent.mkdir(parents=True, exist_ok=True)
+
+    # Read OPENAI_API_KEY from the repo's .env (same as scripts/judge_domain_expert.py).
+    try:
+        from dotenv import load_dotenv  # type: ignore
+        load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+    except ImportError:
+        pass
 
     print(f"[1/4] Loading Chroma chunks from {args.chroma_dir} …")
     chunks = load_chunks_from_chroma(args.chroma_dir, args.collection)
@@ -265,11 +288,16 @@ def main() -> None:
             )
             src = chunk["metadata"].get("source") or chunk["metadata"].get("file") or "textbook"
             local: List[Dict[str, Any]] = []
-            for p in pairs:
+            for j, p in enumerate(pairs):
                 grounded_answer = p["answer"].rstrip()
                 if "[Reference" not in grounded_answer:
                     grounded_answer += f"\n\nSource: {src}."
-                local.append(to_chat_record(p["question"], grounded_answer))
+                rec = to_chat_record(p["question"], grounded_answer)
+                rec["chunk_key"] = chunk["key"]
+                rec["source"] = src
+                rec["chunk_id"] = chunk["metadata"].get("chunk_id")
+                rec["pair_index"] = j
+                local.append(rec)
             return local
 
         print(f"[2/4] Generating {args.pairs_per_chunk} pairs per chunk via {args.model} "
@@ -285,6 +313,15 @@ def main() -> None:
                 done += 1
                 if done % 25 == 0 or done == len(chunks):
                     print(f"      {done}/{len(chunks)} chunks → {len(records)} pairs so far")
+        # Results arrive in completion order; sort them back into chunk order so the
+        # file is reproducible apart from the generator's own randomness.
+        order = {c["key"]: i for i, c in enumerate(chunks)}
+        records.sort(key=lambda r: (order[r["chunk_key"]], r["pair_index"]))
+        per_chunk: Dict[str, int] = {}
+        for r in records:
+            per_chunk[r["chunk_key"]] = per_chunk.get(r["chunk_key"], 0) + 1
+        short = [k for k in order if per_chunk.get(k, 0) < args.pairs_per_chunk]
+        print(f"      chunks with fewer than {args.pairs_per_chunk} pairs: {len(short)}")
     else:
         print("[2/4] --dry-run set; skipping OpenAI calls")
 
@@ -295,7 +332,13 @@ def main() -> None:
     gold = load_gold(args.gold)
     print(f"      → {len(gold)} hand-curated gold items from {args.gold}")
 
+    # External items have no textbook chunk; give each its own key so a
+    # chunk-level split still treats them as independent groups.
+    for i, r in enumerate(medqa + gold):
+        r.setdefault("chunk_key", f"external#{i}")
     all_records = records + medqa + gold
+    # Shuffling is harmless now that every record stores its chunk_key:
+    # the split must group by chunk_key, never by position in the file.
     random.shuffle(all_records)
     print(f"[4/4] Writing {len(all_records)} records → {args.out}")
     with args.out.open("w", encoding="utf-8") as f:

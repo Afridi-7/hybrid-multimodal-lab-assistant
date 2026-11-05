@@ -76,8 +76,13 @@ datasets/
 # Keep the small thesis-evidence files under version control
 !/results/domain_expert/
 !/results/domain_expert/*.csv
+!/results/domain_expert_v2/
+!/results/domain_expert_v2/*.csv
 !/results/effnet_v2/
 !/results/effnet_v2/*.csv
+!/results/retrieval_eval/
+!/results/retrieval_eval/*.csv
+!/results/kb_chunk_token_stats.json
 !Notebooks/**/results/
 !Notebooks/**/results/**
 # Ignore everything under figures/ except the curated webapp screenshots that
@@ -168,5 +173,3 @@ runs/
 /tmp/
 *.pid
 
-# Temporary files
-.claude_tmp/

@@ -1,0 +1,13 @@
+{
+ "chunks": 1049,
+ "tokens_mean": 342.7,
+ "tokens_median": 334.0,
+ "tokens_min": 142,
+ "tokens_max": 1679,
+ "over_256": 1035,
+ "over_256_pct": 98.7,
+ "share_of_all_tokens_cut_pct": 25.4,
+ "note": "Computed 2026-11-05 with the bert-base-uncased WordPiece vocabulary (identical to all-MiniLM-L6-v2's), lowercase, counts include [CLS]/[SEP]. over_384/over_512 added 2026-11-05 with the same tokenizer (bge-small-en-v1.5 reads 512).",
+ "over_384": 170,
+ "over_512": 4
+}

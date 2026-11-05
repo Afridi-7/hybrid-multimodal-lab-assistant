@@ -112,7 +112,7 @@ The whole chain is **configuration-driven** ([config.yaml](config.yaml)); every 
   - `essentials_haematology.pdf` (511 PDF pages -> 996 chunks)
   - `consie_haematology.pdf` (30 PDF pages -> 53 chunks)
   - Total: **1,049 chunks** at 200 words / 40-word overlap.
-- **Embedder**: `sentence-transformers/all-MiniLM-L6-v2` (384-dim, 256-token window).
+- **Embedder**: `sentence-transformers/all-MiniLM-L6-v2` (384-dim, 256-token window; the 200-word chunks average ~343 tokens, so most are truncated when embedded — see `scripts/check_chunk_tokens.py`).
 - **Vector store**: ChromaDB (cosine distance), persisted to `data/chroma_db/` (~29 MB after first build).
 - **LLM**: OpenAI **GPT-4o** at `temperature=0.1` with structured JSON output ([src/rag/llm_reasoner.py](src/rag/llm_reasoner.py)).
 - **Optional internet augmentation**: domain-allowlisted web retrieval (NCBI, PubMed, MedlinePlus, WHO, NIH, hematology.org). Disabled by default; enable via `config.yaml` -> `rag.internet.enabled`.

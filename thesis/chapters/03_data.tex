@@ -14,7 +14,7 @@ The system uses five data sources: two for the domain expert's knowledge, one fo
 Hematology textbooks \cite{kawthalkar2006,schmaier2012} & 541 PDF pages, 1{,}049 text chunks & RAG knowledge base; source of Q\&A pairs \\
 Synthetic hematology Q\&A & 2{,}098 question--answer pairs generated from the chunks & Fine-tuning (1{,}890) and held-out test (208) \\
 MedMCQA \cite{pal2022medmcqa} & Medical entrance-exam MCQs; 100-question hematology-related subset & External test of the fine-tuned model \\
-TXL-PBC \cite{gan2024txlpbc} & 1{,}260 smear images, 18{,}143 boxes (WBC, RBC, platelet) & Training/testing the cell detector \\
+TXL-PBC \cite{gan2025txlpbc} & 1{,}260 smear images, 18{,}143 boxes (WBC, RBC, platelet) & Training/testing the cell detector \\
 PBC \cite{acevedo2020} & 17{,}092 single-cell images, 8 classes & Training/testing the WBC classifier \\
 \bottomrule
 \end{tabularx}
@@ -24,11 +24,11 @@ PBC \cite{acevedo2020} & 17{,}092 single-cell images, 8 classes & Training/testi
 
 The domain knowledge of the expert comes from two hematology textbooks: \emph{Essentials of Haematology} by Kawthalkar \cite{kawthalkar2006} (511 PDF pages) and a 30-page excerpt of the \emph{Concise Guide to Hematology} edited by Schmaier and Lazarus \cite{schmaier2012}. Both books are copyrighted. They were used locally, for non-commercial research, and are not redistributed with the project's code.
 
-Text was extracted page by page with the \code{pypdf} library, whitespace was normalised, and the text was split into chunks of 200 words with an overlap of 40 words between consecutive chunks. The chunk size was chosen so that a chunk fits into the 256-token input limit of the embedding model without being cut. Tables and figures were not parsed and no optical character recognition was performed. The result is 1{,}049 chunks: 996 from the first book and 53 from the second. Each chunk is stored with its source file name and a chunk index (page numbers are not stored).
+Text was extracted page by page with the \code{pypdf} library, whitespace was normalised, and the text was split into chunks of 200 words with an overlap of 40 words between consecutive chunks. The chunk size was meant to keep each chunk within the 256-token input limit of the embedding model (Section~\ref{sec:kb}), but a later check showed that this assumption does not hold: the limit counts word-piece tokens, not words, and hematology terms are often split into several pieces. The chunks contain on average 343 tokens (median 334), and 1{,}035 of the 1{,}049 chunks (98.7\,\%) are longer than 256 tokens. For these chunks the embedding model reads only the first 256 tokens, so about a quarter of the knowledge-base text (25.4\,\% of all tokens) does not influence retrieval; the full chunk is still stored and passed to the language model when it is retrieved (script \path{scripts/check_chunk_tokens.py}). Tables and figures were not parsed and no optical character recognition was performed. The result is 1{,}049 chunks: 996 from the first book and 53 from the second. Each chunk is stored with its source file name and a chunk index (page numbers are not stored).
 
 \subsection{Synthetic question--answer dataset}\label{sec:qa-data}
 
-No public collection of hematology question--answer pairs matched the content of the two textbooks, so a training set was generated from the knowledge base itself (script \code{scripts/build\_finetune\_dataset.py}). For every chunk, an OpenAI GPT model\footnote{The script's default generator is \code{gpt-4o-mini}.} received the passage and the instruction to produce two ``grounded'' question--answer pairs: realistic questions that the passage can answer, with 2--5-sentence answers based \emph{only} on the passage, varying between definitions, mechanisms, differentials, laboratory interpretation and short patient vignettes. Each answer ends with a source line such as ``\textit{Source: essentials\_haematology.pdf.}'' Every training example is stored as a three-message chat (system prompt, question, answer):
+No public collection of hematology question--answer pairs matched the content of the two textbooks, so a training set was generated from the knowledge base itself (script \path{scripts/build_finetune_dataset.py}). For every chunk, an OpenAI GPT model\footnote{The script's default generator is \code{gpt-4o-mini}.} received the passage and the instruction to produce two ``grounded'' question--answer pairs: realistic questions that the passage can answer, with 2--5-sentence answers based \emph{only} on the passage, varying between definitions, mechanisms, differentials, laboratory interpretation and short patient vignettes. Each answer ends with a source line such as ``\textit{Source: essentials\_haematology.pdf.}'' Every training example is stored as a three-message chat (system prompt, question, answer):
 
 \begin{lstlisting}
 {"messages": [
@@ -54,7 +54,7 @@ To test whether fine-tuning changes general hematology knowledge --- and not onl
 
 \subsection{Cell detection data: TXL-PBC}
 
-TXL-PBC \cite{gan2024txlpbc} integrates and re-annotates images from four public blood-cell resources (BCCD, BCDD, PBC and Raabin-WBC). It contains 1{,}260 smear images with 18{,}143 bounding boxes in three classes --- white blood cells (WBC), red blood cells (RBC) and platelets --- and is used with its published split of 882 training, 252 validation and 126 test images. The class distribution is dominated by red cells, as in real smears. Annotations are in YOLO format (one text file per image with normalised box coordinates).
+TXL-PBC \cite{gan2025txlpbc} integrates and re-annotates images from four public blood-cell resources (BCCD, BCDD, PBC and Raabin-WBC). It contains 1{,}260 smear images with 18{,}143 bounding boxes in three classes --- white blood cells (WBC), red blood cells (RBC) and platelets --- and is used with its published split of 882 training, 252 validation and 126 test images. The class distribution is dominated by red cells, as in real smears (Figure~\ref{fig:txl}). Annotations are in YOLO format (one text file per image with normalised box coordinates).
 
 \begin{figure}[H]
 \centering

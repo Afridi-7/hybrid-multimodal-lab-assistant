@@ -49,7 +49,7 @@ Platelet & 34 & 49 & 0.958 & 0.939 & 0.970 & 0.834 \\
 
 With the corrected protocol (v2), EfficientNet-B0 reached a top-1 accuracy of \textbf{98.60\,\%} on the 3{,}419 held-out test images (98.57\,\% with MC-Dropout averaging), with a macro-averaged F1 of 0.987 (Table~\ref{tab:cls}). The original run (v1), whose checkpoint had been selected on its own test images, reported 99.44\,\%; the difference of 0.84 percentage points is the size of the optimism that the flawed protocol introduced, and 98.60\,\% is the figure this thesis relies on. The best validation accuracy was 87.78\,\% after Phase~1 (frozen backbone, early stop at epoch 31) and 98.60\,\% after Phase~2, so unfreezing the backbone again added more than ten percentage points (Figure~\ref{fig:cls}).
 
-The lowest recall belongs to the immature granulocyte (0.959), and the lowest precision to the neutrophil (0.968): most of the remaining errors are immature granulocytes classified as neutrophils (Figure~\ref{fig:cls}). This is morphologically plausible --- immature granulocytes are transitional forms on the way to mature neutrophils, and the boundary is also difficult for human reviewers --- and it is exactly the kind of case in which an uncertainty estimate is useful.
+The lowest recall belongs to the immature granulocyte (0.959), and the lowest precision to the neutrophil (0.968): most of the remaining errors are immature granulocytes classified as neutrophils (Figure~\ref{fig:cls}). This is morphologically plausible --- immature granulocytes are transitional forms on the way to mature neutrophils, and the boundary is also difficult for human reviewers --- and it is exactly the kind of case in which an uncertainty estimate is useful. Figure~\ref{fig:mc} illustrates the uncertainty levels on eight test images; it was produced with the original (v1) model, before the systematic evaluation of the v2 model that follows.
 
 \begin{table}[H]
 \centering
@@ -140,6 +140,7 @@ Table~\ref{tab:de} and Figure~\ref{fig:de} summarise the comparison of the base 
 \caption{Domain-expert evaluation. In-domain metrics are means over 100 held-out textbook questions; MedMCQA accuracy is over 100 hematology-related exam questions (not run for GPT-4o). Best value per column in bold.}
 \label{tab:de}
 \small
+\setlength{\tabcolsep}{4.5pt}
 \begin{tabular}{lccccc}
 \toprule
  & \multicolumn{4}{c}{\textbf{In-domain held-out questions}} & \textbf{External} \\
@@ -255,7 +256,7 @@ The saved result files in the repository contain one complete run of the system 
 
 \subsection{Discussion of the research questions}
 
-\paragraph{RQ1 --- blood image classification.} Yes, on the benchmark data. Detection reached mAP@0.50 = 0.985 with perfect white-cell recall, and classification 98.60\,\% accuracy under a clean train/validation/test protocol (the earlier 99.44\,\% was 0.84 points too optimistic). Every classified cell carries an uncertainty level and a Grad-CAM map, and the uncertainty is informative: it separates errors from correct predictions with an AUROC of 0.97, and HIGH-uncertainty cells contain half of all errors although they make up only 1.9\,\% of the cells. How well this transfers to smears from other laboratories was not measured; the single out-of-distribution example in Figure~\ref{fig:shift} suggests caution.
+\paragraph{RQ1 --- blood image classification.} Yes, on the benchmark data. Detection reached a mAP@0.50 of 0.985 with perfect white-cell recall, and classification 98.60\,\% accuracy under a clean train/validation/test protocol (the earlier 99.44\,\% was 0.84 points too optimistic). Every classified cell carries an uncertainty level and a Grad-CAM map, and the uncertainty is informative: it separates errors from correct predictions with an AUROC of 0.97, and HIGH-uncertainty cells contain half of all errors although they make up only 1.9\,\% of the cells. How well this transfers to smears from other laboratories was not measured; the single out-of-distribution example in Figure~\ref{fig:shift} suggests caution.
 
 \paragraph{RQ2 --- building the domain expert with RAG.} A general LLM was turned into a hematology expert by combining a curated textbook knowledge base, domain tools and a structured output format. The resulting agent produces interpretations with retrievable citations and a complete, auditable tool trace (Figures~\ref{fig:ui-a}--\ref{fig:ui-b}). The case study shows that this makes errors visible but does not prevent them; domain rules such as a minimum cell count must be enforced in code.
 
@@ -274,6 +275,7 @@ The saved result files in the repository contain one complete run of the system 
   \item \textbf{Classifier evaluation.} The corrected (v2) split is stratified by class but at image level, not by donor, so cells from the same person can appear in training and test data. The original (v1) evaluation, which selected its checkpoint on the test images, is reported only for comparison. (A mismatch in the inference code, which re-created the second dropout layer with $p = 0.2$ instead of the $p = 0.3$ used in training, was found during this work and corrected; the case-study run predates the correction.)
   \item \textbf{No external validation of the vision stages.} Both vision datasets were recorded under controlled conditions; smears from other microscopes, stains or laboratories may reduce performance substantially.
   \item \textbf{Uncertainty thresholds and review rule} were set by hand. They were evaluated on in-distribution test data (Table~\ref{tab:unc}), where MEDIUM cells turned out to be noticeably less reliable than LOW cells but are not flagged; their behaviour under distribution shift is unknown.
+  \item \textbf{Chunks longer than the embedding limit.} Almost all chunks (98.7\,\%) exceed the 256-token input of the embedding model, so the end of each chunk is ignored during retrieval (Section~\ref{sec:corpus}). A passage whose relevant content lies at the end of a chunk may therefore not be found. Smaller chunks (about 150 words) or an embedding model with a longer input would avoid this; retrieval quality itself was not measured.
   \item \textbf{Copyright of the knowledge base.} The textbooks are copyrighted and cannot be redistributed, which limits exact reproduction of the knowledge base by others.
 \end{itemize}
 

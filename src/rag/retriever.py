@@ -69,6 +69,10 @@ class ClinicalRetriever:
         embedding_model_name = config.get('rag.embedding.model_name', 'sentence-transformers/all-MiniLM-L6-v2')
         self.embedding_dim = config.get('rag.embedding.embedding_dim', 384)
         self.batch_size = config.get('rag.embedding.batch_size', 64)
+        self.embedding_model_name = embedding_model_name
+        # Optional text put in front of every *query* (not the chunks). Some
+        # retrieval models, e.g. the BGE family, are trained with such a prefix.
+        self.query_instruction = config.get('rag.embedding.query_instruction', '') or ''
         
         # Initialize embedding model
         logger.info(f"Loading embedding model: {embedding_model_name}")
@@ -260,7 +264,16 @@ class ClinicalRetriever:
             except Exception:
                 existing_count = -1
 
-            if existing_count == expected_count and expected_count > 0:
+            try:
+                existing_model = (existing.metadata or {}).get('embedding_model')
+            except Exception:
+                existing_model = None
+
+            # Reuse only if the stored vectors were made by the SAME embedding
+            # model. Counting chunks alone is not enough: changing the model
+            # keeps the count but makes every stored vector incompatible.
+            if (existing_count == expected_count and expected_count > 0
+                    and existing_model == self.embedding_model_name):
                 logger.info(
                     "Reusing existing ChromaDB collection '%s' with %d chunks",
                     self.collection_name, existing_count
@@ -269,8 +282,9 @@ class ClinicalRetriever:
                 return
 
             logger.info(
-                "Existing ChromaDB collection size mismatch (have=%s, expected=%d); rebuilding",
-                existing_count, expected_count
+                "Existing ChromaDB collection is stale (chunks have=%s, expected=%d; "
+                "model have=%s, expected=%s); rebuilding",
+                existing_count, expected_count, existing_model, self.embedding_model_name
             )
             try:
                 self.chroma_client.delete_collection(name=self.collection_name)
@@ -280,7 +294,7 @@ class ClinicalRetriever:
         # Create collection
         self.chroma_collection = self.chroma_client.create_collection(
             name=self.collection_name,
-            metadata={"hnsw:space": "cosine"}
+            metadata={"hnsw:space": "cosine", "embedding_model": self.embedding_model_name}
         )
         
         # Add documents
@@ -338,7 +352,8 @@ class ClinicalRetriever:
         logger.info(f"Retrieving top-{k} chunks for query: {query[:50]}...")
         
         # Encode query
-        query_embedding = self.embedder.encode([query], convert_to_numpy=True)[0]
+        query_text = getattr(self, 'query_instruction', '') + query
+        query_embedding = self.embedder.encode([query_text], convert_to_numpy=True)[0]
 
         local_results: List[Dict[str, Any]] = []
         if self.chunks:
