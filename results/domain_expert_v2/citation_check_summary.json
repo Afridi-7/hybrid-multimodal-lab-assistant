@@ -1,0 +1,29 @@
+{
+ "checked_on": "2026-11-05",
+ "base_answers_checked": 100,
+ "flagged_by_rule": 68,
+ "flags_confirmed": 68,
+ "false_positives": 0,
+ "missed_by_rule": 4,
+ "answers_naming_an_unprovided_source": 72,
+ "by_category": {
+  "real work": 46,
+  "does not appear to exist": 16,
+  "unverifiable reference entry": 10
+ },
+ "harrisons": 21,
+ "williams_hematology": 12,
+ "very_short_introduction": 14,
+ "fine_tuned_or_gpt4o_answers_naming_a_source": 0,
+ "note": "Category = the first or main source named. 'real work' = the title exists (authors, editions, years or page numbers are often wrong); 'does not appear to exist' = no such title found; 'unverifiable reference entry' = reference-list entry cut off by the 256-token answer limit. All 300 answers of the three systems were also searched for named textbooks, author lists and reference lists; only the base model named any. The real Oxford 'Very Short Introductions' title on this subject is 'Blood' by Chris Cooper (2016); no 'Hematology: A Very Short Introduction' or 'Hematology: A Systems Approach' was found.",
+ "very_short_introduction_named_authors": [
+  "James M. Bussel",
+  "James W. B. Douglas",
+  "Patricia A. Jacobs",
+  "Patricia A. Tanner",
+  "Patricia A. Wardhaugh",
+  "Patricia A. Wardrop",
+  "Valerie A. LeBlond and David J. Roberts",
+  "Valerie Horsfall"
+ ]
+}

@@ -108,6 +108,9 @@ data/chroma_db/
 
 # PDF files (can be large)
 *.pdf
+# ...except the thesis itself and its vector figures (needed to build the thesis from git)
+!thesis/Thesis_Qudrat_Ullah.pdf
+!thesis/figures/*.pdf
 pdfs/
 
 # Temporary files
@@ -174,3 +177,13 @@ runs/
 /tmp/
 *.pid
 
+
+# LaTeX build files
+thesis/*.aux
+thesis/*.out
+thesis/*.toc
+thesis/*.fls
+thesis/*.fdb_latexmk
+thesis/*.synctex.gz
+# Case-study evidence (thesis Section 6.6) is kept despite the *.log rule
+!results/case_study_rerun/*.log

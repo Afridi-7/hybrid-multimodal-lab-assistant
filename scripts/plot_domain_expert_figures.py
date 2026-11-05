@@ -16,8 +16,10 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 BASE, OURS, GPT = "Llama-3.1-8B (base)", "Llama-3.1-8B + QLoRA (ours)", "GPT-4o (reference)"
-LABEL = {BASE: "Llama-3.1-8B\n(base)", OURS: "Llama-3.1-8B\n+ QLoRA (ours)", GPT: "GPT-4o\n(reference)"}
-COLOR = {BASE: "#a8a59c", OURS: "#2c7be5", GPT: "#ec6632"}
+RAG = "GPT-4o + RAG"                     # scripts/run_rag_baseline.py (full retrieved chunks)
+LABEL = {BASE: "Llama-3.1-8B\n(base)", OURS: "Llama-3.1-8B\n+ QLoRA (ours)", GPT: "GPT-4o\n(no retrieval)",
+         RAG: "GPT-4o\n+ RAG"}
+COLOR = {BASE: "#a8a59c", OURS: "#2c7be5", GPT: "#ec6632", RAG: "#2a9d5c"}
 plt.rcParams.update({"font.family": "serif", "font.size": 9, "axes.spines.top": False, "axes.spines.right": False})
 
 
@@ -38,22 +40,22 @@ def main():
     an = json.loads((a.run / "analysis.json").read_text(encoding="utf-8"))
     ju = json.loads((a.run / "judge_analysis.json").read_text(encoding="utf-8"))
     log = json.loads((a.run / "train_log.json").read_text(encoding="utf-8"))
-    sysn = [s for s in (BASE, OURS, GPT) if s in an["systems"]]
+    sysn = [s for s in (BASE, OURS, GPT, RAG) if s in an["systems"]]
 
     fig, axs = plt.subplots(2, 2, figsize=(9.2, 6.4))
     bars(axs[0, 0], sysn, [an["systems"][s]["semantic_sim"] for s in sysn], lambda v: f"{v:.3f}",
          "(a) Semantic similarity to reference", (0, 1))
     bars(axs[0, 1], sysn, [an["systems"][s]["rouge_l"] for s in sysn], lambda v: f"{v:.3f}",
          "(b) ROUGE-L F1 vs. reference", (0, 1))
-    ax = axs[1, 0]; w = 0.25
+    ax = axs[1, 0]; w = 0.8 / len(sysn)
     for k, s in enumerate(sysn):
         vals = [ju["systems"][s][m]["mean"] for m in ("faithfulness", "clinical_correctness")]
-        xs = [i + (k - 1) * w for i in range(2)]
+        xs = [i + (k - (len(sysn) - 1) / 2) * w for i in range(2)]
         ax.bar(xs, [v - 1 for v in vals], bottom=1, width=w, color=COLOR[s], label=s)
         for x, v in zip(xs, vals):
-            ax.text(x, v + 0.05, f"{v:.2f}", ha="center", va="bottom", fontsize=7.5)
+            ax.text(x, v + 0.05, f"{v:.2f}", ha="center", va="bottom", fontsize=6.5)
     ax.set_xticks([0, 1]); ax.set_xticklabels(["faithfulness", "clinical correctness"])
-    ax.set_ylim(1, 5.3); ax.legend(fontsize=6.5, loc="upper left", frameon=False)
+    ax.set_ylim(1, 5.6); ax.legend(fontsize=6, loc="upper left", frameon=False, ncol=2)
     ax.set_title(f"(c) LLM-judge scores (1–5, {ju.get('judge_model', 'judge')})", fontsize=9)
     mq = an["medmcqa"]
     bars(axs[1, 1], [BASE, OURS], [mq["acc_base_pct"], mq["acc_ft_pct"]], lambda v: f"{v:.0f}%",

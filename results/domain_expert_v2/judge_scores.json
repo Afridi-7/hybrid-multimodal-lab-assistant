@@ -1500,6 +1500,1006 @@
    "faithfulness": 4,
    "clinical_correctness": 5,
    "rationale": "The model answer accurately describes Binet stage A and its implications, but it includes additional details about lymphoid areas that are not explicitly mentioned in the gold answer."
+  },
+  "0|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately lists the components of cryoprecipitate and provides correct clinical information, but the inclusion of references detracts slightly from its faithfulness."
+  },
+  "0|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately lists the components of cryoprecipitate as stated in the gold answer and does not include any unsupported claims."
+  },
+  "1|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes pernicious anemia and its effects on vitamin B12 absorption, but it includes a reference that does not provide additional support for the claims made."
+  },
+  "1|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content and provides additional relevant information without introducing unsupported claims."
+  },
+  "2|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content and provides correct medical information without introducing unsupported claims."
+  },
+  "2|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the systemic symptoms associated with Stage B of lymphoma and adds relevant context without contradicting the gold answer."
+  },
+  "3|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content and provides additional context without introducing unsupported claims."
+  },
+  "3|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the presence of schistocytes and adds relevant details about polychromasia and thrombocytopenia, which are clinically relevant in the context of microangiopathic haemolytic anaemia."
+  },
+  "4|GPT-4o + RAG": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the relationship between PNH and aplastic anemia but introduces additional details that are not explicitly stated in the gold answer, affecting its faithfulness."
+  },
+  "4|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the relationship between PNH and aplastic anemia but introduces unsupported claims about the mechanisms and the need for further research."
+  },
+  "5|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the interpretation of reticulocyte counts in anaemia and provides additional relevant details without contradicting the gold answer."
+  },
+  "5|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the interpretation of reticulocyte counts in anaemia and aligns well with the gold answer, though it includes additional details that are clinically relevant."
+  },
+  "6|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content regarding the significance of prolonged APTT in detecting inherited deficiencies and provides additional relevant details without introducing unsupported claims."
+  },
+  "6|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the significance of prolonged APTT in relation to inherited deficiencies and includes relevant details about specific factors and conditions, though it introduces some additional information that is not present in the gold answer."
+  },
+  "7|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer without adding unsupported claims."
+  },
+  "7|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the information provided in the gold answer without adding unsupported claims."
+  },
+  "8|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the role of HSCs during embryogenesis and their origins, but it introduces the term 'hematoblast' without clear support from the gold answer."
+  },
+  "8|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer contains some accurate information about HSCs but introduces unsupported claims about hematoblasts and their differentiation potential, which detracts from its faithfulness to the gold answer."
+  },
+  "9|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the characteristic feature of CLL on a blood smear and adds additional correct details without contradicting the gold answer."
+  },
+  "9|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the characteristic feature of CLL on a blood smear and adds relevant information without contradicting the gold answer."
+  },
+  "10|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the expected serum and red cell folate levels in folate deficiency and provides additional context about the stability of red cell folate, but it includes a reference that does not contribute to the answer."
+  },
+  "10|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the information in the gold answer and provides additional correct context about the stability of red cell folate levels."
+  },
+  "11|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes schistocytes and their implications, while it adds additional clinical conditions that are relevant and supported by medical knowledge."
+  },
+  "11|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes schistocytes and their implications in a blood smear, while it adds additional context about related conditions and treatment, which is relevant and supported by clinical knowledge."
+  },
+  "12|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the clinical signs of GvHD as described in the gold answer and provides additional relevant information without introducing unsupported claims."
+  },
+  "12|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the clinical signs of TA-GvHD and aligns closely with the gold answer, though it provides additional context and details that are not explicitly mentioned in the gold answer."
+  },
+  "13|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the laboratory features of pernicious anemia but lacks mention of anti-intrinsic factor antibodies and pentagastrin-fast achlorhydria, which are key components of the gold answer."
+  },
+  "13|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the laboratory features of pernicious anemia and aligns closely with the gold answer, though it introduces additional details that are not explicitly mentioned in the gold answer."
+  },
+  "14|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the roles of DAF and MIRL in complement regulation and their deficiency in PNH, but it includes a reference that does not provide additional support for the claims made."
+  },
+  "14|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the roles of DAF and MIRL in complement regulation and correctly explains their deficiency in PNH, but it includes a reference that does not add value to the clinical explanation."
+  },
+  "15|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the differentiation methods between hemophilia A and B and aligns well with the gold answer, though it includes some additional details that are not explicitly mentioned in the gold answer."
+  },
+  "15|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content and provides additional relevant details without introducing unsupported claims."
+  },
+  "16|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content and provides correct medical information regarding the stool examination findings in fish tapeworm infestation."
+  },
+  "16|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content and provides correct medical information regarding the presence of ova in stool examinations for fish tapeworm infestation."
+  },
+  "17|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the histological features of Reed-Sternberg cells and their context in Hodgkin's Lymphoma, with minor deviations in detail that do not contradict the gold answer."
+  },
+  "17|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the histological features of Reed-Sternberg cells and their context in Hodgkin's Lymphoma, while also providing additional relevant information without contradicting the gold answer."
+  },
+  "18|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the information in the gold answer and provides additional correct details about the normal appearance of the blood smear and the diagnostic approach."
+  },
+  "18|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the information from the gold answer regarding the normal appearance of the blood smear in cases of factor VIII or IX deficiencies and correctly mentions the prolonged APTT as a relevant clinical finding."
+  },
+  "19|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the cellular composition of Hodgkin's lymphoma as described in the gold answer, without introducing unsupported claims."
+  },
+  "19|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content regarding the cellular composition of Hodgkin's lymphoma and provides additional correct details about Reed-Sternberg cells."
+  },
+  "20|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's key points while adding relevant information about intrinsic factor antibodies, which is clinically correct but not mentioned in the gold answer."
+  },
+  "20|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content and adds relevant clinical considerations without introducing unsupported claims."
+  },
+  "21|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the defect in Glanzmann\u2019s thrombasthenia and its impact on platelet aggregation, but it includes unsupported claims about normal aggregation with ristocetin."
+  },
+  "21|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the defect in Glanzmann\u2019s thrombasthenia and its impact on platelet aggregation, but it includes unsupported references."
+  },
+  "22|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the defining feature of Hodgkin's lymphoma and provides additional correct details about Reed-Sternberg cells, but it includes unsupported references."
+  },
+  "22|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the defining feature of Hodgkin's lymphoma and includes correct details about Reed-Sternberg cells and the background inflammatory cells, but it references sources that do not contribute to the answer."
+  },
+  "23|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes common clinical features of Hodgkin Lymphoma and aligns well with the gold answer, though it includes some additional details that are not explicitly mentioned in the gold answer."
+  },
+  "23|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes accurate clinical features of Hodgkin Lymphoma but introduces additional details and variations that are not present in the gold answer, affecting its faithfulness."
+  },
+  "24|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer and provides additional correct details about the factors involved and the reporting method."
+  },
+  "24|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the Prothrombin Time (PT) test and its relevance to monitoring oral anticoagulant therapy, but it includes an unsupported claim about the variability of PT reagents."
+  },
+  "25|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes disorders associated with defects in primary hemostasis and provides specific examples, but it introduces additional details that are not present in the gold answer."
+  },
+  "25|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the disorders associated with defects in primary hemostasis, aligns with the gold answer, and provides additional relevant details without introducing unsupported claims."
+  },
+  "26|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer and provides additional correct information about intrinsic factor and its role in vitamin B12 absorption."
+  },
+  "26|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content and provides correct medical information regarding vitamin B12 supplementation after total gastrectomy."
+  },
+  "27|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the presence of schistocytes in microangiopathic haemolytic anaemia and explains their formation without introducing unsupported claims."
+  },
+  "27|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the presence of schistocytes in microangiopathic haemolytic anaemia and correctly explains their significance."
+  },
+  "28|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the significance of Reed-Sternberg cells in diagnosing Hodgkin's Lymphoma and provides additional context, though it includes some references that are not directly cited in the gold answer."
+  },
+  "28|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the significance of Reed-Sternberg cells in diagnosing Hodgkin's Lymphoma and provides additional context, although it includes some unsupported claims about other conditions."
+  },
+  "29|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the expected findings in microcytic hypochromic anemia and provides additional relevant details without contradicting the gold answer."
+  },
+  "29|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the characteristics of microcytic hypochromic anemia but introduces additional details about anisopoikilocytosis and specific features of different types of anemia, which may not be directly relevant to the question."
+  },
+  "30|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately reflects the need for vitamin assays and the urgency of testing before treatment, but it introduces the potential complications of folate administration without explicitly stating that it should not be given until B12 deficiency is confirmed."
+  },
+  "30|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's emphasis on obtaining vitamin assays before therapy and correctly discusses the implications of folate treatment in the context of vitamin B12 deficiency."
+  },
+  "31|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the expected results of a platelet adhesion study in von Willebrand disease and provides additional context, though it introduces some unsupported claims about the specificity of the test."
+  },
+  "31|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the defect in platelet adhesion due to von Willebrand disease and its implications, but it does not specify the expected percentage retention of platelets as stated in the gold answer."
+  },
+  "32|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's recommendations and adds clinically relevant information about leucocyte-depleted blood, which is a recognized measure to prevent FNTHR."
+  },
+  "32|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's recommendations and adds a clinically relevant detail about leucocyte-depleted blood, which is a recognized measure to further reduce FNTHR."
+  },
+  "33|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer regarding the required F VIII levels for serious or major bleeding in hemophilia A without introducing any unsupported claims."
+  },
+  "33|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately states the required F VIII levels for serious or major bleeding and provides additional relevant clinical information without contradicting the gold answer."
+  },
+  "34|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the function of the aggregometer and its role in platelet aggregation studies without introducing unsupported claims."
+  },
+  "34|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the function of the aggregometer and aligns with the gold answer without introducing unsupported claims."
+  },
+  "35|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's claims about vitamin B12 deficiency and homocysteine levels without introducing unsupported information."
+  },
+  "35|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the information in the gold answer and adds relevant details without introducing unsupported claims."
+  },
+  "36|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately identifies the deficient proteins and their roles, but it includes a reference that does not provide additional value."
+  },
+  "36|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately identifies the deficient proteins and their functions, but includes a reference that does not provide additional context or support."
+  },
+  "37|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the definition of Stage I in lymphoma staging and adds relevant context about the Ann Arbor staging system without introducing unsupported claims."
+  },
+  "37|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately defines Stage I and includes additional relevant information about the Ann Arbor staging system, but the references do not contribute to the definition itself."
+  },
+  "38|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the correlation between serum vitamin B12 levels and megaloblastic anemia due to vitamin B12 deficiency, while also providing additional relevant information without contradicting the gold answer."
+  },
+  "38|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the correlation between serum vitamin B12 levels and megaloblastic anemia but introduces additional diagnostic considerations that are not mentioned in the gold answer."
+  },
+  "39|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the information from the gold answer regarding vitamin K deficiency and its impact on coagulation factors, providing additional relevant details without introducing unsupported claims."
+  },
+  "39|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the information from the gold answer regarding vitamin K deficiency and its effects on coagulation factors, providing additional relevant details without introducing unsupported claims."
+  },
+  "40|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the Reed-Sternberg cells and their origin, aligning with the gold answer without introducing unsupported claims."
+  },
+  "40|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately identifies Reed-Sternberg cells as characteristic of Hodgkin's lymphoma and correctly states their B lymphocyte origin, but it includes additional details that, while informative, are not strictly necessary for the question."
+  },
+  "41|GPT-4o + RAG": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes accurate clinical indicators of acute hemolytic transfusion reactions but introduces additional symptoms not mentioned in the gold answer, affecting its faithfulness."
+  },
+  "41|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the indicators of HTR and provides additional correct context about the timing and causes of the reaction."
+  },
+  "42|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately lists the vitamin K-dependent factors and correctly describes their requirement for \u03b3-carboxylation and calcium binding."
+  },
+  "42|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately lists the vitamin K-dependent coagulation factors and correctly describes their requirement for gamma-carboxylation."
+  },
+  "43|GPT-4o + RAG": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the expected platelet aggregation response in von Willebrand disease but introduces unsupported claims about mild cases and repeated testing that are not mentioned in the gold answer."
+  },
+  "43|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the expected results of a platelet aggregation study in von Willebrand disease but introduces unsupported claims about mild cases and other conditions that may confuse the core concept."
+  },
+  "44|GPT-4o + RAG": {
+   "faithfulness": 3,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the impact of vitamin K deficiency on the PT test but lacks direct support from the provided textbook references."
+  },
+  "44|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly identifies the prothrombin time (PT) as affected by vitamin K deficiency but lacks specific details from the gold answer regarding the sensitivity comparison with APTT."
+  },
+  "45|GPT-4o + RAG": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes accurate information about inherited and acquired platelet function defects but introduces additional details that are not present in the gold answer, affecting its faithfulness."
+  },
+  "45|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately lists common causes of platelet function defects and adds relevant details without contradicting the gold answer."
+  },
+  "46|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes hereditary spherocytosis and its prevalence, but it includes additional details about inheritance and incidence that are not present in the gold answer."
+  },
+  "46|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes hereditary spherocytosis and its population prevalence, but it includes additional details not present in the gold answer."
+  },
+  "47|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately identifies the primary audience and adds relevant details about fellows in hematology and oncology, which aligns with the broader appeal mentioned in the gold answer."
+  },
+  "47|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately identifies the primary audience and adds relevant details about fellows in hematology and oncology, which aligns with the broader appeal mentioned in the gold answer."
+  },
+  "48|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content and provides correct medical information regarding contamination and its effects on coagulation studies."
+  },
+  "48|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content and provides additional detail about heparin's effects on coagulation tests without introducing unsupported claims."
+  },
+  "49|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the clinical features of chronic lymphocytic leukaemia and adds relevant details without contradicting the gold answer, though it includes unsupported claims about asymptomatic patients."
+  },
+  "49|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes clinical features of CLL but introduces additional details that are not present in the gold answer, slightly affecting its faithfulness."
+  },
+  "50|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content and provides additional relevant detail without introducing unsupported claims."
+  },
+  "50|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content and provides additional correct details about the immune response and hemolytic transfusion reactions."
+  },
+  "51|GPT-4o + RAG": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes CLL and adds some clinical details, but it includes unsupported claims about prevalence in India and familial risk without citation."
+  },
+  "51|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes CLL and adds relevant clinical details without contradicting the gold answer, but it includes references that are not supported by the provided text."
+  },
+  "52|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the findings in thalassaemia trait and adds relevant details without contradicting the gold answer."
+  },
+  "52|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the findings in thalassaemia trait but introduces unsupported claims about RDW that are not mentioned in the gold answer."
+  },
+  "53|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the increased folate requirements during pregnancy and the standard prevention strategy, but it includes unsupported claims about risks associated with folate deficiency."
+  },
+  "53|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content regarding folate requirements during pregnancy and the standard prevention strategy without introducing unsupported claims."
+  },
+  "54|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the findings expected in a patient with combined deficiency of Factors V and VIII, aligning with the gold answer without introducing unsupported claims."
+  },
+  "54|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the findings expected in a patient with combined deficiency of Factors V and VIII, aligning with the gold answer without introducing unsupported claims."
+  },
+  "55|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content and provides correct medical information regarding the confirmation of ABO incompatibility."
+  },
+  "55|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides a detailed description of the compatibility testing process but does not mention the direct antiglobulin test (DAT) or the specific interpretation of results as outlined in the gold answer."
+  },
+  "56|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's key points and provides additional relevant details without introducing unsupported claims, but it includes a source line that detracts slightly from faithfulness."
+  },
+  "56|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the immediate actions required during an anaphylactic reaction and includes appropriate treatments, but it adds some details about supportive measures that are not specified in the gold answer."
+  },
+  "57|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer but includes a reference that does not add value."
+  },
+  "57|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer but includes a reference that does not add value."
+  },
+  "58|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes basophilic stippling and its cause, but introduces a caveat about its variability that is not present in the gold answer."
+  },
+  "58|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes basophilic stippling and its cause, but introduces an unsupported claim about variability in observation."
+  },
+  "59|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes clinical features of PNH but introduces additional details about thrombosis and bleeding that, while relevant, are not explicitly mentioned in the gold answer."
+  },
+  "59|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes accurate clinical features of PNH but introduces additional details about thrombosis and cytopenias that are not mentioned in the gold answer, affecting its faithfulness."
+  },
+  "60|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the mechanism of platelet destruction in sensitized women and provides additional relevant details, though it introduces hypotheses that are not explicitly stated in the gold answer."
+  },
+  "60|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the mechanism of platelet destruction but introduces unsupported explanations and references that detract from its faithfulness to the gold answer."
+  },
+  "61|GPT-4o + RAG": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly explains how to calculate the corrected reticulocyte count and identifies inadequate erythropoietic activity, but it provides an incorrect value compared to the gold answer."
+  },
+  "61|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides a correct calculation method for the corrected reticulocyte count but does not arrive at the expected value of 0.3% as stated in the gold answer."
+  },
+  "62|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the role of Gp Ib-IX-V in platelet function and its interaction with von Willebrand factor, but it includes unsupported reference citations."
+  },
+  "62|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content regarding the role of Gp Ib-IX-V in platelet function without introducing unsupported claims."
+  },
+  "63|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the findings of intravascular hemolysis as described in the gold answer without introducing unsupported claims."
+  },
+  "63|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the findings of intravascular hemolysis as described in the gold answer without introducing unsupported claims."
+  },
+  "64|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes hematology and its components, but it introduces additional details about the hematopoietic system that, while correct, are not explicitly mentioned in the gold answer."
+  },
+  "64|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes hematology and its focus on blood components and functions, but it introduces additional concepts like hemostasis and thrombosis without direct support from the gold answer."
+  },
+  "65|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer without introducing unsupported claims, and the medical content regarding the tests for haemoglobinuria and haemosiderinuria is correct."
+  },
+  "65|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer without adding unsupported claims."
+  },
+  "66|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the areas involved in hematologic disorders and provides additional relevant details without contradicting the gold answer."
+  },
+  "66|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the areas involved in hematologic disorders and aligns closely with the gold answer, though it includes additional relevant details without contradicting the core information."
+  },
+  "67|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the changes in platelet shape and light transmission, but it includes an unsupported reference to a photometer in an aggregometer."
+  },
+  "67|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the process of platelet aggregation and the use of an aggregometer, but it introduces an unsupported claim about the test's specificity for disorders."
+  },
+  "68|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the molecular lesions associated with hemophilia A and their likelihood of developing F VIII inhibitors, but it introduces some uncertainty about the consistency of these associations, which is not present in the gold answer."
+  },
+  "68|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes some molecular lesions associated with hemophilia A and their likelihood of developing inhibitors, but it lacks specificity regarding the higher risk mutations and introduces uncertainty that is not present in the gold answer."
+  },
+  "69|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the main cell types from the myeloid lineage and adds relevant information about their origin and functions, but it includes unsupported references."
+  },
+  "69|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately lists the cell types from the myeloid lineage and provides correct information about their origin, but it includes a reference that does not contribute to the answer."
+  },
+  "70|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately states the normal range for PT and does not introduce any conflicting information, but it includes a reference that does not provide additional context."
+  },
+  "70|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides a reasonable range for PT and acknowledges variability, but it does not fully align with the gold answer's specified range."
+  },
+  "71|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes Reed-Sternberg cells and their context in Hodgkin's lymphoma, but it includes additional details that, while informative, are not strictly necessary for the defining feature."
+  },
+  "71|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the defining feature of Hodgkin's lymphoma and provides correct additional context without introducing unsupported claims."
+  },
+  "72|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content regarding the chromosomal abnormalities associated with CLL and adds relevant information about prognosis without introducing unsupported claims."
+  },
+  "72|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content and includes additional relevant information about prognosis without introducing unsupported claims."
+  },
+  "73|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content and adds relevant details without introducing unsupported claims."
+  },
+  "73|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's key points while adding additional relevant steps without contradicting the original content."
+  },
+  "74|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's description of Reed-Sternberg cell morphology in lymphocyte depletion type of Hodgkin lymphoma without introducing unsupported claims."
+  },
+  "74|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's description of Reed-Sternberg cell morphology in lymphocyte depletion type Hodgkin lymphoma without introducing unsupported claims."
+  },
+  "75|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content without introducing unsupported claims."
+  },
+  "75|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the morphological features of reactive lymphocytes as described in the gold answer and provides correct clinical context."
+  },
+  "76|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the risks associated with earlier FVIII concentrates and provides additional relevant details without contradicting the gold answer."
+  },
+  "76|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the risk of viral transmission associated with earlier FVIII concentrates and mentions the improvements made, but it lacks specific details about the prevalence of infections."
+  },
+  "77|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content and provides correct medical information regarding the causes of reticulocytosis."
+  },
+  "77|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the causes of reticulocytosis as stated in the gold answer without introducing unsupported claims."
+  },
+  "78|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately lists the types of white blood cells found in peripheral circulation and provides correct additional information about their roles in the immune system without introducing unsupported claims."
+  },
+  "78|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately lists the types of white blood cells found in peripheral circulation and provides correct additional information about their roles and characteristics."
+  },
+  "79|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer and provides correct medical reasoning without introducing unsupported claims."
+  },
+  "79|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer and provides additional correct context regarding the importance of the blood to anticoagulant ratio."
+  },
+  "80|GPT-4o + RAG": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer correctly identifies reduced serum vitamin B12 levels but inaccurately states that red cell folate levels are often depressed, which is not universally true as they can be normal or increased."
+  },
+  "80|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the expected serum vitamin B12 levels and correctly states that red cell folate levels are generally normal or increased, but it introduces the 'folate trap' concept which is not explicitly mentioned in the gold answer."
+  },
+  "81|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the age demographics of Hodgkin's and non-Hodgkin's lymphoma as stated in the gold answer, but it includes a reference that does not contribute to the content."
+  },
+  "81|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the age demographics of Hodgkin\u2019s and non-Hodgkin\u2019s lymphoma as stated in the gold answer, but it includes a reference that does not provide additional support."
+  },
+  "82|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the presence of giant platelets and the underlying defect in glycoprotein Ib-IX-V, but it includes a reference that does not contribute to the answer."
+  },
+  "82|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the findings on a blood smear for Bernard-Soulier syndrome and correctly identifies the underlying defect, but it introduces additional information about diagnostic methods that is not present in the gold answer."
+  },
+  "83|GPT-4o + RAG": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the Ham Test and its relation to PNH but introduces unsupported claims about other conditions and the current diagnostic methods."
+  },
+  "83|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes the Ham Test and its purpose but introduces unsupported claims about its replacement by modern techniques."
+  },
+  "84|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer without introducing unsupported claims."
+  },
+  "84|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the inversion mutation in the F VIII gene and its significance in severe hemophilia A, but it lacks the specific prevalence percentage mentioned in the gold answer."
+  },
+  "85|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately identifies thalassemia as a potential condition and provides additional relevant details, though it introduces unsupported claims about peripheral blood smear findings."
+  },
+  "85|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately identifies thalassemia as a potential condition and provides additional relevant details, though it introduces unsupported claims about peripheral blood smear findings."
+  },
+  "86|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the expected findings in megaloblastic anaemia due to vitamin B12 deficiency and adds relevant details without contradicting the gold answer."
+  },
+  "86|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the expected findings in megaloblastic anaemia due to vitamin B12 deficiency and includes additional relevant details, though it introduces some ambiguity regarding the exclusivity of findings."
+  },
+  "87|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the role of platelets in coagulation, aligns closely with the gold answer, and does not introduce unsupported claims, though it includes additional details not present in the gold answer."
+  },
+  "87|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the role of platelets in coagulation, including their involvement in primary and secondary haemostasis, but it introduces additional details that are not present in the gold answer."
+  },
+  "88|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately reflects the gold answer's content and adds some clinical management details, but the reference citation detracts from its faithfulness."
+  },
+  "88|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the causes of circulatory overload and aligns closely with the gold answer, though it introduces a general knowledge disclaimer that slightly detracts from faithfulness."
+  },
+  "89|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer's content and adds relevant context without introducing unsupported claims."
+  },
+  "89|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer expands on the audience for the textbook but does not contradict the gold answer regarding its initial purpose."
+  },
+  "90|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the symptoms and timing of TRALI and correctly identifies the X-ray findings, but it includes unsupported claims about leucoagglutinins."
+  },
+  "90|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer includes accurate symptoms of TRALI but adds unsupported claims and lacks direct alignment with the gold answer."
+  },
+  "91|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the expected reticulocyte response to vitamin B12 treatment and adds relevant clinical considerations without contradicting the gold answer."
+  },
+  "91|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the timing and significance of the reticulocyte response to vitamin B12 treatment as described in the gold answer, without introducing unsupported claims."
+  },
+  "92|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer without adding unsupported claims."
+  },
+  "92|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the roles of factors V and VIII as cofactors in the coagulation cascade and correctly states that they do not possess enzymatic activity, but it adds some details not explicitly mentioned in the gold answer."
+  },
+  "93|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes expected laboratory findings in DHTR and aligns closely with the gold answer, though it includes additional correct details."
+  },
+  "93|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes expected laboratory findings in DHTR and aligns well with the gold answer, though it includes additional correct details that are not explicitly mentioned in the gold answer."
+  },
+  "94|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the significance of the reticulocyte production index and its clinical implications, but it introduces additional details that, while relevant, are not explicitly stated in the gold answer."
+  },
+  "94|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the significance of the reticulocyte production index and its clinical implications, though it includes unsupported references that detract slightly from faithfulness."
+  },
+  "95|GPT-4o + RAG": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes F VIII concentrate and its preparation but includes additional details about safety measures and recombinant products that are not present in the gold answer."
+  },
+  "95|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer accurately describes F VIII concentrate and its preparation but includes additional details about safety and recombinant technology that, while correct, are not part of the gold answer."
+  },
+  "96|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the gold answer without adding unsupported claims."
+  },
+  "96|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately lists the normal types of white blood cells and provides correct additional context about their roles in the immune response."
+  },
+  "97|GPT-4o + RAG": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes the findings in urine for PNH and adds relevant details about detection methods, but includes unsupported references."
+  },
+  "97|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes hemoglobinuria and haemosiderinuria in PNH, but it includes a reference that does not contribute to the clinical content."
+  },
+  "98|GPT-4o + RAG": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information about red cell indices and their differences in the two conditions but includes unsupported claims and references that detract from its faithfulness."
+  },
+  "98|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 3,
+   "clinical_correctness": 4,
+   "rationale": "The model answer provides accurate information about red cell indices and their differences in the two conditions but includes unsupported claims about red cell count and additional parameters that were not mentioned in the gold answer."
+  },
+  "99|GPT-4o + RAG": {
+   "faithfulness": 5,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately reflects the definition of Binet stage A and correctly identifies the lymphoid areas involved."
+  },
+  "99|GPT-4o + RAG (600 chars)": {
+   "faithfulness": 4,
+   "clinical_correctness": 5,
+   "rationale": "The model answer accurately describes Binet stage A and includes relevant details about the lymphoid areas involved, but it introduces a reference that does not provide additional clinical information."
   }
  },
  "summary": {
@@ -1517,6 +2517,16 @@
    "n": 100,
    "faithfulness": 4.02,
    "clinical_correctness": 4.67
+  },
+  "GPT-4o + RAG": {
+   "n": 100,
+   "faithfulness": 4.24,
+   "clinical_correctness": 4.83
+  },
+  "GPT-4o + RAG (600 chars)": {
+   "n": 100,
+   "faithfulness": 4.14,
+   "clinical_correctness": 4.78
   },
   "Llama-3.1-8B + QLoRA (ours) minus Llama-3.1-8B (base): faithfulness": {
    "mean_difference": 0.43,

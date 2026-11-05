@@ -1,60 +1,41 @@
 {
-  "clinical_interpretation": "The peripheral blood smear analysis shows a very limited number of white blood cells classified, with only 2 cells analyzed. The differential is unreliable due to the insufficient number of classified cells. The presence of 50% immature granulocytes (IG) is notably above the normal range, suggesting a potential left shift, but this finding is not reliable given the low cell count. Monocytes are also elevated at 50%, but again, this is based on an unreliable differential.",
+  "clinical_interpretation": "The peripheral blood smear analysis shows an unreliable WBC differential due to insufficient white cell classification. The detected immature granulocytes (50%) are significantly above the normal range, suggesting a possible left shift, while monocytes are also elevated. However, the high uncertainty in the analysis necessitates expert review.",
   "key_findings": [
-    "Insufficient WBC count for reliable differential (2 classified, minimum 100 required).",
-    "50% immature granulocytes detected, which is above the normal range of 0-0.5%.",
-    "50% monocytes detected, which is above the normal range of 2-8%."
+    "Insufficient WBC classification for reliable differential.",
+    "Immature granulocytes (IG) at 50%, significantly elevated.",
+    "Monocytes at 50%, significantly elevated."
   ],
   "differential_diagnoses": [
-    "Left shift [Reference 1] — The presence of 50% immature granulocytes suggests a left shift, which could indicate infection or a marrow process, but this is based on an unreliable differential.",
-    "Monocytosis [Reference 2] — Elevated monocytes could suggest chronic inflammation or other conditions, but this is based on an unreliable differential."
+    "Left shift [Reference 1] — Elevated immature granulocytes suggest a left shift, which can be associated with infection or bone marrow processes.",
+    "Monocytosis [Reference 2] — Elevated monocytes may indicate chronic inflammation or other conditions like tuberculosis or chronic myelomonocytic leukemia (CMML)."
   ],
   "recommendations": [
-    "Repeat the blood smear analysis to obtain a sufficient number of white blood cells for a reliable differential.",
-    "Consider correlating with clinical findings and other laboratory tests to assess for possible infection or marrow process."
+    "Repeat the blood smear with a sufficient number of WBCs for a reliable differential.",
+    "Consider clinical correlation and further diagnostic testing to investigate potential causes of left shift and monocytosis."
   ],
   "safety_flags": [
-    "Unreliable differential due to insufficient WBC count.",
-    "High uncertainty in one of the analyzed samples.",
+    "High uncertainty in WBC classification.",
+    "Insufficient WBC count for reliable differential interpretation.",
     "HIGH_UNCERTAINTY",
+    "UNSUPPORTED_CITATION: [Reference 1], [Reference 2] cited, but the agent retrieved no such passage, so the citation is not evidence.",
     "INSUFFICIENT_CELL_COUNT: only 2 white cell(s) classified; at least 100 are needed for a reliable differential, so percentages are not meaningful."
   ],
   "confidence_assessment": "LOW",
   "requires_expert_review": true,
-  "raw_response": "{\n  \"clinical_interpretation\": \"The peripheral blood smear analysis shows a very limited number of white blood cells classified, with only 2 cells analyzed. The differential is unreliable due to the insufficient number of classified cells. The presence of 50% immature granulocytes (IG) is notably above the normal range, suggesting a potential left shift, but this finding is not reliable given the low cell count. Monocytes are also elevated at 50%, but again, this is based on an unreliable differential.\",\n  \"key_findings\": [\n    \"Insufficient WBC count for reliable differential (2 classified, minimum 100 required).\",\n    \"50% immature granulocytes detected, which is above the normal range of 0-0.5%.\",\n    \"50% monocytes detected, which is above the normal range of 2-8%.\"\n  ],\n  \"differential_diagnoses\": [\n    \"Left shift [Reference 1] — The presence of 50% immature granulocytes suggests a left shift, which could indicate infection or a marrow process, but this is based on an unreliable differential.\",\n    \"Monocytosis [Reference 2] — Elevated monocytes could suggest chronic inflammation or other conditions, but this is based on an unreliable differential.\"\n  ],\n  \"recommendations\": [\n    \"Repeat the blood smear analysis to obtain a sufficient number of white blood cells for a reliable differential.\",\n    \"Consider correlating with clinical findings and other laboratory tests to assess for possible infection or marrow process.\"\n  ],\n  \"safety_flags\": [\n    \"Unreliable differential due to insufficient WBC count.\",\n    \"High uncertainty in one of the analyzed samples.\"\n  ],\n  \"requires_expert_review\": true,\n  \"confidence_assessment\": \"LOW\"\n}",
-  "retrieved_references": [
-    {
-      "reference_id": 1,
-      "source": "essentials_haematology.pdf",
-      "chunk_id": 111,
-      "score": 0.8126195669174194
-    },
-    {
-      "reference_id": 2,
-      "source": "essentials_haematology.pdf",
-      "chunk_id": 195,
-      "score": 0.7940259575843811
-    },
-    {
-      "reference_id": 3,
-      "source": "essentials_haematology.pdf",
-      "chunk_id": 449,
-      "score": 0.79212486743927
-    },
-    {
-      "reference_id": 4,
-      "source": "essentials_haematology.pdf",
-      "chunk_id": 535,
-      "score": 0.7907891273498535
-    },
-    {
-      "reference_id": 5,
-      "source": "essentials_haematology.pdf",
-      "chunk_id": 595,
-      "score": 0.7785042524337769
-    }
-  ],
+  "raw_response": "{\n  \"clinical_interpretation\": \"The peripheral blood smear analysis shows an unreliable WBC differential due to insufficient white cell classification. The detected immature granulocytes (50%) are significantly above the normal range, suggesting a possible left shift, while monocytes are also elevated. However, the high uncertainty in the analysis necessitates expert review.\",\n  \"key_findings\": [\n    \"Insufficient WBC classification for reliable differential.\",\n    \"Immature granulocytes (IG) at 50%, significantly elevated.\",\n    \"Monocytes at 50%, significantly elevated.\"\n  ],\n  \"differential_diagnoses\": [\n    \"Left shift [Reference 1] — Elevated immature granulocytes suggest a left shift, which can be associated with infection or bone marrow processes.\",\n    \"Monocytosis [Reference 2] — Elevated monocytes may indicate chronic inflammation or other conditions like tuberculosis or chronic myelomonocytic leukemia (CMML).\"\n  ],\n  \"recommendations\": [\n    \"Repeat the blood smear with a sufficient number of WBCs for a reliable differential.\",\n    \"Consider clinical correlation and further diagnostic testing to investigate potential causes of left shift and monocytosis.\"\n  ],\n  \"safety_flags\": [\n    \"High uncertainty in WBC classification.\",\n    \"Insufficient WBC count for reliable differential interpretation.\"\n  ],\n  \"requires_expert_review\": true,\n  \"confidence_assessment\": \"LOW\"\n}",
+  "retrieved_references": [],
   "reasoning_mode": "agent",
+  "citation_check": {
+    "cited": [
+      1,
+      2
+    ],
+    "retrieved": [],
+    "unsupported": [
+      1,
+      2
+    ]
+  },
   "agent_trace": [
     {
       "type": "tool_call",
@@ -92,7 +73,7 @@
     },
     {
       "type": "thought",
-      "content": "{\n  \"clinical_interpretation\": \"The peripheral blood smear analysis shows a very limited number of white blood cells classified, with only 2 cells analyzed. The differential is unreliable due to the insufficient number of classified cells. The presence of 50% immature granulocytes (IG) is notably above the normal range, suggesting a potential left shift, but this finding is not reliable given the low cell count. Monocytes are also elevated at 50%, but again, this is based on an unreliable differential.\",\n  \"key_findings\": [\n    \"Insufficient WBC count for reliable differential (2 classified, m..."
+      "content": "{\n  \"clinical_interpretation\": \"The peripheral blood smear analysis shows an unreliable WBC differential due to insufficient white cell classification. The detected immature granulocytes (50%) are significantly above the normal range, suggesting a possible left shift, while monocytes are also elevated. However, the high uncertainty in the analysis necessitates expert review.\",\n  \"key_findings\": [\n    \"Insufficient WBC classification for reliable differential.\",\n    \"Immature granulocytes (IG) at 50%, significantly elevated.\",\n    \"Monocytes at 50%, significantly elevated.\"\n  ],\n  \"differential..."
     }
   ],
   "retrieval_quality": {

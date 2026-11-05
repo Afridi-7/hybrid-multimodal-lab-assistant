@@ -279,11 +279,13 @@ class BloodSmearPipeline:
                     retrieved_chunks=retrieved_chunks
                 )
                 
-                # Add retrieval quality info. In agent mode the agent already
-                # produced its own retrieved_references via tool calls; keep
-                # those rather than overwriting with the pre-fetched list.
+                # Add retrieval quality info. In agent mode the agent ignores the
+                # pre-fetched chunks and retrieves its own evidence, so only its own
+                # retrieved_references are shown -- never the pre-fetched list, which
+                # the agent did not see and which would make its citations look backed.
                 reasoning_results['retrieval_quality'] = retrieval_quality
-                if not reasoning_results.get('retrieved_references'):
+                if (not reasoning_results.get('retrieved_references')
+                        and reasoning_results.get('reasoning_mode') != 'agent'):
                     reasoning_results['retrieved_references'] = [
                         {
                             'reference_id': idx,

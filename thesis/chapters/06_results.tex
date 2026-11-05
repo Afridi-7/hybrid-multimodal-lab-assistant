@@ -40,7 +40,7 @@ Platelet & 34 & 49 & 0.958 & 0.939 & 0.970 & 0.834 \\
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{figures/stage1_results_training_curves.png}
+\includegraphics[width=0.75\textwidth]{figures/stage1_results_training_curves.png}
 \caption{YOLOv8s training curves over 50 epochs: training and validation box, class and distribution-focal losses (left three columns) and validation precision, recall, mAP@0.50 and mAP@0.50:0.95 (right).}
 \label{fig:yolo-curves}
 \end{figure}
@@ -122,11 +122,11 @@ HIGH (flagged) & 66 & 1.9 & 62.12\,\% & 25 & 51 \\
 
 Three observations follow. First, the classifier is \emph{well calibrated} in-domain (ECE below 0.004), and MC-Dropout improves calibration only marginally over a single pass. Second, the uncertainty scores \emph{separate errors from correct predictions very well} (AUROC $\approx 0.97$): 95\,\% of the cells are LOW and 99.7\,\% of those are correct, whereas the 1.9\,\% of cells marked HIGH contain half of all errors. Third, the MEDIUM level is a weak spot of the current review rule: its accuracy is only 84.7\,\%, and its 15 errors reach the expert without a flag. Flagging MEDIUM as well would send 4.8\,\% of the cells for review and catch 82\,\% of the errors (40 of 49) --- a trade-off between workload and safety that should be set together with clinical users. All of these numbers describe images from the same analyser as the training data; under distribution shift both accuracy and calibration are expected to be worse (see the example below).
 
-\paragraph{An example of domain shift.} The PBC images used for training come from a single analyser with standardised staining. Figure~\ref{fig:shift} shows the combined Stage~1 + Stage~2 output on an image from a different source, produced in the Stage-3 notebook. The white cell has a segmented nucleus and granular cytoplasm, the appearance of a mature granulocyte, yet the classifier labelled it \emph{erythroblast} with a probability of 0.90. This single example does not measure the size of the problem, but it illustrates why the benchmark accuracy should not be expected to transfer unchanged to smears from other laboratories.
+\paragraph{An example of domain shift.} The PBC images used for training come from a single analyser with standardised staining. Figure~\ref{fig:shift} shows the combined Stage~1 + Stage~2 output on an image from a different source, produced in the Stage-3 notebook with the original (v1) classifier. The white cell has a segmented nucleus and granular cytoplasm, the appearance of a mature granulocyte, yet the classifier labelled it \emph{erythroblast} with a probability of 0.90. This single example does not measure the size of the problem, but it illustrates why the benchmark accuracy should not be expected to transfer unchanged to smears from other laboratories.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.75\textwidth]{figures/stage3_results_pipeline_output.png}
+\includegraphics[width=0.62\textwidth]{figures/stage3_results_pipeline_output.png}
 \caption{Stage 1 + Stage 2 output on an image from outside the training distribution: 13 red cells and one white cell were detected; the white cell, which appears to be a segmented granulocyte, was classified as \emph{erythroblast} (0.90). (This notebook run used a lower detection threshold than the 0.50 of the final system, so some low-confidence red-cell boxes are shown.)}
 \label{fig:shift}
 \end{figure}
@@ -137,7 +137,7 @@ Table~\ref{tab:de} and Figure~\ref{fig:de} summarise the comparison of the base 
 
 \begin{table}[H]
 \centering
-\caption{Domain-expert evaluation. In-domain metrics are means over 100 held-out textbook questions; MedMCQA accuracy is over 100 hematology-related exam questions (not run for GPT-4o). Best value per column in bold.}
+\caption{Domain-expert evaluation. In-domain metrics are means over 100 held-out textbook questions; MedMCQA accuracy is over 100 hematology-related exam questions (not run for GPT-4o). \emph{+ RAG}: GPT-4o given the five chunks retrieved by the system (full, or cut to 600 characters as in the agent tool). Best value per column in bold.}
 \label{tab:de}
 \small
 \setlength{\tabcolsep}{4.5pt}
@@ -148,8 +148,10 @@ Table~\ref{tab:de} and Figure~\ref{fig:de} summarise the comparison of the base 
 \textbf{System} & \textbf{Sem.\ sim.} & \textbf{ROUGE-L} & \textbf{Source marker} & \textbf{Words} & \textbf{MedMCQA} \\
 \midrule
 Llama-3.1-8B (base) & 0.775 & 0.170 & 13\,\% & 159.2 & 56\,\% \\
-Llama-3.1-8B + QLoRA (ours) & \textbf{0.832} & \textbf{0.455} & 99\,\% & 36.5 & \textbf{61\,\%} \\
+Llama-3.1-8B + QLoRA (ours) & 0.832 & \textbf{0.455} & 99\,\% & 36.5 & \textbf{61\,\%} \\
 GPT-4o (reference) & 0.792 & 0.202 & 88\,\% & 147.4 & -- \\
+GPT-4o + RAG & \textbf{0.848} & 0.356 & 99\,\% & 105.3 & -- \\
+GPT-4o + RAG (600 characters) & 0.831 & 0.314 & 96\,\% & 107.1 & -- \\
 \midrule
 Reference answers & -- & -- & 100\,\% & 34.8 & -- \\
 \bottomrule
@@ -158,22 +160,22 @@ Reference answers & -- & -- & 100\,\% & 34.8 & -- \\
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{figures/domain_expert_results.pdf}
-\caption{Comparison of the three systems: (a) semantic similarity and (b) ROUGE-L F1 against the textbook reference answers on 100 held-out questions; (c) mean LLM-judge scores on the same answers; (d) accuracy on 100 hematology-related MedMCQA questions, with the 25\,\% chance level.}
+\includegraphics[width=0.8\textwidth]{figures/domain_expert_results.pdf}
+\caption{Comparison of the systems: (a) semantic similarity and (b) ROUGE-L F1 against the textbook reference answers on 100 held-out questions; (c) mean LLM-judge scores on the same answers (GPT-4o with and without retrieval); (d) accuracy on 100 hematology-related MedMCQA questions, with the 25\,\% chance level.}
 \label{fig:de}
 \end{figure}
 
-\paragraph{In-domain questions.} Fine-tuning brought the model's answers much closer to the textbook reference answers. ROUGE-L rose from 0.170 to 0.455 ($+0.285$); the paired bootstrap 95\,\% confidence interval of the improvement is $[0.259,\ 0.313]$, and the fine-tuned model scored higher than the base model on \emph{every one} of the 100 questions. Semantic similarity rose from 0.775 to 0.832. On both measures the fine-tuned 8-billion-parameter model also exceeded GPT-4o (ROUGE-L difference $+0.253$, 95\,\% CI $[0.226,\ 0.281]$, higher on 99 of 100 questions). Its answers are about four times shorter than those of the other two systems (37 vs.\ 147--159 words) and close to the length of the reference answers (35 words).
+\paragraph{In-domain questions.} Fine-tuning brought the model's answers much closer to the textbook reference answers. ROUGE-L rose from 0.170 to 0.455 ($+0.285$); the paired bootstrap 95\,\% confidence interval of the improvement is $[0.259,\ 0.313]$, and the fine-tuned model scored higher than the base model on \emph{every one} of the 100 questions. Semantic similarity rose from 0.775 to 0.832. On both measures the fine-tuned 8-billion-parameter model also exceeded GPT-4o (ROUGE-L difference $+0.253$, 95\,\% CI $[0.226,\ 0.281]$, higher on 99 of 100 questions). Its answers are about four times shorter than those of the base model and GPT-4o (37 vs.\ 147--159 words) and close to the length of the reference answers (35 words).
 
 These numbers must be read carefully. The reference answers were written by a GPT model from the textbook passages, in a particular concise style, and the fine-tuned model was trained on 1{,}898 answers in exactly that style. Part of the gain is therefore a gain in \emph{form}: length, wording and structure. ROUGE-L rewards this strongly; semantic similarity, which is less sensitive to wording, shows a smaller but still clear gain. GPT-4o's lower scores on these two measures do not mean that its answers are less correct --- it writes longer, more general explanations that overlap less with the short reference text. The LLM-judge ratings below confirm this.
 
 \paragraph{External questions.} On the MedMCQA questions the fine-tuned model answered 61 of 100 correctly and the base model 56. The two models disagreed on 19 questions (base correct only: 7; fine-tuned correct only: 12), and the exact McNemar test gives $p = 0.36$: the difference is well within chance at this sample size. Fine-tuning on 1{,}898 textbook pairs therefore did not measurably change the model's general hematology knowledge --- in particular, it did not damage it. (Both models are well above the 25\,\% chance level; three of the base model's answers could not be parsed as a letter and count as wrong.)
 
-\paragraph{LLM-judge ratings.} Table~\ref{tab:judge} shows the 300 ratings. Fine-tuning raised \emph{faithfulness} to the textbook answer by 0.43 points (95\,\% CI $[0.25,\ 0.63]$) but left \emph{clinical correctness} unchanged ($-0.07$, CI $[-0.25,\ 0.12]$). GPT-4o was rated best on both scales, and by a wide margin on correctness (4.67 vs.\ 3.90 for the fine-tuned model, difference $+0.77$, CI $[0.58,\ 0.96]$) --- the opposite of the ROUGE-L ranking. The judge's rationales for the fine-tuned model's lowest-rated answers name concrete medical errors, discussed in Section~\ref{sec:res-qual}.
+\paragraph{LLM-judge ratings.} Table~\ref{tab:judge} shows the 500 ratings. Fine-tuning raised \emph{faithfulness} to the textbook answer by 0.43 points (95\,\% CI $[0.25,\ 0.63]$) but left \emph{clinical correctness} unchanged ($-0.07$, CI $[-0.25,\ 0.12]$). GPT-4o was rated well above both Llama models, and by a wide margin on correctness (4.67 vs.\ 3.90 for the fine-tuned model, difference $+0.77$, CI $[0.58,\ 0.96]$) --- the opposite of the ROUGE-L ranking. The judge's rationales for the fine-tuned model's lowest-rated answers name concrete medical errors, discussed in Section~\ref{sec:res-qual}.
 
 \begin{table}[H]
 \centering
-\caption{LLM-judge scores (GPT-4o-mini, 1--5, mean over 100 held-out questions; standard deviation in brackets).}
+\caption{LLM-judge scores (GPT-4o-mini, 1--5, mean over 100 held-out questions; standard deviation in brackets) and paired differences.}
 \label{tab:judge}
 \small
 \begin{tabular}{lcc}
@@ -182,15 +184,20 @@ These numbers must be read carefully. The reference answers were written by a GP
 \midrule
 Llama-3.1-8B (base) & 3.07 (0.84) & 3.97 (0.90) \\
 Llama-3.1-8B + QLoRA (ours) & 3.50 (1.18) & 3.90 (1.06) \\
-GPT-4o (reference) & \textbf{4.02} (0.79) & \textbf{4.67} (0.70) \\
+GPT-4o (reference) & 4.02 (0.79) & 4.67 (0.70) \\
+GPT-4o + RAG & \textbf{4.24} (0.64) & \textbf{4.83} (0.38) \\
+GPT-4o + RAG (600 characters) & 4.14 (0.68) & 4.78 (0.42) \\
 \midrule
 Ours $-$ base (95\,\% CI) & $+0.43$ $[0.25,\ 0.63]$ & $-0.07$ $[-0.25,\ 0.12]$ \\
 GPT-4o $-$ ours (95\,\% CI) & $+0.52$ $[0.31,\ 0.74]$ & $+0.77$ $[0.58,\ 0.96]$ \\
+GPT-4o + RAG $-$ GPT-4o (95\,\% CI) & $+0.22$ $[0.03,\ 0.41]$ & $+0.16$ $[0.02,\ 0.32]$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\paragraph{Interpretation.} Together, the three kinds of evidence give a consistent picture: \emph{QLoRA fine-tuning taught the model how the domain expert should answer --- concisely, in the textbook's terminology and with a source line --- but it did not teach it new medical knowledge.} This agrees with the literature, which finds that retrieval is more effective than fine-tuning for injecting knowledge \cite{ovadia2024}, and it supports the design choice of building the runtime expert around retrieval and tools.
+\paragraph{GPT-4o with retrieval.} Given the five passages that the system's own retriever returned, GPT-4o was rated more faithful ($+0.22$, CI $[0.03,\ 0.41]$) and more correct ($+0.16$, CI $[0.02,\ 0.32]$) than without them, the best of all systems on both scales, and its answers moved closer to the references (ROUGE-L $+0.153$, CI $[0.124,\ 0.183]$; semantic similarity 0.848). The gain comes from the 79 questions whose source passage was among the five retrieved: on these, faithfulness rose by $+0.29$ $[0.08,\ 0.52]$ and correctness by $+0.19$ $[0.03,\ 0.38]$, whereas on the other 21 neither changed ($-0.05$ and $+0.05$, both intervals spanning zero). With retrieval, ``[Reference~$N$]'' became a real citation: 89 answers cited at least one passage, and every cited number belonged to a passage that had been given (\path{rag_analysis.json}). Cutting each passage to 600 characters, as the agent's tool does, lowered ROUGE-L by 0.041 (CI $[0.018,\ 0.065]$), while the judge's ratings fell only slightly and not significantly ($-0.10$ and $-0.05$). These gains are optimistic, because the questions and reference answers were written from the very chunks that the retriever finds.
+
+\paragraph{Interpretation.} Together, the evidence gives a consistent picture: \emph{QLoRA fine-tuning taught the model how the domain expert should answer --- concisely, in the textbook's terminology and with a source line --- but it did not teach it new medical knowledge, whereas retrieval made the same hosted model more faithful and more correct.} This agrees with the literature, which finds that retrieval is more effective than fine-tuning for injecting knowledge \cite{ovadia2024}, and it supports the design choice of building the runtime expert around retrieval and tools.
 
 \paragraph{Comparison with the first, leaky run.} The first run (\path{results/domain_expert/}), in which most test questions had a sibling from the same passage in training, gave ROUGE-L 0.161 / 0.433 / 0.181 (base / ours / GPT-4o), a faithfulness gain of $+0.54$, a correctness gain of $+0.05$, and a GPT-4o lead over the fine-tuned model of $+0.29$ (faithfulness) and $+0.63$ (correctness). The leakage thus did not create the main finding, but it made the fine-tuned model look closer to GPT-4o than it is. The two runs use different test questions, so this comparison is indicative only.
 
@@ -221,14 +228,14 @@ The 512-token model with the query instruction finds the source chunk in the top
 
 \subsection{Qualitative analysis: citations and errors}\label{sec:res-qual}
 
-\paragraph{Invented citations in the base model.} No source was given to the models, yet the base Llama model named a specific textbook, author or reference list in \textbf{68 of the 100} in-domain answers (flagged by the rule of Section~\ref{sec:eval} and checked by hand). Typical examples are:
+\paragraph{Unsupported source attributions in the base model.} No source was given to the models, yet the base Llama model attributed its answer to a specific textbook, author or reference list in \textbf{72 of the 100} in-domain answers: the rule of Section~\ref{sec:eval} flagged 68, all of which were confirmed on inspection, and four more were found among the unflagged answers (\path{flagged_citations_checked.csv}). Typical examples are:
 
 \begin{quote}\small
 ``According to the textbook \emph{`Hematology: A Very Short Introduction'} by Patricia A. Tanner [1] \ldots'' \\
 ``References: [1] Lichtman, M.\,A., Kipps, T.\,J., \& Steinberg, D.\,A. (2014). Williams Hematology \ldots''
 \end{quote}
 
-The attributions are fabricated --- the model was never shown these books, and in several answers the same title is attributed to different authors --- but they look convincing. This is the failure mode described by Walters and Wilder for ChatGPT \cite{walters2023}, and it is caused here by the system prompt, which asks the model to ``cite'' a ``provided textbook reference'' that is not there. Neither the fine-tuned model nor GPT-4o named an invented book. GPT-4o, however, inserted a bare ``[Reference~$N$]'' marker in 37 answers (the base model in 13), pointing to a reference that did not exist --- a milder form of the same behaviour.
+In 46 of the 72 answers the named work exists --- most often \emph{Harrison's Principles of Internal Medicine} (21 answers) and \emph{Williams Hematology} (12) --- but the model had never been given it, and authors, editions or page numbers were often wrong; one answer even contains a verbatim ``quotation'' with a page number. In 16 answers the named book does not appear to exist: \emph{Hematology: A Very Short Introduction} alone was cited 14 times, attributed to eight different authors. The other 10 are reference-list entries cut off by the answer-length limit. These attributions look convincing but are fabricated --- the failure mode described by Walters and Wilder for ChatGPT \cite{walters2023} --- and they are triggered here by the system prompt, which asks the model to ``cite'' a ``provided textbook reference'' that is not there. Neither the fine-tuned model nor GPT-4o without retrieval named any book or author. GPT-4o without retrieval, however, inserted a bare ``[Reference~$N$]'' marker in 37 answers (the base model in 13), pointing to a reference that did not exist --- a milder form of the same behaviour.
 
 \paragraph{Uniform source lines in the fine-tuned model.} The fine-tuned model ended 99 of its 100 answers with a source line (Table~\ref{tab:de}), naming the first textbook in 92 answers and the second in 7. It usually chose the right book --- seven of the ten questions from the second book were labelled correctly --- which shows that it learned which topics belong to which book. But the line is learned format, not provenance: the model attaches it to correct and incorrect answers alike. Examples of incorrect answers that carry the source line are:
 
@@ -239,7 +246,7 @@ The attributions are fabricated --- the model was never shown these books, and i
   \item \emph{Platelet count of $90 \times 10^9$/L} (qualitative question): the model correctly says that this is not always true thrombocytopenia, but claims that platelet clumping makes the count spuriously \emph{raised}; clumping makes it falsely low.
 \end{itemize}
 
-The fine-tuned model therefore looks more authoritative than the base model while being no more knowledgeable. For a domain expert this is an important and somewhat uncomfortable finding: \textbf{a citation produced by a language model is not evidence}. A citation is only useful if it points to a passage that was actually retrieved and can be opened, as in the RAG agent, where every \code{[Reference N]} corresponds to a logged tool result.
+The fine-tuned model therefore looks more authoritative than the base model while being no more knowledgeable. For a domain expert this is an important and somewhat uncomfortable finding: \textbf{a citation produced by a language model is not evidence}. A citation is only useful if it points to a passage that was actually retrieved and can be opened. With retrieval this held for every citation of GPT-4o (Section~\ref{sec:res-de}); in the agent it is enforced by a deterministic check (Section~\ref{sec:case}).
 
 \paragraph{Clinical scenarios.} Table~\ref{tab:qual} summarises the answers to the five hand-written clinical questions. Both models recognise the typical patterns (neutrophilic leukocytosis with toxic granulation suggests infection or inflammation; a microcytic anaemia with target cells suggests a hemoglobinopathy). The fine-tuned model is shorter and more decisive; the base model is longer, lists more possibilities, and often decorates its answer with invented reference numbers.
 
@@ -255,8 +262,8 @@ The fine-tuned model therefore looks more authoritative than the base model whil
 78\,\% neutrophils, toxic granulation, WBC $18 \times 10^9$/L & Leukemoid reaction or severe (bacterial) infection; long explanation & ``Significant neutrophilic response'', suggests an acute inflammatory or infectious process \\
 Only 2 WBCs classified (1 IG, 1 monocyte) & Classification incomplete or inaccurate; the analyser may have missed cells & Calls the differential ``abnormal'' because only 2 cells were classified; does not say it is uninterpretable \\
 Hb 9.1\,g/dL, MCV 68\,fL, target cells & Long list: thalassaemias, sickle cell disease, HbC, HbE, iron deficiency, lead poisoning & HbH disease, $\alpha$-thalassaemia trait, sickle cell trait; globin chain electrophoresis (omits iron deficiency and $\beta$-thalassaemia trait) \\
-Myeloblast vs.\ lymphoblast & Mostly correct list of features, attributed to an invented textbook & Brief and broadly correct (prominent nucleolus, few azurophil granules vs.\ none) \\
-Platelets $90 \times 10^9$/L --- always true thrombocytopenia? & Attributes the answer to an invented textbook & ``No'', but says clumping \emph{raises} the count (it lowers it) \\
+Myeloblast vs.\ lymphoblast & Mostly correct list of features, attributed to a textbook it was never given & Brief and broadly correct (prominent nucleolus, few azurophil granules vs.\ none) \\
+Platelets $90 \times 10^9$/L --- always true thrombocytopenia? & Attributes the answer to a textbook it was never given, with a wrong author & ``No'', but says clumping \emph{raises} the count (it lowers it) \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -265,7 +272,7 @@ Notably, neither model clearly stated that a differential based on two cells can
 
 \subsection{End-to-end case study: an over-interpreted differential}\label{sec:case}
 
-This section analyses one complete run of the system in its default configuration (GPT-4o agent) on an uploaded $640 \times 480$ smear image, made on 28 April 2026 with the original (v1) classifier and before the minimum-cell rule existed. It is analysed in detail because it shows both the strengths of the design and a failure that the safety logic did not catch. Its raw output files were later overwritten by a re-run on the same image (see below); the values were recorded from the original output (abridged in Appendix~C), and the run's log (\path{logs/pipeline_20260428_140721.log}) confirms the counts, the 50/50 differential, that no cell was flagged and that review was \emph{not} required.
+This section analyses one complete run of the system in its default configuration (GPT-4o agent) on the bundled sample image \path{BCCD_00010.jpg} ($640 \times 480$ pixels, from the BCCD collection), made on 28 April 2026 with the original (v1) classifier and before the minimum-cell rule existed. It is analysed in detail because it shows both the strengths of the design and a failure that the safety logic did not catch. Its raw output files were later overwritten by a re-run on the same image (see below); the values were recorded from the original output (abridged in Appendix~C), and the run's log (\path{results/case_study_rerun/original_run_20260428_145040.log}) confirms the counts, the 50/50 differential, that no cell was flagged and that review was \emph{not} required. An earlier run with the same configuration that day ended the same way (\path{original_run_20260428_140721.log}).
 
 \paragraph{What the system did.} Stage~1 detected 17 red cells and \textbf{2 white cells}. Stage~2 classified one white cell as an immature granulocyte (confidence 0.955, entropy 0.216) and the other as a monocyte (confidence 0.972, entropy 0.146); both received the uncertainty level LOW, so no cell was flagged. The agent then made five tool calls: it looked up the reference ranges of immature granulocytes (0--0.5\,\%) and monocytes (2--8\,\%), read the uncertainty summary, and searched the knowledge base for ``causes of increased immature granulocytes'' and ``causes of monocytosis''. Its final report stated:
 
@@ -282,17 +289,17 @@ This section analyses one complete run of the system in its default configuratio
 
 \paragraph{Lessons.} The case shows that the design choices of the thesis --- a recorded tool trace, retrieved passages that can be checked, uncertainty passed forward --- make such failures \emph{detectable}: every step above could be reconstructed from the saved output. But it also shows that per-cell uncertainty is not enough. The fix is simple and deterministic, and it has since been implemented (Section~\ref{sec:safety}): whenever fewer than a minimum number of white cells (by default 100, which in practice requires several fields of view) have been classified, the pipeline forces \code{requires\_expert\_review} to true and adds an \code{INSUFFICIENT\_CELL\_COUNT} flag, and the reasoners are told not to interpret the percentages. Applied to this case (2 cells), the rule sets the flag to true; this is covered by an automated test. When asked about a two-cell differential directly (Table~\ref{tab:qual}), the base model at least called the classification incomplete; in the agent, the structured prompt and the tool outputs led the model to compute and interpret percentages. This is a strong argument for putting such domain rules into code rather than relying on the model's judgement.
 
-\paragraph{Re-run with the corrected system.} The same image was analysed again with the corrected (v2) classifier and the minimum-cell rule, on 29 September 2026 (log \path{logs/pipeline_20260929_150829.log}) and with the final system on 5 November 2026 (output in \path{results/case_study_rerun/}); both runs gave the same Stage~1 and Stage~2 results. Detection was unchanged (17 red, 2 white cells). The v2 classifier was far less certain about the first cell (immature granulocyte, confidence 0.42, entropy 1.23, HIGH) while the monocyte stayed confident (0.98, LOW). The pipeline forced \code{requires\_expert\_review} to true with \code{HIGH\_UNCERTAINTY} and \code{INSUFFICIENT\_CELL\_COUNT} flags, and the agent rated its confidence LOW; its text still quoted the two 50\,\% values, though now as based on too few cells. The rule did its job, and the wording shows again why the decision must not be left to the model.
+\paragraph{Re-run with the corrected system.} The same image was analysed again with the corrected (v2) classifier and the minimum-cell rule on 29 September 2026, and twice on 5 November 2026 with the final system (all logs and outputs in \path{results/case_study_rerun/}); all runs gave the same Stage~1 and Stage~2 results. Detection was unchanged (17 red, 2 white cells). The v2 classifier was far less certain about the first cell (immature granulocyte, confidence 0.42, entropy 1.23, HIGH), while the monocyte stayed confident (0.98, LOW). The pipeline forced \code{requires\_expert\_review} to true with \code{HIGH\_UNCERTAINTY} and \code{INSUFFICIENT\_CELL\_COUNT} flags, and the agent rated its confidence LOW, although its text still quoted the two 50\,\% values. The first November run exposed a further gap: the agent answered without calling the knowledge-base tool, yet cited [Reference~1] and [Reference~2], and the interface listed the pipeline's own pre-fetched passages beneath them, so the citations looked supported. The citation check of Section~\ref{sec:agent} was therefore added, and the pre-fetched passages are no longer shown in agent mode. In the final run (Figures~\ref{fig:ui-a} and~\ref{fig:ui-b}) the agent again cited two references without retrieving any, and the check added an \code{UNSUPPORTED\_CITATION} flag. The rules did their job, and the run shows again why such decisions must not be left to the model. Because BCCD images were recorded with a different microscope and staining than PBC, the two cell labels are themselves uncertain; the HIGH uncertainty of the first cell is consistent with this.
 
 \subsection{Discussion of the research questions}
 
 \paragraph{RQ1 --- blood image classification.} Yes, on the benchmark data. Detection reached a mAP@0.50 of 0.985 with perfect white-cell recall, and classification 98.60\,\% accuracy under a clean train/validation/test protocol (the earlier 99.44\,\% was 0.84 points too optimistic). Every classified cell carries an uncertainty level and a Grad-CAM map, and the uncertainty is informative: it separates errors from correct predictions with an AUROC of 0.97, and HIGH-uncertainty cells contain half of all errors although they make up only 1.9\,\% of the cells. How well this transfers to smears from other laboratories was not measured; the single out-of-distribution example in Figure~\ref{fig:shift} suggests caution.
 
-\paragraph{RQ2 --- building the domain expert with RAG.} A general LLM was turned into a hematology expert by combining a curated textbook knowledge base, domain tools and a structured output format. The resulting agent produces interpretations with retrievable citations and a complete, auditable tool trace (Figures~\ref{fig:ui-a}--\ref{fig:ui-b}). Retrieval itself was measured: with a 512-token embedding model, the source passage of a question is among the five retrieved chunks for 77\,\% of the questions (67\,\% with the original model). The case study shows that this design makes errors visible but does not prevent them; domain rules such as a minimum cell count must be enforced in code.
+\paragraph{RQ2 --- building the domain expert with RAG.} A general LLM was turned into a hematology expert by combining a curated textbook knowledge base, domain tools and a structured output format. The resulting agent produces structured interpretations with a complete, auditable tool trace (Figures~\ref{fig:ui-a}--\ref{fig:ui-b}), and its citations are checked against the passages it actually retrieved. Retrieval itself was measured: with a 512-token embedding model, the source passage of a question is among the five retrieved chunks for 77\,\% of the questions (67\,\% with the original model), and given these passages GPT-4o answered more faithfully ($+0.22$) and more correctly ($+0.16$) than without them, citing only passages it had been given. The case study shows that this design makes errors visible but does not prevent them; domain rules such as a minimum cell count, and a check that every citation was actually retrieved, must be enforced in code.
 
-\paragraph{RQ3 --- domain fine-tuning.} QLoRA fine-tuning of Llama-3.1-8B for under an hour on a free GPU produced a model whose answers match textbook reference answers much better than those of the base model and even of GPT-4o (ROUGE-L 0.455 vs.\ 0.170 and 0.202), and which no longer invents book references. The LLM judge agreed: faithfulness to the textbook improved ($+0.43$), clinical correctness did not ($-0.07$, not significant), and GPT-4o remained clearly the most correct system. Accuracy on external exam questions did not change significantly (61\,\% vs.\ 56\,\%, $p = 0.36$), and the model learned to attach a source line regardless of correctness. Fine-tuning is therefore suitable for adapting the \emph{behaviour} of an open, self-hostable expert, but it must be combined with retrieval to supply knowledge and real provenance.
+\paragraph{RQ3 --- domain fine-tuning.} QLoRA fine-tuning of Llama-3.1-8B for under an hour on a free GPU produced a model whose answers match textbook reference answers much better than those of the base model and even of GPT-4o (ROUGE-L 0.455 vs.\ 0.170 and 0.202), and which no longer attributes its answers to textbooks it was never given. The LLM judge agreed: faithfulness to the textbook improved ($+0.43$), clinical correctness did not ($-0.07$, not significant), and GPT-4o, with or without retrieval, remained clearly more correct. Accuracy on external exam questions did not change significantly (61\,\% vs.\ 56\,\%, $p = 0.36$), and the model learned to attach a source line regardless of correctness. Fine-tuning is therefore suitable for adapting the \emph{behaviour} of an open, self-hostable expert, but it must be combined with retrieval to supply knowledge and real provenance.
 
-\paragraph{RQ4 --- safety and auditability.} The system passes all safety-relevant information forward and forces expert review when any cell is uncertain. The case study showed the limits of the original rule: it reacted to uncertain \emph{cells}, not to an unreliable \emph{differential}. A minimum-cell rule was therefore added. Auditability worked as intended --- the misattributed citation and the faulty reasoning could be traced step by step.
+\paragraph{RQ4 --- safety and auditability.} The system passes all safety-relevant information forward and forces expert review when any cell is uncertain. The case study showed the limits of the original rule: it reacted to uncertain \emph{cells}, not to an unreliable \emph{differential}. A minimum-cell rule was therefore added, and later a citation check, after the agent cited passages it had never retrieved. Auditability worked as intended --- the misattributed citations and the faulty reasoning could be traced step by step.
 
 \subsection{Limitations and threats to validity}\label{sec:limits}
 
@@ -305,8 +312,8 @@ This section analyses one complete run of the system in its default configuratio
   \item \textbf{Classifier evaluation.} The corrected (v2) split is stratified by class but at image level, not by donor, so cells from the same person can appear in training and test data. The original (v1) evaluation, which selected its checkpoint on the test images, is reported only for comparison. (A mismatch in the inference code, which re-created the second dropout layer with $p = 0.2$ instead of the $p = 0.3$ used in training, was found during this work and corrected; the case-study run predates the correction.)
   \item \textbf{No external validation of the vision stages.} Both vision datasets were recorded under controlled conditions; smears from other microscopes, stains or laboratories may reduce performance substantially.
   \item \textbf{Uncertainty thresholds and review rule} were set by hand. They were evaluated on in-distribution test data (Table~\ref{tab:unc}), where MEDIUM cells turned out to be noticeably less reliable than LOW cells but are not flagged; their behaviour under distribution shift is unknown.
-  \item \textbf{Retrieval evaluation on synthetic questions.} The questions were generated from the chunks themselves, so hit rates are optimistic for real queries, and the embedding model was chosen on the same questions, without a separate test set.
-  \item \textbf{Copyright of the knowledge base.} The textbooks are copyrighted and cannot be redistributed, which limits exact reproduction of the knowledge base by others.
+  \item \textbf{Retrieval evaluation on synthetic questions.} The questions were generated from the chunks themselves, so hit rates and the gains of GPT-4o + RAG are optimistic for real queries, and the embedding model was chosen on the same questions, without a separate test set. The RAG condition used one retrieval step, as in the linear mode; the tool-using agent was not evaluated on the question set.
+  \item \textbf{Copyright of the knowledge base.} The textbooks are copyrighted and cannot be redistributed, which limits exact reproduction of the knowledge base by others. The synthetic question--answer pairs generated from them, and the adapter trained on them, are published with the project.
 \end{itemize}
 
 \clearpage
