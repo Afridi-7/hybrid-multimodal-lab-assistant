@@ -133,7 +133,10 @@ def main():
                "unparsable_base": pb.count(None), "unparsable_ft": pf.count(None),
                "base_only_correct": b, "ft_only_correct": c, "mcnemar_exact_p": round(mcnemar_exact(b, c), 4)}
 
+    reference = {"n": len(golds), "avg_words": round(statistics.mean(len(g.split()) for g in golds), 1),
+                 "source_marker_pct": round(100 * sum(bool(CITE_RE.search(g)) for g in golds) / len(golds), 1)}
     out = {"report": str(args.report), "config": rep.get("config"), "systems": per_system,
+           "reference_answers": reference,
            "paired_rouge": paired, "source_line_books": books, "medmcqa": mcq,
            "invented_reference_rule": "quoted title after textbook/book, or reference-list entry (Surname, X. / et al.); flagged answers listed in flagged_citations.csv and must be checked by hand"}
     folder = args.report.parent

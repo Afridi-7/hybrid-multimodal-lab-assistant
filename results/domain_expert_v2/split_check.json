@@ -1,0 +1,19 @@
+{
+ "records": 2098,
+ "chunks": 1049,
+ "blocks": 106,
+ "test_blocks": 10,
+ "train": 1898,
+ "test": 200,
+ "test_by_source": {
+  "essentials_haematology.pdf": 180,
+  "consie_haematology.pdf": 20
+ },
+ "test_chunks": 100,
+ "test_chunks_sharing_overlap_with_a_training_chunk": 20,
+ "chunks_on_both_sides": 0,
+ "test_questions_whose_text_also_in_training": 0,
+ "equals_saved_test_split": true,
+ "avg_question_words": 13.6,
+ "avg_answer_words": 39.4
+}

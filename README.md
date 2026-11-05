@@ -64,7 +64,7 @@ The whole chain is **configuration-driven** ([config.yaml](config.yaml)); every 
                                                        +----------------------+
                                                        | ChromaDB vector store|
                                                        | (1,049 PDF chunks,   |
-                                                       |  MiniLM embeddings)  |
+                                                       |  BGE-small vectors)  |
                                                        +----------------------+
 
                                   +------------------------------------+
@@ -112,7 +112,7 @@ The whole chain is **configuration-driven** ([config.yaml](config.yaml)); every 
   - `essentials_haematology.pdf` (511 PDF pages -> 996 chunks)
   - `consie_haematology.pdf` (30 PDF pages -> 53 chunks)
   - Total: **1,049 chunks** at 200 words / 40-word overlap.
-- **Embedder**: `sentence-transformers/all-MiniLM-L6-v2` (384-dim, 256-token window; the 200-word chunks average ~343 tokens, so most are truncated when embedded — see `scripts/check_chunk_tokens.py`).
+- **Embedder**: `BAAI/bge-small-en-v1.5` (384-dim, 512-token window; queries get the BGE retrieval instruction). It replaced `all-MiniLM-L6-v2`, whose 256-token window truncated 98.7 % of the 200-word chunks (`scripts/check_chunk_tokens.py`); on 2,098 questions with a known source chunk, top-5 retrieval rose from 66.9 % to 77.0 % (`scripts/eval_retrieval.py`, `results/retrieval_eval/`). The index is rebuilt automatically when the embedding model changes.
 - **Vector store**: ChromaDB (cosine distance), persisted to `data/chroma_db/` (~29 MB after first build).
 - **LLM**: OpenAI **GPT-4o** at `temperature=0.1` with structured JSON output ([src/rag/llm_reasoner.py](src/rag/llm_reasoner.py)).
 - **Optional internet augmentation**: domain-allowlisted web retrieval (NCBI, PubMed, MedlinePlus, WHO, NIH, hematology.org). Disabled by default; enable via `config.yaml` -> `rag.internet.enabled`.
@@ -182,7 +182,7 @@ hybrid-multimodal-lab-assistant/
 |   +-- chroma_db/          # Persisted vector store (built on first run)
 +-- examples/               # Scripted demos + sample_images/
 +-- scripts/                # Q&A dataset builder, LLM-judge scoring, diagnostics
-+-- tests/                  # pytest suite (34 tests)
++-- tests/                  # pytest suite (37 tests)
 +-- thesis/                 # LaTeX source + PDF of the thesis
 +-- Notebooks/              # Training + evaluation notebooks (not used at inference)
 +-- results/                # Per-run JSON artefacts (gitignored)
@@ -433,7 +433,8 @@ Serve `frontend/dist/` from any static host. To skip CORS, host it behind the sa
 | `reasoning` | `agent.max_iterations` | `6` | Cap on ReAct loop |
 | `rag` | `pdf_directory` | `data/pdfs` | Source folder for textbooks |
 | `rag` | `chunking.chunk_size` | `200` | Words per chunk |
-| `rag` | `embedding.model_name` | `sentence-transformers/all-MiniLM-L6-v2` | Embedder |
+| `rag` | `embedding.model_name` | `BAAI/bge-small-en-v1.5` | Embedder |
+| `rag` | `embedding.query_instruction` | `Represent this sentence for searching relevant passages: ` | Prefix added to queries only |
 | `rag` | `vector_store.chromadb_path` | `data/chroma_db` | On-disk vector store |
 | `rag` | `retrieval.top_k` | `5` | Chunks per query |
 | `rag` | `internet.enabled` | `false` | Web augmentation (allowlisted) |
@@ -517,7 +518,7 @@ A successful `/api/analyze` (or `python main.py analyze ...`) returns (abridged;
 ## Testing and validation
 
 ```powershell
-# Full pytest suite (34 tests; 5 of them load the trained models)
+# Full pytest suite (37 tests; 5 of them load the trained models)
 pytest -q
 
 # Specific test file
@@ -546,7 +547,7 @@ The test suite covers:
 
 ## Switching to the fine-tuned domain-expert model
 
-By default Stage 3 uses **OpenAI GPT-4o** (cloud, paid per token). The repo also ships a **self-hosted domain-expert alternative**: Llama-3.1-8B-Instruct QLoRA-fine-tuned on 1,890 hematology Q&A pairs derived from the project's own RAG corpus (a further 208 pairs are held out for testing). The trained adapter is published at (run [Notebooks/Domain_Expert_Finetune/publish_adapter_to_hf.ipynb](Notebooks/Domain_Expert_Finetune/publish_adapter_to_hf.ipynb) to upload the current version and make it public):
+By default Stage 3 uses **OpenAI GPT-4o** (cloud, paid per token). The repo also ships a **self-hosted domain-expert alternative**: Llama-3.1-8B-Instruct QLoRA-fine-tuned on 1,898 hematology Q&A pairs derived from the project's own RAG corpus (a further 200 pairs, from separate blocks of textbook chunks, are held out for testing; an earlier, leaky split was replaced — see [Notebooks/Domain_Expert_Finetune/README.md](Notebooks/Domain_Expert_Finetune/README.md)). The trained adapter is published at (run [Notebooks/Domain_Expert_Finetune/publish_adapter_to_hf.ipynb](Notebooks/Domain_Expert_Finetune/publish_adapter_to_hf.ipynb) to upload the current version and make it public):
 
 > https://huggingface.co/Afridi07/hematology-llama-3.1-8b-lora
 
@@ -639,7 +640,7 @@ uvicorn --app-dir backend main:app --reload --port 8767
 
 ### Stage 3 takes ~60 s on first run
 
-That's the one-time ChromaDB index build over the two PDFs (1,049 chunks - MiniLM encoding). Subsequent runs reuse `data/chroma_db/` and reasoning is ~2-8 s.
+That's the one-time ChromaDB index build over the two PDFs (1,049 chunks - BGE-small encoding; the first run downloads the model). Subsequent runs reuse `data/chroma_db/` and reasoning is ~2-8 s.
 
 ### Grad-CAM panel is empty
 

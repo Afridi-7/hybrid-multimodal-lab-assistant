@@ -1,0 +1,89 @@
+{
+ "judge_model": "gpt-4o-mini",
+ "n_ratings": 300,
+ "systems": {
+  "Llama-3.1-8B (base)": {
+   "n": 100,
+   "faithfulness": {
+    "mean": 3.03,
+    "sd": 0.83
+   },
+   "clinical_correctness": {
+    "mean": 3.94,
+    "sd": 0.85
+   }
+  },
+  "Llama-3.1-8B + QLoRA (ours)": {
+   "n": 100,
+   "faithfulness": {
+    "mean": 3.57,
+    "sd": 1.04
+   },
+   "clinical_correctness": {
+    "mean": 3.99,
+    "sd": 0.89
+   }
+  },
+  "GPT-4o (reference)": {
+   "n": 100,
+   "faithfulness": {
+    "mean": 3.86,
+    "sd": 0.71
+   },
+   "clinical_correctness": {
+    "mean": 4.62,
+    "sd": 0.66
+   }
+  }
+ },
+ "paired": {
+  "Llama-3.1-8B + QLoRA (ours) minus Llama-3.1-8B (base): faithfulness": {
+   "n": 100,
+   "mean_difference": 0.54,
+   "bootstrap_95ci": [
+    0.35,
+    0.74
+   ]
+  },
+  "Llama-3.1-8B + QLoRA (ours) minus Llama-3.1-8B (base): clinical_correctness": {
+   "n": 100,
+   "mean_difference": 0.05,
+   "bootstrap_95ci": [
+    -0.14,
+    0.24
+   ]
+  },
+  "GPT-4o (reference) minus Llama-3.1-8B + QLoRA (ours): faithfulness": {
+   "n": 100,
+   "mean_difference": 0.29,
+   "bootstrap_95ci": [
+    0.1,
+    0.49
+   ]
+  },
+  "GPT-4o (reference) minus Llama-3.1-8B + QLoRA (ours): clinical_correctness": {
+   "n": 100,
+   "mean_difference": 0.63,
+   "bootstrap_95ci": [
+    0.45,
+    0.83
+   ]
+  },
+  "GPT-4o (reference) minus Llama-3.1-8B (base): faithfulness": {
+   "n": 100,
+   "mean_difference": 0.83,
+   "bootstrap_95ci": [
+    0.67,
+    0.98
+   ]
+  },
+  "GPT-4o (reference) minus Llama-3.1-8B (base): clinical_correctness": {
+   "n": 100,
+   "mean_difference": 0.68,
+   "bootstrap_95ci": [
+    0.51,
+    0.85
+   ]
+  }
+ }
+}

@@ -1,95 +1,93 @@
 # Domain-Expert Fine-Tuning
 
-End-to-end recipe for replacing GPT-4o in Stage 3 with a hematology-specialised
-**Llama-3.1-8B + QLoRA** model. Plugs back into the existing pipeline through
-the OpenAI-compatible interface — no Python code changes required.
+Recipe for the open, self-hostable form of the domain expert: **Llama-3.1-8B-Instruct + QLoRA**,
+trained on synthetic, textbook-grounded hematology Q&A. It plugs into Stage 3 through the
+OpenAI-compatible interface, with no Python changes. Results and discussion: thesis Sections 3.2,
+5.3–5.4 and 6.3–6.5.
+
+> **Correction (November 2026).** The first run (`domain_expert_evaluation.ipynb`, results in
+> `results/domain_expert/`) used a train/test split that was effectively random, because the
+> dataset did not record which textbook chunk each pair came from (see
+> `scripts/check_split_leakage.py`). The data were regenerated with chunk labels and the model was
+> retrained on a block-level split (`domain_expert_evaluation_v2.ipynb`, results in
+> `results/domain_expert_v2/`). Use the v2 workflow below.
 
 ## Files
 
 | File | Role |
 |---|---|
-| [scripts/build_finetune_dataset.py](../scripts/build_finetune_dataset.py) | Builds `train.jsonl` from your ChromaDB textbook chunks + MedQA + hand-curated gold. |
-| [Notebooks/Domain_Expert_Finetune/domain_expert_finetune.ipynb](domain_expert_finetune.ipynb) | Colab QLoRA training notebook (free T4 16 GB). |
-| [scripts/evaluate_finetuned_model.py](../scripts/evaluate_finetuned_model.py) | Hold-out evaluation: MCQ exact-match + GPT-4-as-judge rubric. |
+| [scripts/build_finetune_dataset.py](../../scripts/build_finetune_dataset.py) | Generates 2 Q&A pairs per textbook chunk with an OpenAI model; every record stores its `source`, `chunk_id` and `chunk_key`. Output `data/finetune/train_v2.jsonl`. |
+| [domain_expert_evaluation_v2.ipynb](domain_expert_evaluation_v2.ipynb) | Colab (T4): block-level 90/10 split, QLoRA training, evaluation of base vs. fine-tuned (and GPT-4o). |
+| [publish_adapter_to_hf.ipynb](publish_adapter_to_hf.ipynb) | Colab (CPU): uploads the v2 adapter and model card to Hugging Face. |
+| [scripts/add_gpt4o_baseline.py](../../scripts/add_gpt4o_baseline.py) | Adds GPT-4o answers to a saved report if the Colab step failed. |
+| [scripts/judge_domain_expert.py](../../scripts/judge_domain_expert.py) | LLM-as-judge ratings (GPT-4o-mini) of the saved answers. |
+| [scripts/analyze_domain_expert.py](../../scripts/analyze_domain_expert.py), [scripts/analyze_judge.py](../../scripts/analyze_judge.py) | All statistics reported in the thesis (ROUGE-L, similarity, CIs, McNemar, citation checks, judge means/SDs/CIs). |
+| [scripts/check_v2_split.py](../../scripts/check_v2_split.py) | Rebuilds the v2 split and checks it (no shared chunks, overlap with neighbours, duplicates). |
+| [scripts/plot_domain_expert_figures.py](../../scripts/plot_domain_expert_figures.py) | Draws the thesis figures from the saved results. |
+| `domain_expert_evaluation.ipynb` | First (leaky) run, kept as a record. |
+| `domain_expert_finetune.ipynb` | Early prototype notebook, not used for the thesis results. |
 
 ## Step 1 — Build the dataset (local)
 
+Put your OpenAI key in the repo's `.env` file (`OPENAI_API_KEY=...`). Never paste it into a
+terminal command or a notebook cell.
+
 ```powershell
-# install minimal extras (already in your .venv if you use the project)
-.\.venv\Scripts\python.exe -m pip install openai datasets
-
-# Set your key for synthetic Q&A generation
-$env:OPENAI_API_KEY = "sk-…"
-
-# Quick dry-run on 20 chunks to validate plumbing
-.\.venv\Scripts\python.exe scripts/build_finetune_dataset.py `
-    --max-chunks 20 --pairs-per-chunk 1 --out data/finetune/sample.jsonl
-
-# Full run (~$2–10 depending on --model)
-.\.venv\Scripts\python.exe scripts/build_finetune_dataset.py `
-    --pairs-per-chunk 2 --model gpt-4o-mini --out data/finetune/train.jsonl
+.\.venv\Scripts\Activate.ps1
+python scripts/build_finetune_dataset.py            # ~2 USD with gpt-4o-mini
+python scripts/check_v2_split.py                    # optional: inspect the split it will produce
 ```
 
-**Hand-curated gold:** drop ~30–50 examples in `data/finetune/gold.jsonl`, one
-JSON per line. Either format is accepted:
-```json
-{"question": "...", "answer": "..."}
-{"messages": [{"role":"system","content":"..."},{"role":"user","content":"..."},{"role":"assistant","content":"..."}]}
+The run should end with `chunks with fewer than 2 pairs: 0` and `Writing 2098 records`.
+
+## Step 2 — Train and evaluate (Colab)
+
+1. Upload `domain_expert_evaluation_v2.ipynb` to Colab; Runtime → Change runtime type → **T4 GPU**.
+2. In the 🔑 Secrets panel, add `OPENAI_API_KEY` (a current key) and switch on notebook access.
+3. Runtime → Run all; upload `data/finetune/train_v2.jsonl` when asked (~2 h in total).
+4. Copy the files of the Drive folder `thesis_domain_expert_v2` (not the `hema-llama-lora` folder)
+   into `results/domain_expert_v2/`.
+
+The split is made over **blocks of 10 consecutive chunks** of the same book, because neighbouring
+chunks share 40 words. Do not split by position in the file.
+
+## Step 3 — Judge and analyse (local)
+
+```powershell
+python scripts/add_gpt4o_baseline.py      # only if GPT-4o is missing from the report
+python scripts/judge_domain_expert.py --report results/domain_expert_v2/evaluation_report.json --out results/domain_expert_v2/judge_scores.json
+python scripts/analyze_domain_expert.py
+python scripts/analyze_judge.py
+python scripts/plot_domain_expert_figures.py
 ```
-Hand-write cases that test: refusal/insufficient evidence, citation format,
-uncertainty calibration, cross-modal CBC + image reasoning.
 
-## Step 2 — Train (Colab)
+Check `results/domain_expert_v2/flagged_citations.csv` by hand before reporting the number of
+invented references.
 
-Open `Notebooks/Domain_Expert_Finetune/domain_expert_finetune.ipynb` in Colab
-(GPU runtime → T4). Upload `train.jsonl` when prompted. Run all cells.
+## Step 4 — Publish the adapter
 
-| Setup | Time for 3 epochs × 2 500 samples |
-|---|---|
-| Free Colab T4 | 2.5–3 h |
-| Colab Pro A100 40 GB | 30–45 min |
-| Colab Pro+ L4 24 GB | ~1.5 h |
+Run `publish_adapter_to_hf.ipynb` in Colab (CPU runtime). It reads the adapter from
+`thesis_domain_expert_v2/hema-llama-lora` in Drive and asks for a Hugging Face **write** token in a
+hidden box.
 
-The notebook saves and (optionally) pushes the LoRA adapter to your HF Hub
-account (`YOU/hematology-llama-3.1-8b-lora`, ~50 MB).
+## Step 5 — Serve and plug in
 
-## Step 3 — Serve & plug in
-
-On any machine with a GPU (≥10 GB for 8B-Q4):
+On any machine with a GPU (≥10 GB for 8B in 4-bit):
 ```bash
 pip install vllm
-vllm serve YOU/hematology-llama-3.1-8b-lora --port 8001 --enable-lora
+vllm serve Afridi07/hematology-llama-3.1-8b-lora --port 8001 --enable-lora
 ```
 
 Then in `config.yaml`:
 ```yaml
 llm:
-  model_name: YOU/hematology-llama-3.1-8b-lora
+  model_name: Afridi07/hematology-llama-3.1-8b-lora
   temperature: 0.1
 ```
-And `.env`:
+and in `.env`:
 ```
 OPENAI_API_KEY=dummy
 OPENAI_BASE_URL=http://localhost:8001/v1
 ```
 
-Stage 3 of the existing pipeline now talks to your domain-expert model —
-no code changes.
-
-## Step 4 — Evaluate
-
-Hold out ~200 records when you build the dataset (`tail -n 200 train.jsonl >
-eval.jsonl && head -n -200 …`), then:
-
-```powershell
-.\.venv\Scripts\python.exe scripts/evaluate_finetuned_model.py `
-    --eval-file data/finetune/eval.jsonl `
-    --model YOU/hematology-llama-3.1-8b-lora `
-    --base-url http://localhost:8001/v1 `
-    --judge-model gpt-4o `
-    --out data/finetune/eval_report.json
-```
-
-Reports MCQ accuracy and average faithfulness / clinical correctness /
-calibration scores. Compare to the same eval run against vanilla GPT-4o
-(`--model gpt-4o --base-url https://api.openai.com/v1`) for the ablation.
+Note: the fine-tuned model was evaluated stand-alone in the thesis, not inside the agent.

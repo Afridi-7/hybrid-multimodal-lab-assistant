@@ -1,0 +1,86 @@
+{
+ "report": "results\\domain_expert_v2\\evaluation_report.json",
+ "config": {
+  "train_new": true,
+  "epochs": 2,
+  "base_model": "unsloth/Meta-Llama-3.1-8B-Instruct-bnb-4bit",
+  "seed": 42,
+  "n_train": 1898,
+  "n_test_total": 200,
+  "n_indomain_scored": 100,
+  "n_mcq": 100,
+  "split": "by blocks of 10 consecutive chunks",
+  "data_file": "train_v2 (1).jsonl"
+ },
+ "systems": {
+  "Llama-3.1-8B (base)": {
+   "n": 100,
+   "rouge_l": 0.17,
+   "semantic_sim": 0.775,
+   "source_marker_pct": 13.0,
+   "avg_words": 159.2,
+   "bare_reference_marker": 13,
+   "invented_reference_flagged": 68
+  },
+  "Llama-3.1-8B + QLoRA (ours)": {
+   "n": 100,
+   "rouge_l": 0.455,
+   "semantic_sim": 0.832,
+   "source_marker_pct": 99.0,
+   "avg_words": 36.5,
+   "bare_reference_marker": 0,
+   "invented_reference_flagged": 0
+  },
+  "GPT-4o (reference)": {
+   "n": 100,
+   "rouge_l": 0.202,
+   "semantic_sim": 0.792,
+   "source_marker_pct": 88.0,
+   "avg_words": 147.4,
+   "bare_reference_marker": 37,
+   "invented_reference_flagged": 0
+  }
+ },
+ "reference_answers": {
+  "n": 100,
+  "avg_words": 34.8,
+  "source_marker_pct": 100.0
+ },
+ "paired_rouge": {
+  "rouge_l ours - Llama-3.1-8B (base)": {
+   "mean_diff": 0.285,
+   "bootstrap_95ci": [
+    0.259,
+    0.313
+   ],
+   "ours_higher_on": 100,
+   "of": 100
+  },
+  "rouge_l ours - GPT-4o (reference)": {
+   "mean_diff": 0.253,
+   "bootstrap_95ci": [
+    0.226,
+    0.281
+   ],
+   "ours_higher_on": 99,
+   "of": 100
+  }
+ },
+ "source_line_books": {
+  "ours_names_book1": 92,
+  "ours_names_book2": 7,
+  "reference_answers_from_book2": 10,
+  "book2_questions_labelled_book2_by_ours": 7
+ },
+ "medmcqa": {
+  "n": 100,
+  "acc_base_pct": 56.0,
+  "acc_ft_pct": 61.0,
+  "unparsable_base": 3,
+  "unparsable_ft": 0,
+  "base_only_correct": 7,
+  "ft_only_correct": 12,
+  "mcnemar_exact_p": 0.3593
+ },
+ "invented_reference_rule": "quoted title after textbook/book, or reference-list entry (Surname, X. / et al.); flagged answers listed in flagged_citations.csv and must be checked by hand"
+}
