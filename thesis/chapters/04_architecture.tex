@@ -32,7 +32,7 @@ The pipeline is strictly feed-forward: every stage has a typed input and output,
 \draw[arr, dashed] (s2.south) |- (rule.west);
 \draw[arr] (rule.east) -| (rep.south);
 \end{tikzpicture}
-\caption{Architecture of the system. Stage~1 returns boxes, classes and confidences; Stage~2 returns, for every white cell, a label, confidence, entropy, uncertainty level and heatmap. The expert queries the knowledge base and tools and writes the report. The dashed arrow shows that the review rule reads the Stage-2 uncertainty directly, independently of the language model.}
+\caption{Architecture of the system. Stage~1 returns boxes, classes and confidences; Stage~2 returns, for every white cell, a label, confidence, entropy, uncertainty level and heatmap. The expert queries the knowledge base and tools and writes the report. The dashed arrow shows that the review rule reads the Stage-2 results directly, independently of the language model. The Llama backend was evaluated stand-alone, not inside the running system (Section~\ref{sec:conclusion}).}
 \label{fig:arch}
 \end{figure}
 
@@ -47,7 +47,7 @@ The components of the thesis title correspond to the parts of the system as show
 \toprule
 \textbf{Title component} & \textbf{Realisation in this thesis} & \textbf{Where} \\
 \midrule
-Hybrid & Combines learned models (CNNs, LLMs) with deterministic rules and tools; runs with a hosted model (GPT-4o) or a self-hostable fine-tuned open model (Llama-3.1-8B) & Ch.~\ref{sec:arch} \\
+Hybrid & Combines learned models (CNNs, LLMs) with deterministic rules and tools; uses a hosted model (GPT-4o), and a self-hostable fine-tuned open model (Llama-3.1-8B) was built and evaluated stand-alone & Ch.~\ref{sec:arch} \\
 Multimodal & Fuses image evidence (the smear) with textual knowledge (textbooks) and, optionally, tabular laboratory values (CBC) & Sec.~\ref{sec:kb}, \ref{sec:software} \\
 Lab assistant & End-to-end pipeline with a REST backend and web interface that analyses an uploaded smear & Sec.~\ref{sec:software} \\
 Blood image classification & YOLOv8s cell detection and EfficientNet-B0 white-cell classification with uncertainty and saliency & Sec.~\ref{sec:stage1}, \ref{sec:stage2} \\
@@ -142,7 +142,7 @@ The main runtime expert is GPT-4o \cite{openai2024gpt4o}, called at temperature 
 \end{tabularx}
 \end{table}
 
-The system prompt tells the agent to call the knowledge base one to three times to ground its claims, to look up reference ranges before calling a value abnormal, to review the uncertainty summary before making confident statements, to cite evidence as \code{[Reference N]}, to give differential rather than definitive diagnoses, and to remember that the counts are per microscope field and must not be converted into clinical concentrations. The final message must be a JSON object with the fields \code{clinical\_interpretation}, \code{key\_findings}, \code{differential\_diagnoses}, \code{recommendations}, \code{safety\_flags}, \code{requires\_expert\_review} and \code{confidence\_assessment}. The number of reasoning steps is bounded through LangGraph's recursion limit (derived from a configured maximum of six iterations), and every tool call and tool result is returned to the user as the \emph{agent trace}.
+The system prompt tells the agent to call the knowledge base one to three times to ground its claims, to look up reference ranges before calling a value abnormal, to review the uncertainty summary before making confident statements, to cite evidence as \code{[Reference N]}, to give differential rather than definitive diagnoses, and to remember that the counts are per microscope field and must not be converted into clinical concentrations. The final message must be a JSON object with seven fields: the interpretation, key findings, differential diagnoses, recommendations, safety flags, the review flag \code{requires\_expert\_review} and a confidence assessment. The number of reasoning steps is bounded through LangGraph's recursion limit (derived from a configured maximum of six iterations), and every tool call and tool result is returned to the user as the \emph{agent trace}. The knowledge-base tool shows the agent only the first 600 characters of each retrieved chunk. Because a model can write ``[Reference N]'' without having retrieved anything, a deterministic check, added after the case study (Section~\ref{sec:case}), compares every cited number with the passages the agent actually retrieved; an unsupported citation adds an \code{UNSUPPORTED\_CITATION} flag and forces expert review.
 
 A simpler \emph{linear} mode is also available: one retrieval followed by one LLM call with the retrieved chunks in the prompt. In linear mode the code checks that the cited reference numbers actually exist among the retrieved chunks, and it adds an \code{INSUFFICIENT\_EVIDENCE} flag if no valid citation or no differential diagnosis is returned.
 
@@ -150,45 +150,45 @@ The language-model client talks to any OpenAI-compatible endpoint. Replacing GPT
 
 \subsection{Stage 3, backend B: a fine-tuned open-weight model}\label{sec:ft}
 
-The second form of the expert is an open-weight model adapted to the domain, which can run on local hardware. The base model is \textbf{Llama-3.1-8B-Instruct} \cite{grattafiori2024llama3}, loaded in 4-bit precision, and it is adapted with \textbf{QLoRA} \cite{dettmers2023qlora}: LoRA adapters of rank $r=16$ ($\alpha = 32$, no dropout) are attached to all attention and feed-forward projections (\code{q, k, v, o, gate, up, down}), which adds 41.9 million trainable parameters --- 0.52\,\% of the model's 8.07 billion. The adapter is trained on the 1{,}898 training pairs (Section~\ref{sec:qa-data}), so the model learns to answer hematology questions in the form of the textbook-grounded answers. The resulting adapter (about 42 million parameters, roughly 84\,MB in 16-bit precision) is published at \url{https://huggingface.co/Afridi07/hematology-llama-3.1-8b-lora} and can be served, for example with vLLM, behind an OpenAI-compatible endpoint and selected in the configuration without changing any other part of the system. Training details are given in Section~\ref{sec:ft-train}.
+The second form of the expert is an open-weight model adapted to the domain, which can run on local hardware. The base model is \textbf{Llama-3.1-8B-Instruct} \cite{grattafiori2024llama3}, loaded in 4-bit precision, and it is adapted with \textbf{QLoRA} \cite{dettmers2023qlora}: LoRA adapters of rank $r=16$ ($\alpha = 32$, no dropout) are attached to all attention and feed-forward projections (\code{q, k, v, o, gate, up, down}), which adds 41.9 million trainable parameters --- 0.52\,\% of the model's 8.07 billion. The adapter is trained on the 1{,}898 training pairs (Section~\ref{sec:qa-data}), so the model learns to answer hematology questions in the form of the textbook-grounded answers. The resulting adapter (about 42 million parameters, roughly 84\,MB in 16-bit precision) is published at \url{https://huggingface.co/Afridi07/hematology-llama-3.1-8b-lora} and could be served, for example with vLLM, behind an OpenAI-compatible endpoint and selected in the configuration. This was not tested: the model was evaluated stand-alone, and it was not trained to call tools or to produce the agent's JSON format. Training details are given in Section~\ref{sec:ft-train}.
 
 It is important to note what the training examples contain: a system prompt, a question and an answer --- but \emph{not} the textbook passage. The fine-tuned model therefore learns to answer from its weights, not to read and cite a retrieved passage. This design choice turns out to matter for how its citations should be interpreted (Section~\ref{sec:res-de}).
 
 \subsection{Safety logic: the expert-review rule}\label{sec:safety}
 
-Two design principles guide the safety behaviour. First, safety-relevant information is always passed forward and shown: every detection carries its confidence, every classified cell its uncertainty level and heatmap, every interpretation its tool trace. Second, the decision whether a human must review the case is not left to the language model alone. The flag \code{requires\_expert\_review} starts from the model's own judgement, but deterministic code \emph{forces it to true} whenever at least one Stage-2 cell is flagged as HIGH uncertainty, and adds a \code{HIGH\_UNCERTAINTY} safety flag. In linear mode, missing citations also force the flag. A second rule, added after the case study in Section~\ref{sec:case} revealed the gap, checks the \emph{number} of classified white cells: if it is below a configurable minimum (\code{llm.safety.min\_wbc\_for\_differential}, default 100, following the convention of counting at least 100 cells for a differential \cite{clsi2007h20}), an \code{INSUFFICIENT\_CELL\_COUNT} flag is added and review is forced. Both reasoners are also told the cell count and instructed not to interpret percentages when it is insufficient. The rules are implemented in \code{src/utils/safety\_rules.py} and applied by the pipeline after either reasoner has answered, so they hold in both modes. The code can only raise the flag, never lower it. Stage-1 detection confidence does not influence the flag.
+Two design principles guide the safety behaviour. First, safety-relevant information is always passed forward and shown: every detection carries its confidence, every classified cell its uncertainty level and heatmap, every interpretation its tool trace. Second, the decision whether a human must review the case is not left to the language model alone. The flag \code{requires\_expert\_review} starts from the model's own judgement, but deterministic code \emph{forces it to true} whenever at least one Stage-2 cell is flagged as HIGH uncertainty, and adds a \code{HIGH\_UNCERTAINTY} safety flag. In linear mode, missing citations also force the flag, and in agent mode so does a citation of a passage the agent never retrieved (Section~\ref{sec:agent}). A second rule, added after the case study in Section~\ref{sec:case} revealed the gap, checks the \emph{number} of classified white cells: if it is below a configurable minimum (\code{llm.safety.min\_wbc\_for\_differential}, default 100, following the convention of counting at least 100 cells for a differential \cite{clsi2007h20}), an \code{INSUFFICIENT\_CELL\_COUNT} flag is added and review is forced. Both reasoners are also told the cell count and instructed not to interpret percentages when it is insufficient. The uncertainty rule is applied in the post-processing of each reasoner and the minimum-cell rule by the pipeline after either reasoner has answered (\code{src/utils/safety\_rules.py}), so both hold in both modes. The code can only raise the flag, never lower it. Stage-1 detection confidence does not influence the flag.
 
 \subsection{Software implementation and user interface}\label{sec:software}
 
-The system is implemented as a Python library (\code{src/}) with a FastAPI backend (\code{backend/}) and a React + TypeScript web interface (\code{frontend/}). The backend exposes \code{GET /api/health}, \code{GET /api/samples} and \code{POST /api/analyze}; the latter accepts an image (and optionally a JSON object with CBC laboratory values) and returns the full JSON result. The pipeline is loaded lazily on the first request. The interface shows five panels: the detection overlay with cell counts, the WBC differential with per-cell uncertainty, the Grad-CAM heatmaps, the expert's interpretation with citations and safety flags, and the agent trace (Figures~\ref{fig:ui-a} and~\ref{fig:ui-b}). Thirty-seven automated \code{pytest} tests cover configuration loading, batch logic, parsing of model output, retrieval fall-backs, the rebuilding of the vector index when the embedding model changes, the uncertainty schema, the CBC analyser, the minimum-cell rule and the prompts given to the reasoners. All 37 tests pass in the project's environment, including the five that load the trained models (with the v2 classifier configured). The training notebooks for all three models are included and can be run on Google Colab.
+The system is implemented as a Python library (\code{src/}) with a FastAPI backend (\code{backend/}) and a React + TypeScript web interface (\code{frontend/}). The backend exposes \code{GET /api/health}, \code{GET /api/samples} and \code{POST /api/analyze}; the latter accepts an image (and optionally a JSON object with CBC laboratory values) and returns the full JSON result. The pipeline is loaded lazily on the first request. The interface shows five panels: the detection overlay with cell counts, the WBC differential with per-cell uncertainty, the Grad-CAM heatmaps, the expert's interpretation with citations and safety flags, and the agent trace (Figures~\ref{fig:ui-a} and~\ref{fig:ui-b}). Forty automated \code{pytest} tests cover configuration loading, batch logic, parsing of model output, retrieval fall-backs, the rebuilding of the vector index when the embedding model changes, the uncertainty schema, the CBC analyser, the minimum-cell rule, the agent's citation check and the prompts given to the reasoners. All 40 tests pass; they test the logic with small stand-ins and do not load the trained checkpoints, which were exercised by complete pipeline runs (Section~\ref{sec:case}). The training notebooks for all three models are included and can be run on Google Colab.
 
 The optional CBC input deserves a remark. A small module converts laboratory values (WBC, hemoglobin, MCV, platelets, etc.) into findings such as \emph{leukocytosis} or \emph{microcytosis} with a mild/moderate/severe grade. The findings are added to the prompt of both reasoners (in the agent's input message, and in linear mode also to the retrieval query), together with an instruction to reconcile them with the image findings. The web interface does not yet have a CBC input field, so CBC values can currently only be supplied through the API. Because no experiment in this thesis uses CBC values, this feature is presented as an implemented extension, not as an evaluated result.
 
 \begin{figure}[H]
 \centering
-\begin{subfigure}{\textwidth}\centering
-\includegraphics[width=0.8\textwidth]{figures/01_detection.png}
-\caption{Detection panel: boxes and per-class counts.}
-\end{subfigure}\\[6pt]
-\begin{subfigure}{\textwidth}\centering
-\includegraphics[width=0.8\textwidth]{figures/02_classification_gradcam.png}
-\caption{WBC differential, per-cell uncertainty and Grad-CAM heatmaps.}
+\begin{subfigure}[t]{0.43\textwidth}\centering
+\includegraphics[width=\textwidth]{figures/01_detection.png}
+\caption{Detection panel: counts and box overlay.}
+\end{subfigure}\hfill
+\begin{subfigure}[t]{0.55\textwidth}\centering
+\includegraphics[width=\textwidth]{figures/02_classification_gradcam.png}
+\caption{Differential, uncertainty and Grad-CAM; the first cell is flagged HIGH.}
 \end{subfigure}
-\caption{Web interface: image-analysis stages, on sample image BCCD\_00100.}
+\caption{Web interface, image-analysis stages: the final system on the case-study image BCCD\_00010 (Section~\ref{sec:case}), rendered from the saved run in \code{results/case\_study\_rerun/}.}
 \label{fig:ui-a}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\begin{subfigure}{\textwidth}\centering
-\includegraphics[width=0.8\textwidth]{figures/03_reasoning.png}
-\caption{The expert's interpretation with citations and safety flags.}
-\end{subfigure}\\[6pt]
-\begin{subfigure}{\textwidth}\centering
-\includegraphics[width=0.8\textwidth]{figures/04_agent_trace.png}
-\caption{Agent trace: the sequence of tool calls and results.}
+\begin{subfigure}[t]{0.55\textwidth}\centering
+\includegraphics[width=\textwidth]{figures/03_reasoning.png}
+\caption{Interpretation with the forced review and the safety flags.}
+\end{subfigure}\hfill
+\begin{subfigure}[t]{0.43\textwidth}\centering
+\includegraphics[width=\textwidth]{figures/04_agent_trace.png}
+\caption{Agent trace: reference ranges and uncertainty were consulted, the knowledge base was not.}
 \end{subfigure}
-\caption{Web interface: domain-expert output.}
+\caption{Web interface, domain-expert output for the same run. The \code{UNSUPPORTED\_CITATION} flag marks citations of passages the agent never retrieved.}
 \label{fig:ui-b}
 \end{figure}
 

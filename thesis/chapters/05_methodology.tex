@@ -41,7 +41,7 @@ Flip (horizontal/vertical) & 0.5 / 0.5 & Seed & 0 (deterministic) \\
 
 \subsection{Training the domain-expert model}\label{sec:ft-train}
 
-The Llama model was fine-tuned with the Unsloth library \cite{unsloth} (version 2026.11.2, with Transformers 5.17.0 and PyTorch 2.11) and the supervised fine-tuning trainer of the TRL library, using the settings in Table~\ref{tab:qlora}. Each training example was rendered with the Llama-3.1 chat template and the loss was computed on the full sequence. Training took 476 optimisation steps and 49.0 minutes (Colab output saved in \path{results/domain_expert_v2/colab_run_executed.ipynb}). The loss fell from 2.69 at the first logged step to about 0.56 at the end of the first epoch and 0.41 at the last logged step (Figure~\ref{fig:loss}); the drop at the start of the second epoch is the typical sign that the model has begun to memorise the training answers, which is why training was limited to two epochs. Figure~\ref{fig:ftflow} summarises the whole domain-expert experiment, from data generation and the block-level split to training and the four evaluations described next.
+The Llama model was fine-tuned with the Unsloth library \cite{unsloth} (version 2026.11.2, with Transformers 5.17.0 and PyTorch 2.11) and the supervised fine-tuning trainer of the TRL library, using the settings in Table~\ref{tab:qlora}. Each training example was rendered with the Llama-3.1 chat template and the loss was computed on the full sequence. Training took 476 optimisation steps and 49.0 minutes (Colab output saved in \path{results/domain_expert_v2/colab_run_executed.ipynb}). The loss fell from 2.69 at the first logged step to about 0.56 at the end of the first epoch and 0.41 at the last logged step (Figure~\ref{fig:loss}); the drop at the start of the second epoch is the typical sign that the model has begun to memorise the training answers, and one reason why more epochs were not used. Figure~\ref{fig:ftflow} summarises the whole domain-expert experiment, from data generation and the block-level split to training and the evaluations described next.
 
 \begin{table}[H]
 \centering
@@ -71,12 +71,12 @@ Training time & 49.0 min on one T4 \\
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.78\textwidth]{figures/qlora_training_loss.pdf}
+\includegraphics[width=0.62\textwidth]{figures/qlora_training_loss.pdf}
 \caption{Training loss of the QLoRA fine-tuning, logged every 10 steps.}
 \label{fig:loss}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[tbp]
 \centering
 \begin{tikzpicture}[
   node distance=0.45cm and 0.45cm,
@@ -90,8 +90,8 @@ Training time & 49.0 min on one T4 \\
 \node[ev, below=1.1cm of sp] (a) {A: 100 held-out\\Q\&A (200 total)};
 \node[ev, right=of a] (b) {B: 100 MedMCQA\\questions};
 \node[ev, right=of b] (c) {C: 5 clinical\\scenarios};
-\node[ev, below=0.45cm of a] (d) {D: LLM judge\\(300 ratings)};
-\node[st, left=of a] (sys) {Base vs.\ fine-tuned\\(adapter off/on)\\+ GPT-4o};
+\node[ev, below=0.45cm of a] (d) {D: LLM judge\\(500 ratings)};
+\node[st, left=of a] (sys) {Base vs.\ fine-tuned\\(adapter off/on)\\+ GPT-4o (with\\and without RAG)};
 \draw[arr] (ch) -- (gen); \draw[arr] (gen) -- (sp); \draw[arr] (sp) -- node[above,font=\tiny]{train} (tr);
 \draw[arr] (sp) -- node[right,font=\tiny]{test} (a);
 \draw[arr] (tr.south) |- ($(b.north)+(0,0.35)$) -- (b.north);
@@ -99,15 +99,15 @@ Training time & 49.0 min on one T4 \\
 \draw[arr] (sys) -- (a);
 \draw[arr] (a) -- (d);
 \end{tikzpicture}
-\caption{Workflow of the domain-expert experiment: data generation, chunk-level split, QLoRA training and the four evaluations.}
+\caption{Workflow of the domain-expert experiment: data generation, block-level split, QLoRA training and the evaluations A--D.}
 \label{fig:ftflow}
 \end{figure}
 
 \subsection{Evaluation protocol for the domain expert}\label{sec:eval}
 
-The evaluation compares three systems: the original \textbf{Llama-3.1-8B-Instruct (base)}, the same model with the \textbf{QLoRA adapter (ours)}, and \textbf{GPT-4o} as a reference for a strong hosted model. The base and fine-tuned answers come from the \emph{same} loaded model with the adapter switched off and on, so any difference is caused by the adapter alone. All three systems received the same system prompt as used in training, the questions were asked \emph{without} retrieved passages (the test measures the model, not the retrieval), and decoding was deterministic (greedy decoding for Llama; temperature 0 for GPT-4o). Answers were limited to 256 new tokens for Llama and 300 for GPT-4o. (In the final run the GPT-4o step in Colab failed on an expired API key, so its answers were added afterwards with identical settings by \path{scripts/add_gpt4o_baseline.py}.)
+The evaluation compares the original \textbf{Llama-3.1-8B-Instruct (base)}, the same model with the \textbf{QLoRA adapter (ours)}, \textbf{GPT-4o} as a reference for a strong hosted model, and \textbf{GPT-4o + RAG}, the same hosted model given retrieved textbook passages. The base and fine-tuned answers come from the \emph{same} loaded model with the adapter switched off and on, so any difference is caused by the adapter alone. All systems received the same system prompt as used in training; the first three were asked \emph{without} retrieved passages (this measures the model itself), and decoding was deterministic (greedy decoding for Llama; temperature 0 for GPT-4o). Answers were limited to 256 new tokens for Llama and 300 for GPT-4o. (In the final run the GPT-4o step in Colab failed on an expired API key, so its answers were added afterwards with identical settings by \path{scripts/add_gpt4o_baseline.py}.) For \emph{GPT-4o + RAG} (\path{scripts/run_rag_baseline.py}), the system's own retriever (Section~\ref{sec:kb}) returned the top five chunks for each question, placed before the question as in the linear mode, with all other settings unchanged; a second variant cut every chunk to 600 characters, as the agent's tool does.
 
-\paragraph{A. In-domain held-out questions.} The first 100 of the 200 held-out questions were answered by all three systems and compared with the reference answers using:
+\paragraph{A. In-domain held-out questions.} The first 100 of the 200 held-out questions (a notebook setting that kept the GPU evaluation to about half an hour) were answered by all systems and compared with the reference answers using:
 \begin{itemize}
   \item \textbf{ROUGE-L F1} \cite{lin2004rouge}: word-level overlap based on the longest common subsequence (with stemming);
   \item \textbf{semantic similarity}: the cosine similarity between the \code{all-MiniLM-L6-v2} embeddings of the answer and of the reference answer;
@@ -117,11 +117,11 @@ The evaluation compares three systems: the original \textbf{Llama-3.1-8B-Instruc
 
 \paragraph{B. External multiple-choice questions.} The 100 MedMCQA questions were given to the base and fine-tuned models with the four options and the instruction to answer with a single letter; the first letter A--D in the answer was taken as the choice. Random guessing gives 25\,\%. GPT-4o was not evaluated on this set.
 
-\paragraph{C. Qualitative comparison.} Five clinical questions written for this thesis --- including one that describes the two-cell differential of the case study --- were answered by the base and the fine-tuned model and inspected by hand. In addition, all in-domain answers were checked for invented bibliographic references, since no source was ever given to the models: an explicit rule flags a quoted title after ``textbook'' or ``book'' and reference-list entries such as ``Lichtman, M.\,A. (2018)'', and every flagged answer was then checked by hand (\path{flagged_citations.csv}).
+\paragraph{C. Qualitative comparison.} Five clinical questions written for this thesis --- including one that describes the two-cell differential of the case study --- were answered by the base and the fine-tuned model and inspected by hand. In addition, all in-domain answers were checked for references to sources the models had never been given: an explicit rule flags a quoted title after ``textbook'' or ``book'' and reference-list entries such as ``Lichtman, M.\,A. (2018)''; every flagged answer was then inspected individually, and the remaining answers were searched for attributions the rule had missed (\path{flagged_citations_checked.csv}).
 
 \paragraph{Statistics.} Because all systems answer the same questions, differences were tested in a paired way: a 95\,\% bootstrap confidence interval (5{,}000 resamples of the 100 questions) for the difference in mean ROUGE-L, and an exact McNemar test for the difference in multiple-choice accuracy. All statistics are computed from the saved answers by \path{scripts/analyze_domain_expert.py} and \path{scripts/analyze_judge.py} (outputs in \path{results/domain_expert_v2/}).
 
-\paragraph{D. LLM-as-judge.} Following \cite{zheng2023judge}, GPT-4o-mini (temperature 0) rated every in-domain answer of all three systems --- 300 ratings --- on two 1--5 scales: \emph{faithfulness} (agreement with the textbook reference answer, no unsupported or contradicting claims) and \emph{clinical correctness} (medical accuracy). The judge saw the question, the reference answer and one model answer at a time, never the name of the system, and was told that a source line earns no credit and that length does not matter. The ratings are produced from the saved answers by a stand-alone script (\path{scripts/judge_domain_expert.py}), because the notebook's own judging step had failed in the first run (a string-formatting error). Differences between systems are reported with paired bootstrap confidence intervals. An LLM judge is not a substitute for clinicians, and GPT-4o-mini may be biased towards the style of its larger sibling GPT-4o.
+\paragraph{D. LLM-as-judge.} Following \cite{zheng2023judge}, GPT-4o-mini (temperature 0) rated every in-domain answer of every system --- 500 ratings --- on two 1--5 scales: \emph{faithfulness} (agreement with the textbook reference answer, no unsupported or contradicting claims) and \emph{clinical correctness} (medical accuracy). The judge saw the question, the reference answer and one model answer at a time, never the name of the system, and was told that a source line earns no credit and that length does not matter. The ratings are produced from the saved answers by a stand-alone script (\path{scripts/judge_domain_expert.py}), because the notebook's own judging step had failed in the first run (a string-formatting error). Differences between systems are reported with paired bootstrap confidence intervals. An LLM judge is not a substitute for clinicians, and GPT-4o-mini may be biased towards the style of its larger sibling GPT-4o.
 
 \paragraph{E. Retrieval quality.} Every question of the final Q\&A data records its source chunk, so retrieval can be scored directly (\path{scripts/eval_retrieval.py}): each embedding model ranks the 1{,}049 chunks for all 2{,}098 questions, exactly as in the running system, and hit@1, hit@5 (the system retrieves five chunks), MRR@10 and hit@5 including the neighbouring chunk are reported. ``Late'' questions, whose answer overlaps more with the chunk after its first 150 words, test the effect of truncation; models are compared with an exact McNemar test on hit@5.
 

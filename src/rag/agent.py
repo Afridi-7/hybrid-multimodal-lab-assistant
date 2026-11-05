@@ -127,6 +127,35 @@ def _format_chunks(chunks: List[Dict[str, Any]], offset: int) -> str:
     return "\n\n".join(parts)
 
 
+UNSUPPORTED_CITATION_FLAG = "UNSUPPORTED_CITATION"
+_REF_RE = re.compile(r"\[Reference\s*(\d+)\]")
+
+
+def apply_citation_check(report: Dict[str, Any], text: str) -> Dict[str, Any]:
+    """Deterministic provenance check for the agent's citations.
+
+    Every ``[Reference N]`` in the agent's answer must be the id of a passage that the
+    agent itself retrieved with ``query_knowledge_base`` during this run (these are the
+    ``retrieved_references``, one per returned chunk). A cited number without such a
+    passage -- for example when the agent never called the knowledge base -- is not
+    evidence, so an ``UNSUPPORTED_CITATION`` flag is added and expert review is forced.
+    Like the other rules, this can only raise ``requires_expert_review``.
+    """
+    cited = sorted({int(n) for n in _REF_RE.findall(text or "")})
+    available = sorted({int(r["reference_id"]) for r in report.get("retrieved_references", [])
+                        if r.get("reference_id") is not None})
+    unsupported = [n for n in cited if n not in available]
+    report["citation_check"] = {"cited": cited, "retrieved": available, "unsupported": unsupported}
+    if unsupported:
+        refs = ", ".join(f"[Reference {n}]" for n in unsupported)
+        flags = report.setdefault("safety_flags", [])
+        if not any(str(f).startswith(UNSUPPORTED_CITATION_FLAG) for f in flags):
+            flags.append(f"{UNSUPPORTED_CITATION_FLAG}: {refs} cited, but the agent retrieved "
+                         "no such passage, so the citation is not evidence.")
+        report["requires_expert_review"] = True
+    return report
+
+
 def _extract_json_block(text: str) -> Optional[Dict[str, Any]]:
     """Best-effort JSON extraction from an LLM final message."""
     if not text:
@@ -378,6 +407,8 @@ class ClinicalReasoningAgent:
             report["requires_expert_review"] = True
             if "HIGH_UNCERTAINTY" not in report["safety_flags"]:
                 report["safety_flags"].append("HIGH_UNCERTAINTY")
+
+        apply_citation_check(report, final_text)
 
         if self.return_steps:
             report["agent_trace"] = self._extract_trace(messages)

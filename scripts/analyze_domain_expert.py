@@ -4,7 +4,7 @@ Input : an evaluation_report.json written by the Colab notebook
         (default results/domain_expert_v2/evaluation_report.json)
 Output: <same folder>/analysis.json  and  <same folder>/flagged_citations.csv
 
-Computed, per system (base Llama, fine-tuned Llama, GPT-4o):
+Computed, per system (base Llama, fine-tuned Llama, GPT-4o, and -- if present -- GPT-4o + RAG):
   * ROUGE-L F1 vs. the reference answer (rouge_score, stemming) - as in the notebook
   * semantic similarity (all-MiniLM-L6-v2 cosine)               - as in the notebook
   * source-marker rate (same regex as the notebook), average length in words
@@ -12,8 +12,8 @@ Computed, per system (base Llama, fine-tuned Llama, GPT-4o):
   * invented bibliographic references, by an explicit rule:
       (a) a quoted title after "textbook"/"book", e.g.  textbook "Williams Hematology"
       (b) a reference-list entry, e.g.  Lichtman, M. A. (2018)   or   ... et al.
-    Every flagged answer is written to flagged_citations.csv - CHECK THEM BY HAND
-    and report the hand-checked number.
+    Every flagged answer is written to flagged_citations.csv. The hand check of the
+    base model's 68 flagged answers is in flagged_citations_checked.csv.
 Paired statistics (same questions for all systems):
   * 95 % bootstrap CI of the mean ROUGE-L difference (5,000 resamples, seed 0,
     same procedure as scripts/judge_domain_expert.py)
@@ -37,6 +37,7 @@ import statistics
 from pathlib import Path
 
 BASE, OURS, GPT = "Llama-3.1-8B (base)", "Llama-3.1-8B + QLoRA (ours)", "GPT-4o (reference)"
+RAG, RAG600 = "GPT-4o + RAG", "GPT-4o + RAG (600 chars)"      # added by scripts/run_rag_baseline.py
 CITE_RE = re.compile(r"source:|\[reference|haematology\.pdf", re.I)          # notebook's source-marker rule
 BARE_REF_RE = re.compile(r"\[Reference\s*\d+\]")
 TITLE_RE = re.compile(r"(?:textbook|book)\s*(?:titled\s*|called\s*|,\s*)?[\"“‘'][A-Z][^\"”’']{2,80}[\"”’']")
@@ -67,7 +68,7 @@ def main():
     args = ap.parse_args()
     rep = json.loads(args.report.read_text(encoding="utf-8"))
     items = rep["indomain_answers"]
-    systems = [s for s in (BASE, OURS, GPT) if s in items[0]]
+    systems = [s for s in (BASE, OURS, GPT, RAG, RAG600) if s in items[0]]
     golds = [it["gold"] for it in items]
 
     from rouge_score import rouge_scorer
@@ -111,6 +112,18 @@ def main():
                 paired[f"rouge_l ours - {other}"] = {
                     "mean_diff": round(statistics.mean(d), 3), "bootstrap_95ci": bootstrap_ci(d),
                     "ours_higher_on": sum(x > 0 for x in d), "of": len(d)}
+
+    # GPT-4o with retrieval (scripts/run_rag_baseline.py), compared on the same questions
+    for a, b in ((RAG, GPT), (RAG600, RAG)):
+        if a in rouge and b in rouge:
+            d = [x - y for x, y in zip(rouge[a], rouge[b])]
+            paired[f"rouge_l {a} - {b}"] = {
+                "mean_diff": round(statistics.mean(d), 3), "bootstrap_95ci": bootstrap_ci(d),
+                "first_higher_on": sum(x > 0 for x in d), "of": len(d)}
+            if a in sem and b in sem:
+                d = [x - y for x, y in zip(sem[a], sem[b])]
+                paired[f"semantic_sim {a} - {b}"] = {
+                    "mean_diff": round(statistics.mean(d), 3), "bootstrap_95ci": bootstrap_ci(d)}
 
     books = {}
     if OURS in systems:

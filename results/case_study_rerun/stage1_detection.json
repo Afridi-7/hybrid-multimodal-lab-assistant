@@ -2,7 +2,7 @@
   "image_count": 1,
   "per_image": [
     {
-      "image_path": "C:\\Users\\qkafr\\AppData\\Local\\Temp\\bsde_upload_khjwwptm\\upload.jpg",
+      "image_path": "examples\\sample_images\\BCCD_00010.jpg",
       "image": {
         "omitted": true,
         "dtype": "uint8",

@@ -1,0 +1,165 @@
+2026-04-28 14:07:21 - root - INFO - Logging initialized: level=INFO, file=C:\Users\qkafr\Desktop\BSc_Thesis\logs\pipeline_20260428_140721.log
+2026-04-28 14:07:21 - src.utils.reproducibility - INFO - Global RNG seeded with 42 (deterministic_torch=False)
+2026-04-28 14:07:21 - src.pipeline - INFO - Initializing Blood Smear Pipeline...
+2026-04-28 14:07:21 - src.config.config_loader - INFO - Resolved model 'yolo_detection' to: C:\Users\qkafr\Desktop\BSc_Thesis\models\yolov8s_blood.pt
+2026-04-28 14:07:21 - src.detection.detector - INFO - Loading YOLO model from: C:\Users\qkafr\Desktop\BSc_Thesis\models\yolov8s_blood.pt
+2026-04-28 14:07:21 - src.detection.detector - INFO - CellDetector initialized (device=cpu, conf=0.5)
+2026-04-28 14:07:21 - src.config.config_loader - INFO - Resolved model 'efficientnet_classification' to: C:\Users\qkafr\Desktop\BSc_Thesis\models\efficientnet_wbc_finetuned.pt
+2026-04-28 14:07:21 - src.classification.classifier - INFO - Loading EfficientNet model from: C:\Users\qkafr\Desktop\BSc_Thesis\models\efficientnet_wbc_finetuned.pt
+2026-04-28 14:07:22 - src.classification.classifier - INFO - WBCClassifier initialized (device=cpu, mc_passes=20)
+2026-04-28 14:07:22 - src.rag.retriever - INFO - Loading embedding model: sentence-transformers/all-MiniLM-L6-v2
+2026-04-28 14:07:22 - sentence_transformers.base.model - INFO - No device provided, using cpu
+2026-04-28 14:07:22 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 14:07:22 - huggingface_hub.utils._http - WARNING - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-28 14:07:22 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json "HTTP/1.1 200 OK"
+2026-04-28 14:07:22 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 14:07:22 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json "HTTP/1.1 200 OK"
+2026-04-28 14:07:22 - sentence_transformers.base.model - INFO - Loading SentenceTransformer model from sentence-transformers/all-MiniLM-L6-v2.
+2026-04-28 14:07:22 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 14:07:22 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json "HTTP/1.1 200 OK"
+2026-04-28 14:07:23 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 14:07:23 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/README.md "HTTP/1.1 200 OK"
+2026-04-28 14:07:23 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 14:07:23 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json "HTTP/1.1 200 OK"
+2026-04-28 14:07:23 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/sentence_bert_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 14:07:23 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/sentence_bert_config.json "HTTP/1.1 200 OK"
+2026-04-28 14:07:23 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/adapter_config.json "HTTP/1.1 404 Not Found"
+2026-04-28 14:07:23 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 14:07:23 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config.json "HTTP/1.1 200 OK"
+2026-04-28 14:07:23 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+2026-04-28 14:07:23 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/preprocessor_config.json "HTTP/1.1 404 Not Found"
+2026-04-28 14:07:24 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/video_preprocessor_config.json "HTTP/1.1 404 Not Found"
+2026-04-28 14:07:24 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/preprocessor_config.json "HTTP/1.1 404 Not Found"
+2026-04-28 14:07:24 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 14:07:24 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-28 14:07:24 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 14:07:24 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config.json "HTTP/1.1 200 OK"
+2026-04-28 14:07:24 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 14:07:24 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config.json "HTTP/1.1 200 OK"
+2026-04-28 14:07:24 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 14:07:24 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-28 14:07:25 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-28 14:07:25 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-28 14:07:25 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/1_Pooling/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-28 14:07:25 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/1_Pooling%2Fconfig.json "HTTP/1.1 200 OK"
+2026-04-28 14:07:25 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2 "HTTP/1.1 200 OK"
+2026-04-28 14:07:25 - src.rag.retriever - INFO - ClinicalRetriever initialized
+2026-04-28 14:07:25 - src.rag.llm_reasoner - INFO - ClinicalReasoner initialized (model=gpt-4o)
+2026-04-28 14:07:25 - src.pipeline - INFO - Building RAG retrieval index...
+2026-04-28 14:07:25 - src.rag.retriever - INFO - Building retrieval index...
+2026-04-28 14:07:25 - src.rag.pdf_processor - INFO - Extracting text from: essentials_haematology.pdf
+2026-04-28 14:07:49 - src.rag.pdf_processor - INFO - Extracted 1107510 characters from 505 pages
+2026-04-28 14:07:50 - src.rag.pdf_processor - INFO - Created 996 chunks from 159268 words
+2026-04-28 14:07:50 - src.rag.pdf_processor - INFO - Extracting text from: consie_haematology.pdf
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 2 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 12 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 15 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 24 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 32 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 42 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 58 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 70 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 78 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 81 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 84 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 98 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 104 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 107 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 119 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 131 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 147 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 153 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 156 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 159 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 174 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 180 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 186 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 195 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 201 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 210 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 217 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 220 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 223 65536 (offset 0)
+2026-04-28 14:07:50 - pypdf._reader - WARNING - Ignoring wrong pointing object 226 65536 (offset 0)
+2026-04-28 14:07:50 - src.rag.pdf_processor - INFO - Extracted 57344 characters from 27 pages
+2026-04-28 14:07:50 - src.rag.pdf_processor - INFO - Created 53 chunks from 8435 words
+2026-04-28 14:07:50 - src.rag.pdf_processor - INFO - Processed 2 PDFs into 1049 total chunks
+2026-04-28 14:07:50 - src.rag.retriever - INFO - Extracted 1049 chunks from PDFs
+2026-04-28 14:07:50 - src.rag.retriever - INFO - Encoding 1049 chunks...
+2026-04-28 14:08:43 - src.rag.retriever - INFO - Created embeddings: (1049, 384)
+2026-04-28 14:08:45 - src.rag.retriever - INFO - Reusing existing ChromaDB collection 'hematology_knowledge' with 1049 chunks
+2026-04-28 14:08:45 - src.pipeline - INFO - Index built: 1049 chunks, type=chromadb
+2026-04-28 14:08:46 - src.pipeline - INFO - Initializing LangChain ReAct reasoning agent...
+2026-04-28 14:08:47 - src.rag.agent - INFO - ClinicalReasoningAgent initialised (model=gpt-4o, max_iter=6, tools=5)
+2026-04-28 14:08:47 - src.pipeline - INFO - Pipeline initialized successfully
+2026-04-28 14:08:47 - dependencies - INFO - BloodSmearPipeline ready.
+2026-04-28 14:08:47 - routes.analyze - INFO - Analyzing upload (20483 bytes, cbc=no) -> upload.jpg
+2026-04-28 14:08:47 - src.pipeline - INFO - Starting pipeline analysis...
+2026-04-28 14:08:47 - src.pipeline - INFO - ============================================================
+2026-04-28 14:08:47 - src.pipeline - INFO - STAGE 1: Cell Detection (YOLOv8)
+2026-04-28 14:08:47 - src.pipeline - INFO - ============================================================
+2026-04-28 14:08:47 - src.detection.detector - INFO - Processing 1 image(s)
+2026-04-28 14:08:47 - src.pipeline - INFO - ✓ Detected cells: {'WBC': 1, 'RBC': 19, 'Platelet': 1}
+2026-04-28 14:08:47 - src.pipeline - INFO - ============================================================
+2026-04-28 14:08:47 - src.pipeline - INFO - STAGE 2: WBC Classification + Uncertainty
+2026-04-28 14:08:47 - src.pipeline - INFO - ============================================================
+2026-04-28 14:08:47 - src.detection.detector - INFO - Extracted 1 WBC crops
+2026-04-28 14:08:47 - src.classification.classifier - INFO - Classifying batch of 1 images
+2026-04-28 14:08:49 - src.pipeline - INFO - ✓ Classified 1 WBCs across 1 image(s)
+2026-04-28 14:08:49 - src.pipeline - INFO -   Flagged for review: 1
+2026-04-28 14:08:49 - src.pipeline - INFO - ============================================================
+2026-04-28 14:08:49 - src.pipeline - INFO - STAGE 3: Clinical Reasoning (RAG + LLM)
+2026-04-28 14:08:49 - src.pipeline - INFO - ============================================================
+2026-04-28 14:08:49 - src.pipeline - INFO - Query: Provide hematology reference information relevant to the following peripheral blood smear observations. WBC differential observed in the smear: 100% ig Notable morphology cues: immature granulocytes present Per-image detection counts (microscope field, not clinical concentration): WBC=1, RBC=19, Platelet=1 1 of 1 WBC classifications flagged with high model uncertainty
+2026-04-28 14:08:49 - src.rag.retriever - INFO - Retrieving top-5 chunks for query: Provide hematology reference information relevant ...
+2026-04-28 14:08:49 - src.rag.retriever - INFO - Retrieved 5 chunks using ChromaDB
+2026-04-28 14:08:49 - src.pipeline - INFO - Retrieved 5 chunks (sufficient=yes)
+2026-04-28 14:08:49 - src.pipeline - INFO - Reasoning mode: agent
+2026-04-28 14:08:49 - src.rag.agent - INFO - Invoking ReAct agent (max_iter=6)
+2026-04-28 14:08:51 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 14:08:51 - src.rag.retriever - INFO - Retrieving top-5 chunks for query: causes of increased immature granulocytes...
+2026-04-28 14:08:51 - src.rag.retriever - INFO - Retrieved 5 chunks using ChromaDB
+2026-04-28 14:08:54 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 14:08:54 - src.pipeline - INFO - ✓ Generated clinical reasoning
+2026-04-28 14:08:54 - src.pipeline - INFO -   Safety flags: ['High uncertainty in AI analysis; manual review recommended.', 'HIGH_UNCERTAINTY']
+2026-04-28 14:08:54 - src.pipeline - INFO -   Expert review required: True
+2026-04-28 14:08:54 - src.pipeline - INFO - ============================================================
+2026-04-28 14:08:54 - src.pipeline - INFO - ✓ Pipeline completed successfully
+2026-04-28 14:08:54 - src.pipeline - INFO -   Total time: 6.49s
+2026-04-28 14:08:54 - src.pipeline - INFO - ============================================================
+2026-04-28 14:10:49 - routes.analyze - INFO - Analyzing upload (23711 bytes, cbc=no) -> upload.jpg
+2026-04-28 14:10:49 - src.pipeline - INFO - Starting pipeline analysis...
+2026-04-28 14:10:49 - src.pipeline - INFO - ============================================================
+2026-04-28 14:10:49 - src.pipeline - INFO - STAGE 1: Cell Detection (YOLOv8)
+2026-04-28 14:10:49 - src.pipeline - INFO - ============================================================
+2026-04-28 14:10:49 - src.detection.detector - INFO - Processing 1 image(s)
+2026-04-28 14:10:49 - src.pipeline - INFO - ✓ Detected cells: {'WBC': 2, 'RBC': 17, 'Platelet': 0}
+2026-04-28 14:10:49 - src.pipeline - INFO - ============================================================
+2026-04-28 14:10:49 - src.pipeline - INFO - STAGE 2: WBC Classification + Uncertainty
+2026-04-28 14:10:49 - src.pipeline - INFO - ============================================================
+2026-04-28 14:10:49 - src.detection.detector - INFO - Extracted 2 WBC crops
+2026-04-28 14:10:49 - src.classification.classifier - INFO - Classifying batch of 2 images
+2026-04-28 14:10:51 - src.pipeline - INFO - ✓ Classified 2 WBCs across 1 image(s)
+2026-04-28 14:10:51 - src.pipeline - INFO -   Flagged for review: 0
+2026-04-28 14:10:52 - src.pipeline - INFO - ============================================================
+2026-04-28 14:10:52 - src.pipeline - INFO - STAGE 3: Clinical Reasoning (RAG + LLM)
+2026-04-28 14:10:52 - src.pipeline - INFO - ============================================================
+2026-04-28 14:10:52 - src.pipeline - INFO - Query: Provide hematology reference information relevant to the following peripheral blood smear observations. WBC differential observed in the smear: 50% ig, 50% monocyte Notable morphology cues: increased monocytes, immature granulocytes present Per-image detection counts (microscope field, not clinical concentration): WBC=2, RBC=17
+2026-04-28 14:10:52 - src.rag.retriever - INFO - Retrieving top-5 chunks for query: Provide hematology reference information relevant ...
+2026-04-28 14:10:52 - src.rag.retriever - INFO - Retrieved 5 chunks using ChromaDB
+2026-04-28 14:10:52 - src.pipeline - INFO - Retrieved 5 chunks (sufficient=yes)
+2026-04-28 14:10:52 - src.pipeline - INFO - Reasoning mode: agent
+2026-04-28 14:10:52 - src.rag.agent - INFO - Invoking ReAct agent (max_iter=6)
+2026-04-28 14:10:54 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 14:10:54 - src.rag.retriever - INFO - Retrieving top-5 chunks for query: causes of increased immature granulocytes (IG)...
+2026-04-28 14:10:54 - src.rag.retriever - INFO - Retrieving top-5 chunks for query: causes of monocytosis...
+2026-04-28 14:10:54 - src.rag.retriever - INFO - Retrieved 5 chunks using ChromaDB
+2026-04-28 14:10:54 - src.rag.retriever - INFO - Retrieved 5 chunks using ChromaDB
+2026-04-28 14:11:05 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-28 14:11:05 - src.pipeline - INFO - ✓ Generated clinical reasoning
+2026-04-28 14:11:05 - src.pipeline - INFO -   Safety flags: ['High immature granulocyte count indicating potential severe infection or marrow disorder.', 'Absence of platelets may increase bleeding risk.']
+2026-04-28 14:11:05 - src.pipeline - INFO -   Expert review required: False
+2026-04-28 14:11:05 - src.pipeline - INFO - ============================================================
+2026-04-28 14:11:05 - src.pipeline - INFO - ✓ Pipeline completed successfully
+2026-04-28 14:11:05 - src.pipeline - INFO -   Total time: 15.95s
+2026-04-28 14:11:05 - src.pipeline - INFO - ============================================================

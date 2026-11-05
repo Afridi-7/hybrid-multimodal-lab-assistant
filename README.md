@@ -114,6 +114,7 @@ The whole chain is **configuration-driven** ([config.yaml](config.yaml)); every 
   - Total: **1,049 chunks** at 200 words / 40-word overlap.
 - **Embedder**: `BAAI/bge-small-en-v1.5` (384-dim, 512-token window; queries get the BGE retrieval instruction). It replaced `all-MiniLM-L6-v2`, whose 256-token window truncated 98.7 % of the 200-word chunks (`scripts/check_chunk_tokens.py`); on 2,098 questions with a known source chunk, top-5 retrieval rose from 66.9 % to 77.0 % (`scripts/eval_retrieval.py`, `results/retrieval_eval/`). The index is rebuilt automatically when the embedding model changes.
 - **Vector store**: ChromaDB (cosine distance), persisted to `data/chroma_db/` (~29 MB after first build).
+- **Does retrieval help the answers?** On the 100 held-out textbook questions, GPT-4o given the top-5 retrieved chunks was rated more faithful (4.02 -> 4.24) and more correct (4.67 -> 4.83) by a GPT-4o-mini judge than GPT-4o without them, and every `[Reference N]` it wrote pointed to a passage it had been given (`results/domain_expert_v2/analysis.json`, `judge_analysis.json`, `rag_analysis.json`; optimistic, because the questions were generated from the chunks). For comparison, QLoRA fine-tuning of Llama-3.1-8B improved faithfulness to the textbook style but not correctness (thesis Section 6.3).
 - **LLM**: OpenAI **GPT-4o** at `temperature=0.1` with structured JSON output ([src/rag/llm_reasoner.py](src/rag/llm_reasoner.py)).
 - **Optional internet augmentation**: domain-allowlisted web retrieval (NCBI, PubMed, MedlinePlus, WHO, NIH, hematology.org). Disabled by default; enable via `config.yaml` -> `rag.internet.enabled`.
 - **Agentic mode** (`reasoning.mode: agent`): a **LangChain ReAct agent** (`langgraph.prebuilt.create_react_agent`) with five tools:
@@ -125,14 +126,14 @@ The whole chain is **configuration-driven** ([config.yaml](config.yaml)); every 
 
   The agent loops Thought -> Action -> Observation (bounded by `agent.max_iterations: 6`) before producing the final JSON. The full trace is returned and rendered in the frontend's *Agent Trace* card.
 
-- **Deterministic safety rules** ([src/utils/safety_rules.py](src/utils/safety_rules.py)), applied after either reasoner: any HIGH-uncertainty cell, or fewer classified WBCs than `llm.safety.min_wbc_for_differential` (default 100), forces `requires_expert_review: true`. These rules can only raise the flag, never lower it.
+- **Deterministic safety rules**: any HIGH-uncertainty cell (applied in each reasoner's post-processing, `src/rag/agent.py` / `src/rag/llm_reasoner.py`), or fewer classified WBCs than `llm.safety.min_wbc_for_differential` (default 100; [src/utils/safety_rules.py](src/utils/safety_rules.py), applied by the pipeline after either reasoner), forces `requires_expert_review: true`; so does, in agent mode, a `[Reference N]` that the agent never retrieved (`UNSUPPORTED_CITATION`, `src/rag/agent.py::apply_citation_check`). These rules can only raise the flag, never lower it. In agent mode only the passages the agent itself retrieved are listed as references.
 
 ### Datasets used during training (notebooks)
 
 - **TXL-PBC** dataset for detection ([Notebooks/YOLOv8_detection/](Notebooks/YOLOv8_detection/)).
 - **PBC** (Acevedo et al.) for classification ([Notebooks/Efficientnet_classification/](Notebooks/Efficientnet_classification/)).
 - **RAG pipeline prototype** ([Notebooks/LLM_RAG_Pipline/](Notebooks/LLM_RAG_Pipline/)).
-- **Domain-expert fine-tuning and evaluation** of Llama-3.1-8B with QLoRA ([Notebooks/Domain_Expert_Finetune/](Notebooks/Domain_Expert_Finetune/)); results in `results/domain_expert/`.
+- **Domain-expert fine-tuning and evaluation** of Llama-3.1-8B with QLoRA ([Notebooks/Domain_Expert_Finetune/](Notebooks/Domain_Expert_Finetune/)); final results in `results/domain_expert_v2/` (the first, leaky run is kept in `results/domain_expert/` for comparison).
 
 Inference does **not** require the training datasets - the checkpoints under `models/` are self-contained.
 
@@ -182,7 +183,7 @@ hybrid-multimodal-lab-assistant/
 |   +-- chroma_db/          # Persisted vector store (built on first run)
 +-- examples/               # Scripted demos + sample_images/
 +-- scripts/                # Q&A dataset builder, LLM-judge scoring, diagnostics
-+-- tests/                  # pytest suite (37 tests)
++-- tests/                  # pytest suite (40 tests)
 +-- thesis/                 # LaTeX source + PDF of the thesis
 +-- Notebooks/              # Training + evaluation notebooks (not used at inference)
 +-- results/                # Per-run JSON artefacts (gitignored)
@@ -468,42 +469,45 @@ reasoning:
 A successful `/api/analyze` (or `python main.py analyze ...`) returns (abridged; field names as produced by the code):
 
 ```jsonc
+// Excerpt of the case-study run on examples/sample_images/BCCD_00010.jpg with the final system
+// (5 Nov 2026; full output in results/case_study_rerun/)
 {
   "metadata": {
-    "timestamp": "2026-04-28T14:07:21",
+    "timestamp": "2026-11-05T20:02:03",
     "pipeline_version": "1.0.0",
     "modalities": ["image"],               // ["image", "tabular_cbc"] when CBC was supplied
-    "execution_time_seconds": 8.6
+    "execution_time_seconds": 14.0
   },
   "stage1_detection": {
     "image_count": 1,
     "per_image": [{"image_path": "...", "counts": {"WBC": 2, "RBC": 17, "Platelet": 0},
-                   "boxes": [{"class": "WBC", "confidence": 0.93, "xyxy": [120, 88, 240, 210]}]}],
+                   "boxes": [{"class": "WBC", "confidence": 0.81, "xyxy": [250, 245, 514, 477]}, "..."]}],
     "total_counts": {"WBC": 2, "RBC": 17, "Platelet": 0}
   },
   "stage2_classification": {
     "predictions": [{
-      "predicted_class": "ig", "confidence": 0.955, "entropy": 0.216, "variance": 0.0015,
-      "uncertainty_level": "LOW", "flagged": false,
-      "class_probabilities": {"ig": 0.955, "monocyte": 0.026, "...": 0.0},
+      "predicted_class": "ig", "confidence": 0.423, "entropy": 1.228, "variance": 0.0239,
+      "uncertainty_level": "HIGH", "flagged": true,
+      "class_probabilities": {"ig": 0.423, "monocyte": 0.321, "platelet": 0.203, "...": 0.0},
       "gradcam_base64": "data:image/png;base64,..."
-    }],
-    "uncertainty_summary": {"total_samples": 2, "flagged_count": 0, "mean_confidence": 0.96},
+    }, {"predicted_class": "monocyte", "confidence": 0.98, "uncertainty_level": "LOW", "...": "..."}],
+    "uncertainty_summary": {"total_samples": 2, "flagged_count": 1, "mean_confidence": 0.70},
     "total_wbc_crops": 2
   },
   "stage3_reasoning": {
     "reasoning_mode": "agent",
-    "clinical_interpretation": "...",
-    "key_findings": ["..."],
-    "differential_diagnoses": ["Diagnosis [Reference 1] - rationale"],
+    "clinical_interpretation": "... The differential is unreliable due to the insufficient number of classified cells ...",
+    "key_findings": ["Insufficient WBC count for reliable differential (2 classified, minimum 100 required).", "..."],
+    "differential_diagnoses": ["..."],
     "recommendations": ["..."],
-    "safety_flags": ["INSUFFICIENT_CELL_COUNT: only 2 white cell(s) classified; ..."],
-    "confidence_assessment": "MEDIUM",
+    "safety_flags": ["...", "HIGH_UNCERTAINTY",
+                     "INSUFFICIENT_CELL_COUNT: only 2 white cell(s) classified; at least 100 are needed ..."],
+    "confidence_assessment": "LOW",
     "requires_expert_review": true,
     "cell_count_check": {"wbc_classified": 2, "minimum_required": 100, "sufficient": false},
-    "retrieved_references": [{"reference_id": 1, "source": "essentials_haematology.pdf", "chunk_id": 665, "score": 0.68}],
-    "agent_trace": [{"type": "tool_call", "name": "query_knowledge_base", "args": {"query": "..."}},
-                    {"type": "tool_result", "name": "query_knowledge_base", "content": "..."}]
+    "retrieved_references": [{"reference_id": 1, "source": "essentials_haematology.pdf", "chunk_id": 111, "score": 0.81}],
+    "agent_trace": [{"type": "tool_call", "name": "lookup_lab_reference_ranges", "args": {"parameter": "ig"}},
+                    {"type": "tool_result", "name": "lookup_lab_reference_ranges", "content": "..."}]
   },
   "annotated_image_base64": "iVBORw0K..."
 }
@@ -511,14 +515,18 @@ A successful `/api/analyze` (or `python main.py analyze ...`) returns (abridged;
 
 ### Scoring the domain-expert answers
 
-`python scripts/judge_domain_expert.py` rates the saved answers in `results/domain_expert/evaluation_report.json` with GPT-4o-mini (faithfulness and clinical correctness, 1-5). No GPU needed; costs well under 1 USD.
+`python scripts/judge_domain_expert.py` rates the saved answers in `results/domain_expert_v2/evaluation_report.json` with GPT-4o-mini (faithfulness and clinical correctness, 1-5); already-scored answers are skipped. No GPU needed; costs well under 1 USD. `python scripts/analyze_domain_expert.py` and `python scripts/analyze_judge.py` recompute every statistic in the thesis from the saved answers.
+
+### GPT-4o with retrieval (RAG) on the held-out questions
+
+`python scripts/run_rag_baseline.py` answers the same 100 held-out questions with GPT-4o *plus* the top-5 chunks from the app's own retriever (full chunks as in linear mode, and a variant with each chunk cut to 600 characters as in the agent tool), with otherwise identical settings. Then run the judge and `python scripts/analyze_rag.py` (citation validity, results split by whether the question's source chunk was retrieved). Needs `OPENAI_API_KEY`, `data/pdfs/` and `data/chroma_db/`; about 1 USD.
 
 ---
 
 ## Testing and validation
 
 ```powershell
-# Full pytest suite (37 tests; 5 of them load the trained models)
+# Full pytest suite (40 tests; they use small stand-ins and do not load the trained checkpoints)
 pytest -q
 
 # Specific test file
@@ -559,13 +567,15 @@ The **adapter file is free** to download from Hugging Face. What costs money is 
 
 | Option | Cost | Setup time | Notes |
 |---|---|---|---|
-| **Ollama + GGUF locally** | Free (uses your own GPU/CPU) | 30 min | Requires =8 GB VRAM or a beefy CPU. Convert adapter -> merged GGUF first. |
+| **Ollama + GGUF locally** | Free (uses your own GPU/CPU) | 30 min | Requires about 8 GB of VRAM or a beefy CPU. Convert adapter -> merged GGUF first. |
 | **RunPod / Vast.ai vLLM pod** | ~$0.20-0.40 / hr (T4/A10) | 5 min | Best price for ad-hoc demos. Pause when done. |
 | **HF Inference Endpoints** | ~$0.60 / hr (smallest GPU) | 2 min, all-clicks | Easiest. One Deploy button on the model page. Pause after demo. |
 
 For a 30-minute defence demo on HF Endpoints: **~$0.30 total**. Pause the endpoint after and billing stops.
 
-### Defence-day checklist (HF Inference Endpoints - recommended)
+### Defence-day checklist (HF Inference Endpoints)
+
+> **Untested.** The fine-tuned model has only been evaluated stand-alone in Colab; it has never been served behind this app, and it was not trained to call the agent's tools or to produce its JSON format. Run the sanity check below end-to-end before relying on it in a live demo.
 
 1. Open https://huggingface.co/Afridi07/hematology-llama-3.1-8b-lora.
 2. Click **Deploy -> Inference Endpoints (dedicated)**.
@@ -709,7 +719,7 @@ Higher quality than open-weight alternatives on clinical reasoning benchmarks at
 
 - **Not a medical device.** No regulatory clearance, not validated for diagnostic use.
 - **Distribution shift.** Stage 1 was trained on TXL-PBC; Stage 2 on PBC (a single CellaVision analyser). Performance on smears from other staining protocols, microscopes, or magnifications is unverified.
-- **Class imbalance.** Basophils are the smallest PBC class (about 1,200 images vs. about 3,300 neutrophils).
+- **Class imbalance.** Lymphocytes and basophils are the smallest PBC classes (about 1,200 images each vs. about 3,300 neutrophils).
 - **LLM hallucinations.** Mitigated by RAG grounding, citation checks (linear mode), the tool trace, and the deterministic `requires_expert_review` rules, but not eliminated. Always verify against the cited sources. A citation *written by the model* is not proof; check the retrieved passage in the agent trace.
 - **PHI.** The system does not store uploaded images beyond the temp directory of a single request. Do not upload images containing patient identifiers.
 - **OpenAI data policy.** Image content used in Stage 3 prompts (textual descriptors only - actual pixels never leave the local machine) is subject to OpenAI's API data policy. Disable Stage 3 for sensitive workloads.

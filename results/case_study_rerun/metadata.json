@@ -1,0 +1,8 @@
+{
+ "timestamp": "2026-11-05T21:12:50.287204",
+ "input": "examples\\sample_images\\BCCD_00010.jpg",
+ "pipeline_version": "1.0.0",
+ "modalities": [
+  "image"
+ ]
+}

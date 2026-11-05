@@ -1,6 +1,7 @@
 """Summarise LLM-judge scores for the thesis (means, SDs, paired bootstrap CIs).
 
-scripts/judge_domain_expert.py saves the 300 ratings and a short summary that only
+scripts/judge_domain_expert.py saves the ratings (300 for the three original systems, 200 more
+for the two GPT-4o + RAG systems) and a short summary that only
 compares the fine-tuned model with the base model. The thesis also reports
 standard deviations and GPT-4o minus fine-tuned; this script computes all of them
 from the saved ratings, with the same bootstrap procedure (5,000 resamples, seed 0).
@@ -20,6 +21,7 @@ import statistics
 from pathlib import Path
 
 BASE, OURS, GPT = "Llama-3.1-8B (base)", "Llama-3.1-8B + QLoRA (ours)", "GPT-4o (reference)"
+RAG, RAG600 = "GPT-4o + RAG", "GPT-4o + RAG (600 chars)"      # added by scripts/run_rag_baseline.py
 METRICS = ("faithfulness", "clinical_correctness")
 
 
@@ -36,14 +38,14 @@ def main():
     data = json.loads(args.scores.read_text(encoding="utf-8"))
     sc = data["scores"]
     idx = sorted({int(k.split("|", 1)[0]) for k in sc})
-    systems = [s for s in (BASE, OURS, GPT) if any(k.endswith("|" + s) for k in sc)]
+    systems = [s for s in (BASE, OURS, GPT, RAG, RAG600) if any(k.endswith("|" + s) for k in sc)]
     out = {"judge_model": data.get("judge_model"), "n_ratings": len(sc), "systems": {}, "paired": {}}
     for s in systems:
         rows = [sc[f"{i}|{s}"] for i in idx if f"{i}|{s}" in sc]
         out["systems"][s] = {"n": len(rows), **{
             m: {"mean": round(statistics.mean(r[m] for r in rows), 2),
                 "sd": round(statistics.stdev(r[m] for r in rows), 2)} for m in METRICS}}
-    for a, b in ((OURS, BASE), (GPT, OURS), (GPT, BASE)):
+    for a, b in ((OURS, BASE), (GPT, OURS), (GPT, BASE), (RAG, GPT), (RAG, OURS), (RAG600, RAG)):
         if a in systems and b in systems:
             for m in METRICS:
                 d = [sc[f"{i}|{a}"][m] - sc[f"{i}|{b}"][m] for i in idx if f"{i}|{a}" in sc and f"{i}|{b}" in sc]

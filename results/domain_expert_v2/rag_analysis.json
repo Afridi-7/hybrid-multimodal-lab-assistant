@@ -1,0 +1,114 @@
+{
+ "n": 100,
+ "gold_chunk_in_top5": 79,
+ "gold_or_neighbour_in_top5": 89,
+ "systems": {
+  "GPT-4o + RAG": {
+   "cites_any_reference": 89,
+   "all_cited_numbers_valid_1_to_5": 89,
+   "cites_a_number_outside_1_to_5": 0,
+   "says_evidence_insufficient": 2,
+   "says_evidence_insufficient_when_gold_missed": 1,
+   "gold_retrieved": {
+    "n": 79,
+    "faithfulness": 4.29,
+    "faithfulness_minus_gpt4o_no_rag": {
+     "mean_difference": 0.29,
+     "bootstrap_95ci": [
+      0.076,
+      0.519
+     ]
+    },
+    "clinical_correctness": 4.87,
+    "clinical_correctness_minus_gpt4o_no_rag": {
+     "mean_difference": 0.19,
+     "bootstrap_95ci": [
+      0.025,
+      0.38
+     ]
+    }
+   },
+   "gold_not_retrieved": {
+    "n": 21,
+    "faithfulness": 4.05,
+    "faithfulness_minus_gpt4o_no_rag": {
+     "mean_difference": -0.05,
+     "bootstrap_95ci": [
+      -0.333,
+      0.238
+     ]
+    },
+    "clinical_correctness": 4.67,
+    "clinical_correctness_minus_gpt4o_no_rag": {
+     "mean_difference": 0.05,
+     "bootstrap_95ci": [
+      -0.143,
+      0.238
+     ]
+    }
+   }
+  },
+  "GPT-4o + RAG (600 chars)": {
+   "cites_any_reference": 90,
+   "all_cited_numbers_valid_1_to_5": 90,
+   "cites_a_number_outside_1_to_5": 0,
+   "says_evidence_insufficient": 3,
+   "says_evidence_insufficient_when_gold_missed": 1,
+   "gold_retrieved": {
+    "n": 79,
+    "faithfulness": 4.22,
+    "faithfulness_minus_gpt4o_no_rag": {
+     "mean_difference": 0.22,
+     "bootstrap_95ci": [
+      0.013,
+      0.43
+     ]
+    },
+    "clinical_correctness": 4.82,
+    "clinical_correctness_minus_gpt4o_no_rag": {
+     "mean_difference": 0.14,
+     "bootstrap_95ci": [
+      -0.025,
+      0.329
+     ]
+    }
+   },
+   "gold_not_retrieved": {
+    "n": 21,
+    "faithfulness": 3.86,
+    "faithfulness_minus_gpt4o_no_rag": {
+     "mean_difference": -0.24,
+     "bootstrap_95ci": [
+      -0.571,
+      0.095
+     ]
+    },
+    "clinical_correctness": 4.62,
+    "clinical_correctness_minus_gpt4o_no_rag": {
+     "mean_difference": 0,
+     "bootstrap_95ci": [
+      -0.19,
+      0.19
+     ]
+    }
+   }
+  },
+  "GPT-4o (reference)": {
+   "cites_any_reference": 37,
+   "all_cited_numbers_valid_1_to_5": 37,
+   "cites_a_number_outside_1_to_5": 0,
+   "says_evidence_insufficient": 2,
+   "says_evidence_insufficient_when_gold_missed": 0,
+   "gold_retrieved": {
+    "n": 79,
+    "faithfulness": 4,
+    "clinical_correctness": 4.68
+   },
+   "gold_not_retrieved": {
+    "n": 21,
+    "faithfulness": 4.1,
+    "clinical_correctness": 4.62
+   }
+  }
+ }
+}

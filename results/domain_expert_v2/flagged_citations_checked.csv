@@ -1,0 +1,73 @@
+question_index,flagged_by_rule,genuine_attribution_to_unprovided_source,source_named,category,note,question
+0,yes,yes,AABB Technical Manual (Roback et al.),real work,year/edition do not match,What components does cryoprecipitate contain?
+1,yes,yes,Harrison's Principles of Internal Medicine,real work,,What is the most common cause of reduced intestinal absorption of vitamin B12?
+2,yes,yes,'Hematology: A Very Short Introduction' by Patricia A. Tanner,does not appear to exist,the real Oxford VSI is 'Blood' by Chris Cooper,What systemic symptoms are associated with Stage B of lymphoma?
+4,yes,yes,Williams Hematology (Kaushansky et al.),real work,,What is the relationship between paroxysmal nocturnal hemoglobinuria (PNH) and aplastic anemia?
+5,yes,yes,Harrison's Principles of Internal Medicine,real work,,How is the reticulocyte count interpreted in cases of anaemia?
+8,yes,yes,'Hematology: A Very Short Introduction' by James W. B. Douglas,does not appear to exist,,"During embryogenesis, how do hematopoietic stem cells (HSC) contribute to the blood system?"
+9,yes,yes,Harrison's Principles of Internal Medicine (+ Lichtman & Kipps),real work,,What is a characteristic feature of chronic lymphocytic leukaemia (CLL) observed on a blood smear?
+10,yes,yes,Williams Hematology (Kaushansky et al.),real work,includes an invented verbatim quotation with page number (p. 1431),What would you expect to see in serum and red cell folate levels in a patient with folate deficiency?
+12,yes,yes,Roberts and Hedges' Clinical Procedures in Emergency Medicine; Transfusion Medicine and Hemostasis,real work,emergency-procedures book cited for TA-GvHD,What clinical signs would you expect in a patient developing Transfusion Associated Graft vs. Host Disease (GvHD) following a blood transfusion?
+15,yes,yes,Williams Hematology (Kaushansky et al.),real work,,How can you differentiate between hemophilia A and hemophilia B in a clinical setting?
+17,yes,yes,"'Hematopathology' by Knowles, 2nd ed.",real work,a book titled Hematopathology exists (Jaffe et al.); Knowles edited 'Neoplastic Hematopathology' - author/title mixed,What histological features are characteristic of Reed-Sternberg (RS) cells in Hodgkin's Lymphoma?
+18,yes,yes,"Williams Hematology (Lichtman, Kipps & Steinberg 2014)",real work,author list wrong,What would you expect on a smear if there is an inherited deficiency of coagulation factor VIII or IX?
+19,yes,yes,"Armitage & Greer (2011), 'Hematology', in ...",unverifiable reference entry,cut off by the 256-token limit,"In a patient with Hodgkin's lymphoma, what would you expect to find in terms of the cellular composition of the tumor?"
+20,yes,yes,Harrison's Principles of Internal Medicine,real work,,What should be considered if there is a suboptimal response to vitamin B12 treatment in megaloblastic anemia?
+21,yes,yes,Williams Hematology (Kaushansky et al.),real work,,What is the primary defect in Glanzmann’s thrombasthenia and how does it affect platelet aggregation?
+22,yes,yes,"'Hematopathology' by Knowles, 2017",real work,author/title mixed (see Q17),What is the defining morphological feature of Hodgkin's lymphoma (HL)?
+23,yes,yes,'Hematology: A Very Short Introduction' by Patricia A. Tanner,does not appear to exist,,What are the common clinical features of Hodgkin Lymphoma (HL)?
+24,yes,yes,Harrison's Principles of Internal Medicine,real work,,What is the standard test for monitoring oral anticoagulant therapy?
+26,yes,yes,"Duggan, J. & Johnston, D. ...",unverifiable reference entry,cut off,What should patients undergo after a total gastrectomy to prevent anemia?
+28,yes,yes,"'Hematopathology' by Knowles, 2nd ed.",real work,author/title mixed,What is the significance of the presence of Reed-Sternberg cells in diagnosing Hodgkin's Lymphoma?
+29,yes,yes,'Hematology: A Very Short Introduction' by Patricia A. Wardhaugh,does not appear to exist,,What would you expect to see on a blood smear of a patient with microcytic hypochromic anemia?
+31,no,yes,"Sadler, J. ...",unverifiable reference entry,reference list cut off; missed by the rule,What would you expect on a platelet adhesion study for a patient with von Willebrand disease?
+32,yes,yes,"'Transfusion Medicine and Hemostasis' by A.S. Lichtman, C.G. Forrester, J.A. Forrester",real work,"title exists (Hillyer, Shaz et al.); authors invented",What measures can be taken to prevent febrile non-hemolytic transfusion reactions (FNTHR) in regularly transfused patients?
+33,yes,yes,'Hemophilia and Other Inherited Bleeding Disorders' by Peter M. Knauer et al.,real work,"a similar title exists (Rizza & Lowe, 1997); author invented",What F VIII levels are required to control serious or major bleeding in hemophilia A?
+34,yes,yes,"'Hematology: A Systems Approach' by Daniel A. Aronson (CRC Press, 2010)",does not appear to exist,,What is the role of the aggregometer in platelet aggregation studies?
+35,yes,yes,Harrison's Principles of Internal Medicine,real work,,What is the relationship between vitamin B12 deficiency and homocysteine levels?
+36,yes,yes,Harrison's Principles of Internal Medicine (+ Rosse),real work,,What are the main membrane proteins deficient in Paroxysmal Nocturnal Hemoglobinuria (PNH)?
+38,yes,yes,Harrison's Principles of Internal Medicine,real work,cited for a false statement (serum B12 'normal'),How do serum vitamin B12 levels correlate with megaloblastic anemia due to vitamin B12 deficiency?
+40,yes,yes,"'Hematopathology' by Knowles (2017, Lippincott)",real work,author/title mixed,"What is the characteristic cell type found in Hodgkin's lymphoma, and what is its origin?"
+41,yes,yes,'Hematology: A Very Short Introduction' by Patricia A. Tanner,does not appear to exist,,What are the indicators of an acute hemolytic transfusion reaction (HTR)?
+42,no,yes,"Harrison's Principles of Internal Medicine, 19th ed., ch. 104",real work,title in a reference list without 'textbook'; missed by the rule,What are the vitamin K-dependent coagulation factors mentioned in the passage?
+43,no,yes,"Sadler, J. E. ...",unverifiable reference entry,reference list cut off; missed by the rule,What would you expect on a platelet aggregation study for a patient with von Willebrand disease when ristocetin is used as an agonist?
+44,yes,yes,"Harrison's Principles of Internal Medicine, ch. 104",real work,,What laboratory test is most affected by vitamin K deficiency?
+45,yes,yes,Harrison's Principles of Internal Medicine,real work,,What are common causes of a bleeding disorder associated with platelet function defects?
+48,yes,yes,'Hematology: A Systems Approach' by Daniel A. Aronson,does not appear to exist,,What could happen if blood for coagulation studies is collected from an indwelling catheter?
+50,yes,yes,"Lichtman, M. A., ...",unverifiable reference entry,cut off,What does a positive DAT with a post-transfusion sample and a negative DAT with a pre-transfusion sample indicate?
+51,yes,yes,"Armitage, J. O. (2017), 'Acute myeloid leukemia', in ...",unverifiable reference entry,cut off,What is chronic lymphocytic leukaemia (CLL)?
+52,yes,yes,'Hematopathology' by Knowles et al.,real work,author/title mixed,What are the typical findings on a peripheral blood smear for a patient with thalassaemia trait?
+53,yes,yes,"Williams' Hematology, 8th ed.",real work,,How does pregnancy affect folate requirements and what is the standard prevention strategy?
+56,yes,yes,'Hematology: A Very Short Introduction' by Patricia A. Tanner,does not appear to exist,,What should be done if a patient exhibits an anaphylactic reaction during a transfusion?
+58,yes,yes,'Hematopathology' by Knowles et al.,real work,author/title mixed,What would you expect to see on a blood smear in a patient with lead poisoning?
+60,yes,yes,"Aster, R. H. & Jandl ...",unverifiable reference entry,cut off,What is the mechanism behind the destruction of the patient's own platelets following blood transfusion in sensitized women?
+61,yes,yes,"Williams Hematology (Lichtman et al., 2018)",real work,,What would you expect in the corrected reticulocyte count of a patient with a PCV of 20% and a reticulocyte count of 1%?
+62,yes,yes,Williams Hematology (Kaushansky et al.),real work,,What is the role of Gp Ib-IX-V in platelet function?
+63,yes,yes,'Hematology: A Very Short Introduction' by Patricia A. Wardhaugh,does not appear to exist,,What findings in post-transfusion samples indicate intravascular hemolysis?
+64,yes,yes,"Williams Hematology (Lichtman, Kipps, Seligman & Kaushansky 2015)",real work,,What is hematology?
+65,yes,yes,'Clinical Hematology: Theory and Practice' by David A. Garcia et al.,real work,title exists (Harmening); author invented,What laboratory tests can be used to detect haemoglobinuria and haemosiderinuria?
+67,yes,yes,'Hematology: A Very Short Introduction' by Patricia A. Jacobs,does not appear to exist,,What would you expect to observe on a smear if a platelet aggregating agent is added to platelet-rich plasma?
+69,yes,yes,Harrison's Principles of Internal Medicine,real work,,What are the main cell types that arise from the myeloid lineage?
+70,yes,yes,Harrison's Principles of Internal Medicine (+ Ageno et al. 2012),real work,,What is the normal range for Prothrombin Time (PT)?
+71,yes,yes,"'Hematopathology' by Knowles, 2017",real work,author/title mixed,What is a defining morphological feature of Hodgkin’s lymphoma?
+72,yes,yes,Williams Hematology (Kaushansky et al.),real work,,What chromosomal abnormalities are commonly associated with chronic lymphocytic leukemia (CLL)?
+73,yes,yes,'Hematology: A Very Short Introduction' by Valerie Horsfall,does not appear to exist,,What immediate actions should be taken if a patient is suspected of having an acute hemolytic transfusion reaction?
+74,yes,yes,Swerdlow et al. (WHO classification of haematolymphoid tumours),real work,,"In a patient with lymphocyte depletion type of Hodgkin lymphoma, what would you expect in terms of Reed-Sternberg cell morphology?"
+75,yes,yes,'Hematology: A Very Short Introduction' by Patricia A. Wardrop,does not appear to exist,,What are the morphological features of reactive lymphocytes?
+76,no,yes,"Lollar, ...",unverifiable reference entry,reference list cut off; missed by the rule,What complications arise from earlier generations of FVIII concentrates?
+77,yes,yes,'Hematology: A Very Short Introduction' by Valerie A. LeBlond and David J. Roberts,does not appear to exist,,What causes reticulocytosis?
+78,yes,yes,Harrison's Principles of Internal Medicine (Kasper et al.),real work,,What types of white blood cells are found in peripheral circulation?
+79,yes,yes,Harrison's Principles of Internal Medicine,real work,,What is the recommended blood to anticoagulant ratio for coagulation studies?
+80,yes,yes,Harrison's Principles of Internal Medicine,real work,,What would you expect to find in serum vitamin B12 and red cell folate levels in a patient with vitamin B12 deficiency?
+81,yes,yes,Williams Hematology (Kaushansky et al.),real work,,How do the age demographics differ between Hodgkin’s and non-Hodgkin’s lymphoma?
+82,yes,yes,'Hematology: A Very Short Introduction' by Patricia A. Tanner,does not appear to exist,,What would you expect to see on a blood smear from a patient with Bernard-Soulier syndrome?
+83,yes,yes,"Lichtman, M. A., Kipps, T. J., Seligman, M ...",unverifiable reference entry,cut off (probably Williams Hematology),What is the Ham Test and what does it confirm in patients?
+84,yes,yes,Harrison's Principles of Internal Medicine (Kasper et al. 2015) + 2 journal articles,real work,,What is the most common genetic defect responsible for severe hemophilia A?
+85,yes,yes,"Lichtman, Kipps, Seligman & Kaushansky (2015 ...",unverifiable reference entry,cut off (probably Williams Hematology),"If a patient has low MCV and MCH but normal MCHC, what condition might they have?"
+87,yes,yes,Harrison's Principles of Internal Medicine,real work,,What role do platelets play in the coagulation process?
+90,yes,yes,'Hematology: A Very Short Introduction' by James M. Bussel,does not appear to exist,,What are the symptoms of transfusion-related acute lung injury (TRALI)?
+91,yes,yes,"Harrison's Principles of Internal Medicine, 19th ed.",real work,,What is the expected reticulocyte response following vitamin B12 treatment for megaloblastic anemia?
+92,yes,yes,Harrison's Principles of Internal Medicine,real work,,"What happens to coagulation factors V and VIII when they are activated, according to the passage?"
+93,yes,yes,'Hematology: A Very Short Introduction' by Valerie Horsfall,does not appear to exist,,What laboratory findings would you expect in a patient suspected of having a Delayed Hemolytic Transfusion Reaction?
+96,yes,yes,Harrison's Principles of Internal Medicine,real work,,What are the normal types of white blood cells found in peripheral circulation?
+97,yes,yes,"Young NS et al. (2016), 'Paroxysmal Nocturnal Hemoglobinuria', in Williams Hematology",real work,chapter attribution unverified,"In a patient with PNH, what would you expect to find in their urine examination?"

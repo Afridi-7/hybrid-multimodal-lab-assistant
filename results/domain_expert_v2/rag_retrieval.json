@@ -1,0 +1,3313 @@
+{
+ "retriever": {
+  "embedding_model": "BAAI/bge-small-en-v1.5",
+  "query_instruction": "Represent this sentence for searching relevant passages: ",
+  "top_k": 5,
+  "internet_enabled": false
+ },
+ "n": 100,
+ "gold_chunk_in_top5": 79,
+ "gold_or_neighbour_in_top5": 89,
+ "per_question": [
+  {
+   "question_index": 0,
+   "gold": "essentials_haematology.pdf#783",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 783,
+     "score": 0.7383
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 923,
+     "score": 0.7264
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 922,
+     "score": 0.6841
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 910,
+     "score": 0.6829
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 921,
+     "score": 0.6635
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 1,
+   "gold": "essentials_haematology.pdf#176",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 176,
+     "score": 0.8382
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 167,
+     "score": 0.8232
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 175,
+     "score": 0.7987
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 179,
+     "score": 0.7888
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 182,
+     "score": 0.7856
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 2,
+   "gold": "essentials_haematology.pdf#629",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 625,
+     "score": 0.7987
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 626,
+     "score": 0.7658
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 568,
+     "score": 0.7291
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 567,
+     "score": 0.727
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 639,
+     "score": 0.7268
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": false
+  },
+  {
+   "question_index": 3,
+   "gold": "essentials_haematology.pdf#418",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 130,
+     "score": 0.7955
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 418,
+     "score": 0.7784
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 110,
+     "score": 0.7756
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 287,
+     "score": 0.7349
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 500,
+     "score": 0.7348
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 4,
+   "gold": "essentials_haematology.pdf#417",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 193,
+     "score": 0.8238
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 409,
+     "score": 0.7603
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 227,
+     "score": 0.7283
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 224,
+     "score": 0.7254
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 189,
+     "score": 0.7226
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": false
+  },
+  {
+   "question_index": 5,
+   "gold": "essentials_haematology.pdf#113",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 114,
+     "score": 0.8468
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 116,
+     "score": 0.8162
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 115,
+     "score": 0.8082
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 113,
+     "score": 0.7995
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 124,
+     "score": 0.7817
+    }
+   ],
+   "gold_rank": 4,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 6,
+   "gold": "essentials_haematology.pdf#724",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 778,
+     "score": 0.7508
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 724,
+     "score": 0.7506
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 723,
+     "score": 0.7077
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 725,
+     "score": 0.7069
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 811,
+     "score": 0.7032
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 7,
+   "gold": "consie_haematology.pdf#10",
+   "retrieved": [
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 10,
+     "score": 0.7275
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 9,
+     "score": 0.7188
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 8,
+     "score": 0.6784
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 12,
+     "score": 0.6648
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 11,
+     "score": 0.6639
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 8,
+   "gold": "consie_haematology.pdf#17",
+   "retrieved": [
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 17,
+     "score": 0.8525
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 38,
+     "score": 0.845
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 39,
+     "score": 0.8187
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 14,
+     "score": 0.8167
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 28,
+     "score": 0.8093
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 9,
+   "gold": "essentials_haematology.pdf#562",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 561,
+     "score": 0.8361
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 560,
+     "score": 0.829
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 562,
+     "score": 0.8215
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 571,
+     "score": 0.7826
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 566,
+     "score": 0.7616
+    }
+   ],
+   "gold_rank": 3,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 10,
+   "gold": "essentials_haematology.pdf#172",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 172,
+     "score": 0.7921
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 171,
+     "score": 0.771
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 185,
+     "score": 0.7671
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 181,
+     "score": 0.7482
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 170,
+     "score": 0.7357
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 11,
+   "gold": "essentials_haematology.pdf#419",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 562,
+     "score": 0.7553
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 419,
+     "score": 0.7397
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 576,
+     "score": 0.7328
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 501,
+     "score": 0.7311
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 449,
+     "score": 0.7282
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 12,
+   "gold": "essentials_haematology.pdf#949",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 695,
+     "score": 0.7951
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 949,
+     "score": 0.7914
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 696,
+     "score": 0.7834
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 697,
+     "score": 0.7672
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 948,
+     "score": 0.7448
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 13,
+   "gold": "essentials_haematology.pdf#177",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 181,
+     "score": 0.7605
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 233,
+     "score": 0.7514
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 519,
+     "score": 0.7452
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 149,
+     "score": 0.7387
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 287,
+     "score": 0.7374
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": false
+  },
+  {
+   "question_index": 14,
+   "gold": "essentials_haematology.pdf#411",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 411,
+     "score": 0.8602
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 410,
+     "score": 0.7745
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 415,
+     "score": 0.7231
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 416,
+     "score": 0.7096
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 412,
+     "score": 0.7068
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 15,
+   "gold": "essentials_haematology.pdf#781",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 811,
+     "score": 0.7436
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 781,
+     "score": 0.7291
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 846,
+     "score": 0.7226
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 780,
+     "score": 0.7112
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 775,
+     "score": 0.7018
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 16,
+   "gold": "essentials_haematology.pdf#179",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 179,
+     "score": 0.8228
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 180,
+     "score": 0.8087
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 175,
+     "score": 0.7618
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 173,
+     "score": 0.7211
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 171,
+     "score": 0.7185
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 17,
+   "gold": "essentials_haematology.pdf#628",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 623,
+     "score": 0.8373
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 626,
+     "score": 0.7744
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 628,
+     "score": 0.769
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 624,
+     "score": 0.7651
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 622,
+     "score": 0.7193
+    }
+   ],
+   "gold_rank": 3,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 18,
+   "gold": "essentials_haematology.pdf#723",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 708,
+     "score": 0.7671
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 707,
+     "score": 0.7618
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 811,
+     "score": 0.7493
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 805,
+     "score": 0.7382
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 706,
+     "score": 0.7366
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": false
+  },
+  {
+   "question_index": 19,
+   "gold": "essentials_haematology.pdf#624",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 650,
+     "score": 0.7678
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 623,
+     "score": 0.7532
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 626,
+     "score": 0.7471
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 624,
+     "score": 0.7414
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 628,
+     "score": 0.7411
+    }
+   ],
+   "gold_rank": 4,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 20,
+   "gold": "essentials_haematology.pdf#174",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 174,
+     "score": 0.8576
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 185,
+     "score": 0.8237
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 155,
+     "score": 0.775
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 181,
+     "score": 0.7623
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 177,
+     "score": 0.7612
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 21,
+   "gold": "essentials_haematology.pdf#729",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 766,
+     "score": 0.8288
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 729,
+     "score": 0.7577
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 730,
+     "score": 0.7576
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 758,
+     "score": 0.7342
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 765,
+     "score": 0.7144
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 22,
+   "gold": "essentials_haematology.pdf#623",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 623,
+     "score": 0.8375
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 628,
+     "score": 0.7762
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 624,
+     "score": 0.775
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 626,
+     "score": 0.7715
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 622,
+     "score": 0.7649
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 23,
+   "gold": "essentials_haematology.pdf#625",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 623,
+     "score": 0.8199
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 626,
+     "score": 0.7961
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 624,
+     "score": 0.7917
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 628,
+     "score": 0.7877
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 622,
+     "score": 0.7822
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 24,
+   "gold": "essentials_haematology.pdf#723",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 723,
+     "score": 0.7906
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 847,
+     "score": 0.7699
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 737,
+     "score": 0.7483
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 829,
+     "score": 0.7478
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 842,
+     "score": 0.7441
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 25,
+   "gold": "essentials_haematology.pdf#726",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 728,
+     "score": 0.7398
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 706,
+     "score": 0.729
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 6,
+     "score": 0.7251
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 764,
+     "score": 0.7197
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 711,
+     "score": 0.7158
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": false
+  },
+  {
+   "question_index": 26,
+   "gold": "essentials_haematology.pdf#178",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 178,
+     "score": 0.8004
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 179,
+     "score": 0.7151
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 153,
+     "score": 0.7008
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 352,
+     "score": 0.6904
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 353,
+     "score": 0.6892
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 27,
+   "gold": "essentials_haematology.pdf#419",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 130,
+     "score": 0.7821
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 418,
+     "score": 0.7785
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 231,
+     "score": 0.7334
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 110,
+     "score": 0.733
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 124,
+     "score": 0.7326
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 28,
+   "gold": "essentials_haematology.pdf#628",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 623,
+     "score": 0.8097
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 628,
+     "score": 0.7301
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 626,
+     "score": 0.7265
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 622,
+     "score": 0.7233
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 624,
+     "score": 0.7115
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 29,
+   "gold": "essentials_haematology.pdf#112",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 290,
+     "score": 0.7527
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 124,
+     "score": 0.7495
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 143,
+     "score": 0.7434
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 123,
+     "score": 0.7354
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 122,
+     "score": 0.7342
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": false
+  },
+  {
+   "question_index": 30,
+   "gold": "essentials_haematology.pdf#175",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 175,
+     "score": 0.7986
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 185,
+     "score": 0.7884
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 174,
+     "score": 0.7669
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 173,
+     "score": 0.7312
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 171,
+     "score": 0.7274
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 31,
+   "gold": "essentials_haematology.pdf#726",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 726,
+     "score": 0.7449
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 73,
+     "score": 0.7099
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 845,
+     "score": 0.7049
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 727,
+     "score": 0.7032
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 715,
+     "score": 0.7025
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 32,
+   "gold": "essentials_haematology.pdf#940",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 940,
+     "score": 0.7883
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 939,
+     "score": 0.7798
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 935,
+     "score": 0.7523
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 951,
+     "score": 0.7476
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 510,
+     "score": 0.7391
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 33,
+   "gold": "essentials_haematology.pdf#784",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 775,
+     "score": 0.8018
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 784,
+     "score": 0.7938
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 785,
+     "score": 0.7657
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 811,
+     "score": 0.7477
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 780,
+     "score": 0.7437
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 34,
+   "gold": "essentials_haematology.pdf#727",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 727,
+     "score": 0.8274
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 766,
+     "score": 0.7105
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 765,
+     "score": 0.7098
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 758,
+     "score": 0.7098
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 715,
+     "score": 0.7057
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 35,
+   "gold": "essentials_haematology.pdf#171",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 171,
+     "score": 0.7865
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 175,
+     "score": 0.7606
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 167,
+     "score": 0.7521
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 176,
+     "score": 0.7417
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 173,
+     "score": 0.7336
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 36,
+   "gold": "essentials_haematology.pdf#411",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 411,
+     "score": 0.7457
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 409,
+     "score": 0.7445
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 412,
+     "score": 0.7393
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 193,
+     "score": 0.7246
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 410,
+     "score": 0.704
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 37,
+   "gold": "essentials_haematology.pdf#629",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 567,
+     "score": 0.738
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 629,
+     "score": 0.7376
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 646,
+     "score": 0.7121
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 628,
+     "score": 0.7055
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 568,
+     "score": 0.7015
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 38,
+   "gold": "essentials_haematology.pdf#172",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 181,
+     "score": 0.8093
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 171,
+     "score": 0.8075
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 177,
+     "score": 0.8057
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 167,
+     "score": 0.7971
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 155,
+     "score": 0.7942
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 39,
+   "gold": "essentials_haematology.pdf#79",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 820,
+     "score": 0.7489
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 818,
+     "score": 0.7289
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 79,
+     "score": 0.7283
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 171,
+     "score": 0.7279
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 815,
+     "score": 0.7259
+    }
+   ],
+   "gold_rank": 3,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 40,
+   "gold": "essentials_haematology.pdf#624",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 624,
+     "score": 0.8297
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 623,
+     "score": 0.8225
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 628,
+     "score": 0.7723
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 622,
+     "score": 0.7523
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 626,
+     "score": 0.7476
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 41,
+   "gold": "essentials_haematology.pdf#942",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 942,
+     "score": 0.8643
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 941,
+     "score": 0.8538
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 940,
+     "score": 0.8092
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 944,
+     "score": 0.8091
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 948,
+     "score": 0.7865
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 42,
+   "gold": "essentials_haematology.pdf#78",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 79,
+     "score": 0.7994
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 78,
+     "score": 0.7873
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 839,
+     "score": 0.7827
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 819,
+     "score": 0.7501
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 818,
+     "score": 0.7428
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 43,
+   "gold": "essentials_haematology.pdf#729",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 808,
+     "score": 0.7441
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 729,
+     "score": 0.7384
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 809,
+     "score": 0.7163
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 727,
+     "score": 0.7103
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 728,
+     "score": 0.706
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 44,
+   "gold": "essentials_haematology.pdf#725",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 181,
+     "score": 0.7247
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 171,
+     "score": 0.7027
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 184,
+     "score": 0.6901
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 185,
+     "score": 0.6896
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 173,
+     "score": 0.6869
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": false
+  },
+  {
+   "question_index": 45,
+   "gold": "essentials_haematology.pdf#728",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 764,
+     "score": 0.8086
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 728,
+     "score": 0.7982
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 558,
+     "score": 0.798
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 6,
+     "score": 0.7796
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 770,
+     "score": 0.7776
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 46,
+   "gold": "essentials_haematology.pdf#110",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 228,
+     "score": 0.8159
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 230,
+     "score": 0.6881
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 242,
+     "score": 0.6827
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 708,
+     "score": 0.6763
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 231,
+     "score": 0.6707
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": false
+  },
+  {
+   "question_index": 47,
+   "gold": "consie_haematology.pdf#12",
+   "retrieved": [
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 13,
+     "score": 0.7348
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 2,
+     "score": 0.7345
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 4,
+     "score": 0.7301
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 12,
+     "score": 0.7207
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 14,
+     "score": 0.7178
+    }
+   ],
+   "gold_rank": 4,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 48,
+   "gold": "essentials_haematology.pdf#720",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 720,
+     "score": 0.8114
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 900,
+     "score": 0.7367
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 944,
+     "score": 0.7309
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 721,
+     "score": 0.7173
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 719,
+     "score": 0.7138
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 49,
+   "gold": "essentials_haematology.pdf#560",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 560,
+     "score": 0.7917
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 571,
+     "score": 0.7822
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 561,
+     "score": 0.7653
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 541,
+     "score": 0.7623
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 581,
+     "score": 0.7568
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 50,
+   "gold": "essentials_haematology.pdf#944",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 944,
+     "score": 0.7693
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 943,
+     "score": 0.7488
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 934,
+     "score": 0.7411
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 882,
+     "score": 0.7373
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 928,
+     "score": 0.7353
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 51,
+   "gold": "essentials_haematology.pdf#560",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 560,
+     "score": 0.8733
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 561,
+     "score": 0.7752
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 562,
+     "score": 0.7649
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 581,
+     "score": 0.7534
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 569,
+     "score": 0.7477
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 52,
+   "gold": "essentials_haematology.pdf#119",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 251,
+     "score": 0.7989
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 110,
+     "score": 0.7926
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 289,
+     "score": 0.789
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 119,
+     "score": 0.7858
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 292,
+     "score": 0.7856
+    }
+   ],
+   "gold_rank": 4,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 53,
+   "gold": "essentials_haematology.pdf#170",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 170,
+     "score": 0.8053
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 161,
+     "score": 0.7309
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 160,
+     "score": 0.7233
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 168,
+     "score": 0.722
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 171,
+     "score": 0.7217
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 54,
+   "gold": "essentials_haematology.pdf#781",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 780,
+     "score": 0.7299
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 781,
+     "score": 0.728
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 807,
+     "score": 0.72
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 730,
+     "score": 0.7163
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 811,
+     "score": 0.7066
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 55,
+   "gold": "essentials_haematology.pdf#943",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 932,
+     "score": 0.7891
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 943,
+     "score": 0.7809
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 875,
+     "score": 0.7528
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 931,
+     "score": 0.7406
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 940,
+     "score": 0.7385
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 56,
+   "gold": "essentials_haematology.pdf#945",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 945,
+     "score": 0.8133
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 948,
+     "score": 0.7762
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 900,
+     "score": 0.7421
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 936,
+     "score": 0.7371
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 353,
+     "score": 0.7305
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 57,
+   "gold": "consie_haematology.pdf#10",
+   "retrieved": [
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 10,
+     "score": 0.5837
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 7,
+     "score": 0.5434
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 8,
+     "score": 0.5187
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 11,
+     "score": 0.5181
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 12,
+     "score": 0.5043
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 58,
+   "gold": "essentials_haematology.pdf#113",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 215,
+     "score": 0.7312
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 718,
+     "score": 0.7115
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 944,
+     "score": 0.6805
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 110,
+     "score": 0.6736
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 893,
+     "score": 0.6647
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": false
+  },
+  {
+   "question_index": 59,
+   "gold": "essentials_haematology.pdf#412",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 413,
+     "score": 0.712
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 518,
+     "score": 0.7089
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 550,
+     "score": 0.692
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 826,
+     "score": 0.6876
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 626,
+     "score": 0.6727
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 60,
+   "gold": "essentials_haematology.pdf#949",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 949,
+     "score": 0.7569
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 757,
+     "score": 0.7531
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 67,
+     "score": 0.7214
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 748,
+     "score": 0.7129
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 756,
+     "score": 0.7093
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 61,
+   "gold": "essentials_haematology.pdf#115",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 115,
+     "score": 0.821
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 114,
+     "score": 0.7659
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 116,
+     "score": 0.7531
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 550,
+     "score": 0.7286
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 717,
+     "score": 0.7266
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 62,
+   "gold": "essentials_haematology.pdf#72",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 72,
+     "score": 0.7867
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 765,
+     "score": 0.7649
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 799,
+     "score": 0.7212
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 76,
+     "score": 0.7106
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 766,
+     "score": 0.7104
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 63,
+   "gold": "essentials_haematology.pdf#943",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 943,
+     "score": 0.8492
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 944,
+     "score": 0.7896
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 129,
+     "score": 0.786
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 127,
+     "score": 0.7762
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 126,
+     "score": 0.7558
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 64,
+   "gold": "consie_haematology.pdf#14",
+   "retrieved": [
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 14,
+     "score": 0.7577
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 0,
+     "score": 0.7532
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 979,
+     "score": 0.7398
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 2,
+     "score": 0.7397
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 12,
+     "score": 0.739
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 65,
+   "gold": "essentials_haematology.pdf#414",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 414,
+     "score": 0.7668
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 250,
+     "score": 0.7516
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 128,
+     "score": 0.7379
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 130,
+     "score": 0.7335
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 127,
+     "score": 0.7239
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 66,
+   "gold": "consie_haematology.pdf#15",
+   "retrieved": [
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 28,
+     "score": 0.7852
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 5,
+     "score": 0.7389
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 423,
+     "score": 0.7349
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 14,
+     "score": 0.7246
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 8,
+     "score": 0.7246
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 67,
+   "gold": "essentials_haematology.pdf#727",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 727,
+     "score": 0.773
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 718,
+     "score": 0.7216
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 715,
+     "score": 0.7183
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 558,
+     "score": 0.7156
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 765,
+     "score": 0.7138
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 68,
+   "gold": "essentials_haematology.pdf#788",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 831,
+     "score": 0.7715
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 788,
+     "score": 0.7701
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 789,
+     "score": 0.7429
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 846,
+     "score": 0.7176
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 780,
+     "score": 0.7161
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 69,
+   "gold": "consie_haematology.pdf#18",
+   "retrieved": [
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 18,
+     "score": 0.8046
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 9,
+     "score": 0.7678
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 8,
+     "score": 0.7672
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 37,
+     "score": 0.7467
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 36,
+     "score": 0.7467
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 70,
+   "gold": "essentials_haematology.pdf#722",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 722,
+     "score": 0.7945
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 842,
+     "score": 0.7903
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 725,
+     "score": 0.777
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 733,
+     "score": 0.7579
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 778,
+     "score": 0.7519
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 71,
+   "gold": "essentials_haematology.pdf#622",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 623,
+     "score": 0.804
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 626,
+     "score": 0.7685
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 628,
+     "score": 0.7555
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 650,
+     "score": 0.7555
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 622,
+     "score": 0.7547
+    }
+   ],
+   "gold_rank": 5,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 72,
+   "gold": "essentials_haematology.pdf#564",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 560,
+     "score": 0.8275
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 564,
+     "score": 0.8139
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 521,
+     "score": 0.808
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 563,
+     "score": 0.806
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 561,
+     "score": 0.7841
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 73,
+   "gold": "essentials_haematology.pdf#941",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 942,
+     "score": 0.7996
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 936,
+     "score": 0.7689
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 948,
+     "score": 0.7565
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 940,
+     "score": 0.7373
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 941,
+     "score": 0.7317
+    }
+   ],
+   "gold_rank": 5,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 74,
+   "gold": "essentials_haematology.pdf#627",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 623,
+     "score": 0.8357
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 628,
+     "score": 0.7681
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 622,
+     "score": 0.7678
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 626,
+     "score": 0.7659
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 650,
+     "score": 0.7487
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 75,
+   "gold": "essentials_haematology.pdf#565",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 565,
+     "score": 0.8159
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 624,
+     "score": 0.7688
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 40,
+     "score": 0.759
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 475,
+     "score": 0.7532
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 25,
+     "score": 0.752
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 76,
+   "gold": "essentials_haematology.pdf#787",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 787,
+     "score": 0.6778
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 782,
+     "score": 0.6528
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 286,
+     "score": 0.6485
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 812,
+     "score": 0.6438
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 786,
+     "score": 0.6365
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 77,
+   "gold": "essentials_haematology.pdf#116",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 115,
+     "score": 0.7629
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 116,
+     "score": 0.7433
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 665,
+     "score": 0.7389
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 47,
+     "score": 0.7331
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 122,
+     "score": 0.7301
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 78,
+   "gold": "consie_haematology.pdf#14",
+   "retrieved": [
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 15,
+     "score": 0.7846
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 195,
+     "score": 0.7586
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 21,
+     "score": 0.755
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 22,
+     "score": 0.7443
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 40,
+     "score": 0.7418
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 79,
+   "gold": "essentials_haematology.pdf#721",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 720,
+     "score": 0.7833
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 721,
+     "score": 0.7796
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 719,
+     "score": 0.7706
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 737,
+     "score": 0.7445
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 896,
+     "score": 0.7382
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 80,
+   "gold": "essentials_haematology.pdf#173",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 172,
+     "score": 0.8174
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 171,
+     "score": 0.7987
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 185,
+     "score": 0.7967
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 181,
+     "score": 0.7845
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 175,
+     "score": 0.7747
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 81,
+   "gold": "essentials_haematology.pdf#622",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 622,
+     "score": 0.8021
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 632,
+     "score": 0.7187
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 650,
+     "score": 0.7049
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 623,
+     "score": 0.6991
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 636,
+     "score": 0.6772
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 82,
+   "gold": "essentials_haematology.pdf#73",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 718,
+     "score": 0.6688
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 730,
+     "score": 0.6632
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 988,
+     "score": 0.6617
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 121,
+     "score": 0.6531
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 641,
+     "score": 0.6523
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": false
+  },
+  {
+   "question_index": 83,
+   "gold": "essentials_haematology.pdf#415",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 415,
+     "score": 0.7453
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 416,
+     "score": 0.6933
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 199,
+     "score": 0.687
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 130,
+     "score": 0.6826
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 242,
+     "score": 0.6761
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 84,
+   "gold": "essentials_haematology.pdf#788",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 788,
+     "score": 0.7634
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 773,
+     "score": 0.7511
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 789,
+     "score": 0.7447
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 774,
+     "score": 0.7437
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 772,
+     "score": 0.737
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 85,
+   "gold": "essentials_haematology.pdf#119",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 119,
+     "score": 0.7488
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 118,
+     "score": 0.7461
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 117,
+     "score": 0.7209
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 299,
+     "score": 0.7045
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 289,
+     "score": 0.699
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 86,
+   "gold": "essentials_haematology.pdf#176",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 181,
+     "score": 0.8226
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 121,
+     "score": 0.8119
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 171,
+     "score": 0.8058
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 167,
+     "score": 0.8051
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 177,
+     "score": 0.8016
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 87,
+   "gold": "essentials_haematology.pdf#76",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 76,
+     "score": 0.8144
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 67,
+     "score": 0.7939
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 75,
+     "score": 0.7793
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 72,
+     "score": 0.7779
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 68,
+     "score": 0.7768
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 88,
+   "gold": "essentials_haematology.pdf#946",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 946,
+     "score": 0.7838
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 959,
+     "score": 0.7622
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 325,
+     "score": 0.7506
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 900,
+     "score": 0.7485
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 938,
+     "score": 0.7476
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 89,
+   "gold": "consie_haematology.pdf#12",
+   "retrieved": [
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 12,
+     "score": 0.7358
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 2,
+     "score": 0.7327
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 0,
+     "score": 0.7214
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 13,
+     "score": 0.721
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 14,
+     "score": 0.7189
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 90,
+   "gold": "essentials_haematology.pdf#946",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 945,
+     "score": 0.7649
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 941,
+     "score": 0.6973
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 942,
+     "score": 0.697
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 948,
+     "score": 0.6925
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 353,
+     "score": 0.6849
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 91,
+   "gold": "essentials_haematology.pdf#174",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 174,
+     "score": 0.8615
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 185,
+     "score": 0.8162
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 155,
+     "score": 0.7851
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 121,
+     "score": 0.7778
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 186,
+     "score": 0.7727
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 92,
+   "gold": "essentials_haematology.pdf#78",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 84,
+     "score": 0.7788
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 88,
+     "score": 0.7665
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 78,
+     "score": 0.7628
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 85,
+     "score": 0.7606
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 76,
+     "score": 0.7502
+    }
+   ],
+   "gold_rank": 3,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 93,
+   "gold": "essentials_haematology.pdf#948",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 948,
+     "score": 0.8314
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 944,
+     "score": 0.7867
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 943,
+     "score": 0.7695
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 987,
+     "score": 0.7547
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 941,
+     "score": 0.7536
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 94,
+   "gold": "essentials_haematology.pdf#115",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 114,
+     "score": 0.8081
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 115,
+     "score": 0.8068
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 116,
+     "score": 0.7465
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 128,
+     "score": 0.7348
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 45,
+     "score": 0.7204
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 95,
+   "gold": "essentials_haematology.pdf#782",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 925,
+     "score": 0.7606
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 782,
+     "score": 0.7457
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 787,
+     "score": 0.6799
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 785,
+     "score": 0.6721
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 832,
+     "score": 0.6671
+    }
+   ],
+   "gold_rank": 2,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 96,
+   "gold": "consie_haematology.pdf#15",
+   "retrieved": [
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 15,
+     "score": 0.8026
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 195,
+     "score": 0.7851
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 40,
+     "score": 0.7516
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 21,
+     "score": 0.7469
+    },
+    {
+     "source": "consie_haematology.pdf",
+     "chunk_id": 22,
+     "score": 0.7435
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 97,
+   "gold": "essentials_haematology.pdf#413",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 414,
+     "score": 0.6997
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 415,
+     "score": 0.6993
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 413,
+     "score": 0.6949
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 416,
+     "score": 0.6707
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 409,
+     "score": 0.6583
+    }
+   ],
+   "gold_rank": 3,
+   "gold_or_neighbour_retrieved": true
+  },
+  {
+   "question_index": 98,
+   "gold": "essentials_haematology.pdf#118",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 289,
+     "score": 0.8325
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 150,
+     "score": 0.8319
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 288,
+     "score": 0.817
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 290,
+     "score": 0.8121
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 262,
+     "score": 0.8039
+    }
+   ],
+   "gold_rank": null,
+   "gold_or_neighbour_retrieved": false
+  },
+  {
+   "question_index": 99,
+   "gold": "essentials_haematology.pdf#568",
+   "retrieved": [
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 568,
+     "score": 0.8157
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 567,
+     "score": 0.7247
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 629,
+     "score": 0.7201
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 579,
+     "score": 0.702
+    },
+    {
+     "source": "essentials_haematology.pdf",
+     "chunk_id": 571,
+     "score": 0.6873
+    }
+   ],
+   "gold_rank": 1,
+   "gold_or_neighbour_retrieved": true
+  }
+ ]
+}

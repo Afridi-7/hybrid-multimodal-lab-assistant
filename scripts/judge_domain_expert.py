@@ -3,10 +3,11 @@
 Replaces the judge step of ``domain_expert_evaluation.ipynb``, which failed
 because the prompt template contained literal JSON braces that
 ``str.format`` tried to fill in. This script needs no GPU: it reads the
-answers already saved in ``results/domain_expert/evaluation_report.json``.
+answers already saved in ``results/domain_expert_v2/evaluation_report.json``
+(final run; pass ``--report``/``--out`` for the first run in ``results/domain_expert/``).
 
-For every held-out question and every system (base Llama, fine-tuned Llama,
-GPT-4o) the judge sees the question, the textbook reference answer and ONE
+For every held-out question and every system in the report (base Llama, fine-tuned
+Llama, GPT-4o, and GPT-4o + RAG once scripts/run_rag_baseline.py has run) the judge sees the question, the textbook reference answer and ONE
 model answer -- never the system's name -- and returns two 1-5 scores:
 
 * faithfulness          -- agrees with the reference; no unsupported claims
@@ -36,8 +37,8 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_REPORT = ROOT / "results" / "domain_expert" / "evaluation_report.json"
-DEFAULT_OUT = ROOT / "results" / "domain_expert" / "judge_scores.json"
+DEFAULT_REPORT = ROOT / "results" / "domain_expert_v2" / "evaluation_report.json"
+DEFAULT_OUT = ROOT / "results" / "domain_expert_v2" / "judge_scores.json"
 
 JUDGE_INSTRUCTIONS = (
     "You are grading an answer written by a hematology assistant.\n"
