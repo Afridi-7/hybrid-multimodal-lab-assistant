@@ -81,6 +81,7 @@ datasets/
 !/results/effnet_v2/
 !/results/effnet_v2/*.csv
 !/results/retrieval_eval/
+!/results/case_study_rerun/
 !/results/retrieval_eval/*.csv
 !/results/kb_chunk_token_stats.json
 !Notebooks/**/results/
