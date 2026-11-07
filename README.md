@@ -728,7 +728,7 @@ Higher quality than open-weight alternatives on clinical reasoning benchmarks at
 
 ## License
 
-Code: MIT (add a `LICENSE` file before publishing). The textbooks and datasets remain under their own licenses and are not redistributed. The fine-tuned adapter is subject to the Llama 3.1 Community License.
+Code: MIT, see [`LICENSE`](LICENSE). The textbooks and datasets remain under their own licenses and are not redistributed. The fine-tuned adapter is subject to the Llama 3.1 Community License.
 
 ---
 
