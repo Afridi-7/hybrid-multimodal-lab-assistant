@@ -10,18 +10,18 @@
 \toprule
 \textbf{Result} & \textbf{Where to find or re-run it} \\
 \midrule
-Domain-expert training and evaluation (final run) & \path{Notebooks/Domain_Expert_Finetune/domain_expert_evaluation_v2.ipynb} (Colab T4, $\approx$2 h); outputs and executed notebook in \path{results/domain_expert_v2/}; GPT-4o answers added with \path{scripts/add_gpt4o_baseline.py} \\
+Domain-expert training and evaluation (final run) & \path{Notebooks/Domain_Expert_Finetune/}\allowbreak\mbox{\path{domain_expert_evaluation_v2.ipynb}} (Colab T4, $\approx$2 h); outputs and executed notebook in \path{results/domain_expert_v2/}; GPT-4o answers added with \path{scripts/add_gpt4o_baseline.py} \\
 Q\&A dataset generation & \path{scripts/build_finetune_dataset.py}; data in \path{data/finetune/train_v2.jsonl}; split check \path{scripts/check_v2_split.py} \\
 Statistics and figures & \path{scripts/analyze_domain_expert.py}, \path{scripts/analyze_judge.py}, \path{scripts/plot_domain_expert_figures.py} \\
 GPT-4o + RAG on the held-out questions & \path{scripts/run_rag_baseline.py}, then the judge and \path{scripts/analyze_rag.py}; outputs \path{results/domain_expert_v2/rag_retrieval.json}, \path{rag_analysis.json} \\
 Check of source attributions & \path{results/domain_expert_v2/flagged_citations_checked.csv}, \path{citation_check_summary.json} \\
 LLM-judge scores & \path{scripts/judge_domain_expert.py}; output \path{results/domain_expert_v2/judge_scores.json} \\
-First (leaky) run and leakage check & \path{Notebooks/Domain_Expert_Finetune/domain_expert_evaluation.ipynb}, \path{results/domain_expert/}; \path{scripts/check_split_leakage.py} \\
+First (leaky) run and leakage check & \path{Notebooks/Domain_Expert_Finetune/}\allowbreak\mbox{\path{domain_expert_evaluation.ipynb}}, \path{results/domain_expert/}; \path{scripts/check_split_leakage.py} \\
 Chunk lengths and retrieval test & \path{scripts/check_chunk_tokens.py}, \path{scripts/eval_retrieval.py}; outputs \path{results/kb_chunk_token_stats.json}, \path{results/retrieval_eval/} \\
 Published adapter & \url{https://huggingface.co/Afridi07/hematology-llama-3.1-8b-lora} (uploaded with \path{Notebooks/Domain_Expert_Finetune/publish_adapter_to_hf.ipynb}) \\
 Detector training and test metrics & \path{Notebooks/YOLOv8_detection/YOLOv8_on_TBL_PBC_dataset.ipynb} \\
-Classifier (v2), test metrics and uncertainty evaluation & \path{Notebooks/Efficientnet_classification/effnet_v2_proper_split.ipynb} (Colab T4, $\approx$1 h); outputs in \path{results/effnet_v2/}; checkpoint \path{models/efficientnet_wbc_v2.pt} \\
-Classifier (v1, original) & \path{Notebooks/Efficientnet_classification/Efficientnet_classification.ipynb} \\
+Classifier (v2), test metrics and uncertainty evaluation & \path{Notebooks/Efficientnet_classification/}\allowbreak\mbox{\path{effnet_v2_proper_split.ipynb}} (Colab T4, $\approx$1 h); outputs in \path{results/effnet_v2/}; checkpoint \path{models/efficientnet_wbc_v2.pt} \\
+Classifier (v1, original) & \path{Notebooks/Efficientnet_classification/}\allowbreak\mbox{\path{Efficientnet_classification.ipynb}} \\
 Case-study runs & all logs and outputs in \path{results/case_study_rerun/} (see its README); original run: Appendix~C \\
 Web-interface figures & \path{scripts/render_ui_screenshots.py} (renders the saved case-study output with the real frontend) \\
 Running the full system & \code{python main.py analyze <image>}, or \code{start.ps1} for the web interface \\
